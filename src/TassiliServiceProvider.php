@@ -23,5 +23,10 @@ class TassiliServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        $this->commands([
+            \Tassili\Tassili\Commands\TassiliCreator::class,
+        ]);
+        
     }
 }
