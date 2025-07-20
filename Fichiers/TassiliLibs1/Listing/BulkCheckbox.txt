@@ -1,0 +1,35 @@
+<template>
+    <div>
+             <span v-if="!tassililisting.actionIds.includes(ide)"
+                 @click="tassililisting.AddActionIds(ide)"
+                 class="w-4 h-4 inline-block">
+                    <Svg1 />
+                </span>
+
+                <span v-if="tassililisting.actionIds.includes(ide)"
+                 @click="tassililisting.RemoveActionIds(ide)"
+                class="inline-block">
+                  <Svg2 />
+                  </span>
+    </div>
+</template>
+
+<script setup>
+import Svg1 from './Svg1.vue';
+import Svg2 from './Svg2.vue';
+import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
+
+const props = defineProps({
+  ide : {
+    type: Number,
+    required: true
+  },
+})
+
+const tassililisting = TassiliListing();
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

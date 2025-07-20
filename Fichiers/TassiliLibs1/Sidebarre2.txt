@@ -1,0 +1,38 @@
+<template>
+  <div>
+    <div class="max-[799px]:hidden min-w-[240px] max-w-[240px] bg-black text-white h-full min-h-[100vh] p-[10px] pt-[5px]">
+
+      <div class="p-[4px] bg-[blue] text-center border-[1px] font-bold border-white text-[22px] rounded-[2px] mb-[10px]">
+        <Link href="/tassili/router">ROUTER</Link>
+      </div>
+
+     
+
+      <div class="pt-[10px] text-white">
+         <Link href="/tassili/router/create">
+          <div class="flex"> 
+
+            <div><span class="material-icons text-[26px]">add</span> </div>
+            <div class="mt-[2px]">Add Routes </div>
+          </div>
+       </Link>
+      </div>
+
+
+
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
+
+const page = usePage();
+
+const open = ref(false);
+
+</script>
+
+<style scoped>
+</style>

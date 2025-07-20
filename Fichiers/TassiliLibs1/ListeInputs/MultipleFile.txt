@@ -1,0 +1,121 @@
+<template>
+  <div class="w-full mb-5">
+    <div>
+       <span class="font-bold"> {{  tassiliInput.form[props.cle]['options']['label']}}</span>
+    </div>
+
+    <div class="w-full flex items-center justify-center">
+      <label class="w-full">
+        <input type="file" ref="fileInputRef" @change="handleFileSelection"  multiple hidden />
+        <div class="flex w-full h-[50px] px-2 bg-[blue] rounded-full text-white text-sm font-semibold items-center justify-center cursor-pointer">
+          Choose Files
+        </div>
+      </label>
+    </div>
+
+  
+
+    <div v-if="tassiliInput.errors[cle]" class="text-[red]">{{ tassiliInput.errors[cle] }}</div>
+
+
+    <!-- Aperçu des fichiers sélectionnés -->
+    <div v-if="tassiliInput.form[props.cle]['options']['tempUrlTabs'].length" class="mt-3 grid grid-cols-2 gap-4">
+      <div v-for="(preview, index) in tassiliInput.form[props.cle]['options']['tempUrlTabs']" :key="preview.url" class="relative">
+        <!-- Aperçu Image -->
+        <img v-if="isImage(preview.file)" :src="preview.url" class="w-[100px] h-[100px] object-cover rounded" />
+
+        <!-- Aperçu Audio -->
+        <audio v-else-if="isAudio(preview.file)" controls class="w-[250px]">
+          <source :src="preview.url" :type="preview.file.type" />
+          Your browser does not support the audio element.
+        </audio>
+
+        <!-- Aperçu Vidéo -->
+        <video v-else-if="isVideo(preview.file)" controls class="w-[250px] h-[150px]">
+          <source :src="preview.url" :type="preview.file.type" />
+          Your browser does not support the video element.
+        </video>
+
+        <!-- Affichage des documents -->
+        <a v-else :href="preview.url" target="_blank" class="text-blue-500 underline">
+          {{ preview.file.name }}
+        </a>
+
+        <!-- Bouton de suppression -->
+        <button
+          type="button"
+          @click="removeFile(index)"
+          class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs"
+        >
+          X
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, watch, onUnmounted } from 'vue';
+import {TassiliInput} from '@/Vendor/TassiliLibs/stores/tassiliInput'
+
+const props = defineProps({
+  cle : {
+    type :  String
+  },
+});
+
+const tassiliInput = TassiliInput();
+
+
+const fileInputRef = ref(null);
+const filePreviews = ref([]);
+
+// Formats de fichiers acceptés
+const acceptedFormats = 'image/*,audio/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.txt';
+
+// Vérification si la clé contient bien un tableau
+if (!Array.isArray(tassiliInput.form[props.cle]['value'])) {
+  tassiliInput.form[props.cle]['value'] = [];
+}
+
+// Détecte le type de fichier pour l'affichage
+const isImage = (file) => file.type.startsWith('image/');
+const isAudio = (file) => file.type.startsWith('audio/');
+const isVideo = (file) => file.type.startsWith('video/');
+
+// Gestion de la sélection des fichiers
+const handleFileSelection = (event) => {
+  const files = Array.from(event.target.files);
+
+  files.forEach((file) => {
+    if (!tassiliInput.form[props.cle]['value'].some(existingFile => existingFile.name === file.name)) {
+      const preview = { file, url: URL.createObjectURL(file) };
+      tassiliInput.form[props.cle]['options']['tempUrlTabs'].push(preview);
+      tassiliInput.form[props.cle]['value'].push(file);
+    }
+  });
+
+};
+
+// Suppression d'un fichier
+const removeFile = (index) => {
+  URL.revokeObjectURL(tassiliInput.form[props.cle]['options']['tempUrlTabs'][index].url);
+  tassiliInput.form[props.cle]['options']['tempUrlTabs'].splice(index, 1);
+  tassiliInput.form[props.cle]['value'].splice(index, 1);
+};
+
+// Réinitialisation automatique si les données sont vidées
+watch(() => tassiliInput.form[props.cle]['value'], (newValue) => {
+  if (Array.isArray(newValue) && newValue.length === 0) {
+    tassiliInput.form[props.cle]['options']['tempUrlTabs'] = [];
+    if (fileInputRef.value) {
+      fileInputRef.value.value = '';
+    }
+  }
+}, { deep: true });
+
+// Nettoyage des URLs pour éviter les fuites mémoire
+onUnmounted(() => {
+  filePreviews.value.forEach(preview => URL.revokeObjectURL(preview.url));
+});
+</script>

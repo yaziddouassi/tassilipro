@@ -1,0 +1,118 @@
+<template>
+  <div>
+   <div @click="openForm(props.cle,props.record)"> 
+      <button :class="tassiliInput.tassiliFormList[props.cle]['info']['class']" 
+      class="bg-[blue] text-white p-2 rounded-[3px] h-[40px] flex items-center justify-center">
+        <span class="material-icons text-[20px] leading-none">
+            {{ tassiliInput.tassiliFormList[props.cle]['info']['icon'] }}
+        </span>
+        <span>
+           {{ tassiliInput.tassiliFormList[props.cle]['info']['text'] }}
+        </span>
+      </button>
+    </div>
+
+ </div>
+</template>
+
+<script setup>
+import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
+import {TassiliInput}    from '@/Vendor/TassiliLibs/stores/tassiliInput'
+
+
+
+const props = defineProps({
+   record : {
+    type: Object,
+    required: true
+  },
+  cle : {
+    type: String,
+    required: true
+  },
+})
+
+const tassililisting = TassiliListing();
+const tassiliInput = TassiliInput()
+
+
+
+
+function openForm(a,b) {
+tassililisting.urlCustomValidation = a
+tassililisting.recordAction = b
+tassiliInput.form = JSON.parse(JSON.stringify(tassiliInput.tassiliFormList[props.cle]['fields']))
+tassiliInput.formStart = JSON.parse(JSON.stringify(tassiliInput.tassiliFormList[props.cle]['fields']))
+
+
+
+
+Object.entries(b).forEach(([key, value]) => {
+  
+
+  if(key in tassiliInput.form) {
+
+
+const tab1 = ['Text','Date','Number','Hidden','Select','Radio','Quill','Textarea'];
+
+if(tab1.includes(tassiliInput.form[key]['type'])) {
+
+tassiliInput.form[key]['value'] = value
+}
+
+
+else if(tassiliInput.form[key]['type']  == 'FileEdit') {
+tassiliInput.form[key]['options']['urlRecord'] = value
+}
+
+else if(tassiliInput.form[key]['type']  === 'CheckboxList'  || 
+   tassiliInput.form[key]['type']  === 'Repeater') {
+
+  const data = new Proxy(
+  JSON.parse(value),
+  {}
+);
+tassiliInput.form[key]['value'] = data
+}
+
+
+else if(tassiliInput.form[key]['type']  === 'MultipleFileEdit') {
+
+
+ const data = new Proxy(
+ JSON.parse(value) ,
+  {}
+);
+
+
+ tassiliInput.form[key]['options']['existingFiles'] = data
+
+}
+
+
+  }
+});
+
+
+if(tassiliInput.tassiliFormList[props.cle]['info']['wizardActive'] === 'yes') {
+tassiliInput.wizardInfo = JSON.parse(JSON.stringify(tassiliInput.tassiliFormList[props.cle]['info']['wizard']))
+tassiliInput.wizardCurrent = 1
+
+}
+
+
+tassiliInput.resetError()
+
+tassililisting.customActionModal  = true
+}
+ 
+function closeForm() {
+  
+}
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>
+    

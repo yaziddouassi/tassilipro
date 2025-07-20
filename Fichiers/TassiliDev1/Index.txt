@@ -1,0 +1,131 @@
+<template>
+  <div class="min-[800px]:flex w-full text-black">
+    <Sidebarre2 />
+
+    <div class="min-h-[100vh] overflow-x-auto bg-[#DFDFDF] w-full">
+      <div class="grid grid-cols-2 gap-4 p-[5px]">
+        <div>
+          <select
+            :value="selected"
+            @change="changerUrl($event)"
+            class="w-[240px] text-center h-[50px] rounded-[25px] bg-[#EEE] border-none focus:ring-0 focus:outline-none"
+          >
+            <option :value="''" class="h-[50px]">
+              Choose panel
+            </option>
+            <option
+              v-for="option in props.panelList"
+              :key="option"
+              :value="option"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <div class="text-right">
+          <Link href="/tassili/router/create">
+         <button class="bg-blue-700 w-[140px] rounded-[5px] h-[44px] text-white">
+            Create
+          </button>
+          </Link>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto p-[10px] pt-[10px]">
+        <table class="min-w-full bg-[#DDD] text-center border">
+          <thead>
+            <tr
+              class="border-[darkblue] border-b-[0px] border-t-[0px] text-[darkblue]"
+            >
+              <th class="py-3 px-[10px] font-medium">Id</th>
+              <th class="py-3 px-[10px] font-medium">Panel</th>
+              <th class="py-3 px-[10px] font-medium">Model</th>
+              <th class="py-3 px-[10px] font-medium">Route</th>
+              <th class="py-3 px-[10px] font-medium">Icon</th>
+              <th class="py-3 px-[10px] font-medium">Active</th>
+              <th class="py-3 px-[10px] font-medium">Modal</th>
+            </tr>
+          </thead>
+
+          <tbody v-if="panels.data.length">
+            <tr
+              v-for="item in panels.data"
+              :key="item.id"
+              class="border-b even:bg-[#ddd] odd:bg-[#e4e4e4]"
+            >
+              <td class="py-3 px-4">{{ item.id }}</td>
+              <td class="py-3 px-4">{{ item.panel }}</td>
+              <td class="py-3 px-4">{{ item.model }}</td>
+              <td class="py-3 px-4">{{ item.route }}</td>
+              <td class="py-3 px-4">{{ item.icon }}</td>
+              <td class="py-3 px-4">
+                <BtnUpdate :record="item" />
+              </td>
+              <td class="py-3 px-4">
+                <Link :href="'/tassili/router/update/' + item.id">
+                  <button class="bg-[blue] text-white min-w-[34px] rounded-[4px] pt-[5px]">
+                    <span class="material-icons">edit</span>
+                  </button>
+                </Link>
+                &nbsp;
+                <BtnDelete :ide="item.id" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <Paginator :pagination="panels" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import Sidebarre2 from '@/Vendor/TassiliLibs/Sidebarre2.vue'
+import BtnDelete from '@/Vendor/TassiliLibs/DevGenerator/BtnDelete.vue'
+import BtnUpdate from '@/Vendor/TassiliLibs/DevGenerator/BtnUpdate.vue'
+import Paginator from '@/Vendor/TassiliLibs/Paginator.vue'
+import { Link, router, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
+
+const props = defineProps({
+  panelList: {
+    type: Object,
+  },
+  panels: {
+    type: Object,
+    required: true,
+  },
+  panel: {
+    type: String,
+    default: '',
+  },
+})
+
+
+const page = usePage()
+
+const urlParams = new URLSearchParams(window.location.search)
+const selected = ref(urlParams.get('panel') || '')
+
+function changerUrl(event) {
+  const value = event.target.value
+
+  const data = {}
+  if (value !== '') {
+    data.panel = value
+  }
+
+  router.visit('/tassili/router', {
+    method: 'get',
+    data,
+    preserveScroll: true,
+    preserveState: true,
+  })
+
+  selected.value = value
+}
+</script>

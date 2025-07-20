@@ -1,0 +1,91 @@
+<template>
+  <div>
+    <div class="max-[799px]:hidden min-w-[240px] max-w-[240px] bg-black text-white h-full min-h-[100vh] p-[10px] pt-[5px]">
+
+      <div class="p-[4px] bg-[blue] text-center border-[1px] font-bold border-white text-[22px] rounded-[2px] mb-[10px]">
+        <Link :href="`/${page.props.tassiliPanel}`">DASHBOARD</Link>
+      </div>
+
+     
+
+      <Link
+        v-for="(item, index) in tassiliroutes.routes"
+        :key="index"
+        :href="item.route"
+        @click="tassililisting.resetActionIds()"
+      >
+        <div
+          :class="currentPath.startsWith(item.route.split('?')[0])
+            ? 'mt-[10px] flex mb-[10px] p-[5px] bg-[#8A2BE2] pl-[3px] pt-[10px] pb-[10px] text-[18px] rounded-r-[18px]'
+            : 'pl-[3px] text-[18px] flex'"
+        >
+          <div class="pt-[2px]">
+            <span class="material-icons text-[18px]">
+              {{ item.icon }} 
+            </span>
+          </div>
+          <div class="pl-[5px]">
+            <span>{{ item.label }}</span>
+          </div>
+        </div>
+      </Link>
+
+
+
+      <div class="pl-[3px]  text-[18px] flex">
+         <div class="pt-[3px]" >
+            <span class="material-icons text-[18px] text-[white]" @click="logout()">
+                account_circle
+               </span>
+             
+         </div>
+         <div class="pl-[5px]">
+         <span>{{ page.props.user.name }}</span>
+        </div>
+     </div>
+
+
+       <div class="pl-[3px]  text-[18px] flex cursor-pointer">
+         <div class="pt-[3px]" >
+            <span class="material-icons text-[18px] text-[white]" @click="logout()">
+               settings_power
+               </span>
+             
+         </div>
+         <div class="pl-[5px]" @click="logout()">
+         <span>Logout</span>
+        </div>
+     </div>
+
+
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3'
+import { TassiliRoutes } from '@/Vendor/TassiliLibs/stores/tassiliRoutes';
+import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing';
+
+const tassiliroutes  = TassiliRoutes();
+const tassililisting = TassiliListing();
+
+const currentPath = computed(() => page.url.split('?')[0]);
+const page = usePage();
+
+const open = ref(false);
+
+function logout() {
+  if (confirm('Do you want to logout ?')) {
+    router.post('/tassili/logout', {}, {
+      preserveScroll: true,
+    })
+  }
+}
+
+</script>
+
+<style scoped>
+</style>

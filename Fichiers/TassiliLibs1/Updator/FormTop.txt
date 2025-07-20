@@ -1,0 +1,49 @@
+<template>
+    <div class="flex w-full justify-between p-[5px]">
+            <div> 
+              <Link :href="page.props.tassiliSettings.tassiliDataUrlCreate" @click="tassiliInput.resetError()">
+                <button class="bg-[darkblue] w-[100px] text-white p-[9px] rounded-[2px]">
+                New
+               </button>
+            </Link>
+            </div>
+            <div>
+              <Link :href="currentRoute" >
+            <button class="bg-[black] min-w-[100px] text-white p-[9px] rounded-[2px]">
+              {{ page.props.tassiliSettings.tassiliDataModelLabel }}
+              </button>
+            </Link>
+            </div>
+        </div>
+
+        <div class="p-[10px] text-[24px] font-bold">
+         {{ page.props.tassiliSettings.tassiliDataModelTitle }}
+         <span class="text-[darkblue]">>></span> 
+        </div>
+</template>
+
+<script setup>
+
+import { Link } from '@inertiajs/vue3'
+import { usePage } from '@inertiajs/vue3'
+import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
+import { TassiliRoutes } from '@/Vendor/TassiliLibs/stores/tassiliRoutes'
+import {TassiliInput}    from '@/Vendor/TassiliLibs/stores/tassiliInput'
+
+
+
+const page = usePage();
+
+const tassiliroutes  = TassiliRoutes();
+const tassililisting = TassiliListing();
+const tassiliInput = TassiliInput()
+
+let currentRoute = tassiliroutes.routes.find(item => item.model === page.props.tassiliSettings.tassiliModelClassName)?.route;
+if(currentRoute == undefined) {
+  currentRoute = page.props.tassiliSettings.tassiliDataRouteListe
+}
+</script>
+
+<style lang="scss" scoped>
+
+</style>

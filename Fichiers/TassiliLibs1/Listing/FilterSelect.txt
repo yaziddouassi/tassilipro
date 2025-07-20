@@ -1,0 +1,135 @@
+<template>
+    <div>
+      <div>
+        {{ capitalizeFirstLetter(props.cle) }}
+      </div>
+  
+      <div class="relative w-full text-black max-w-sm">
+        <select 
+          v-model="myInput"
+          @change="replaceQuery"
+          class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg
+           focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
+        >
+          <option value="">-- Select --</option>
+          <option
+            v-for="(option, index) in tassililisting.customFilters.Options[props.cle].contents"
+            :key="index"
+            :value="option"
+          >
+            {{ tassililisting.customFilters.Options[props.cle].titles[index] }}
+          </option>
+        </select>
+  
+       
+      </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue'
+  import { router, usePage } from '@inertiajs/vue3'
+  import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
+  import { TassiliRoutes } from '@/Vendor/TassiliLibs/stores/tassiliRoutes'
+  
+  
+  const props = defineProps({
+    cle: {
+      type: String,
+      required: true
+    },
+  })
+  
+
+  const myInput = ref('')
+  const page = usePage()
+  const tassiliroutes  = TassiliRoutes();
+  const tassililisting = TassiliListing();
+  const panelStorage = 'tassili.' + page.props.tassiliPanel
+
+
+  const url = new URL(window.location.href)
+  const params = new URLSearchParams(url.search)
+  
+  if (params.has(props.cle)) {
+    myInput.value = params.get(props.cle)
+  }
+  
+  function replaceQuery() {
+
+    tassililisting.actionIds = []
+    tassililisting.show2 = false
+
+    const tassili = JSON.parse(localStorage.getItem(panelStorage))
+    const isValue = Object.values(page.props.sessionFilter).includes(props.cle)
+  
+    if (myInput.value !== '') {
+      if (isValue) {
+        tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle] = myInput.value
+      } else {
+        delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
+      }
+  
+      localStorage.setItem(panelStorage, JSON.stringify(tassili))
+
+      tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+  
+      const url = new URL(window.location.href)
+      const params = new URLSearchParams(url.search)
+  
+      params.delete('page')
+      params.set(props.cle, myInput.value)
+  
+      router.visit(`${url.pathname}?${params.toString()}`, {
+        method: 'get',
+        preserveState: true,
+      })
+  
+    } else {
+      delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
+      localStorage.setItem(panelStorage, JSON.stringify(tassili))
+      tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+
+      const url = new URL(window.location.href)
+      const params = new URLSearchParams(url.search)
+  
+      params.delete('page')
+      params.delete(props.cle)
+  
+      router.visit(`${url.pathname}?${params.toString()}`, {
+        method: 'get',
+        preserveState: true,
+      })
+    }
+  }
+  
+  function rezetInput() {
+   
+  
+    const tassili = JSON.parse(localStorage.getItem(panelStorage))
+    const isValue = Object.values(page.props.sessionFilter).includes(props.cle)
+
+    myInput.value = ''
+    
+    delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
+      localStorage.setItem(panelStorage, JSON.stringify(tassili))
+      tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+
+  
+    const url = new URL(window.location.href)
+    const params = new URLSearchParams(url.search)
+  
+    params.delete('page')
+    params.delete(props.cle)
+  
+    router.visit(`${url.pathname}?${params.toString()}`, {
+      method: 'get',
+      preserveState: true,
+    })
+  }
+  
+  const capitalizeFirstLetter = (str) => {
+    if (!str) return ''
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  }
+  </script>

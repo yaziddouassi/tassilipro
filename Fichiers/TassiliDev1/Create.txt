@@ -1,0 +1,104 @@
+<template>
+    <div class="min-[800px]:flex w-full text-black">
+      <Sidebarre2/>
+        <div class="min-h-[100vh] w-full overflow-x-auto  bg-[#D5D5D5] p-[3px]">
+          <div class="text-center h-[60px] pt-[10px] bg-[#DFDFDF] text-[darkblue] font-bold text-[28px]">
+          CREATE  ROUTER 
+        </div>
+
+
+
+
+
+        <div class="p-[10px] pt-[60px]">
+            
+            <div class="bg-[#DFDFDF] p-[10px] pt-[5px] max-w-[400px] m-auto"> 
+                
+                <div class="text-center">
+                    <span class="text-[20px]">Create Routes:</span>
+                </div>
+
+                <form @submit.prevent="submit">
+    
+                    <div>
+                    <select v-model="form.panel" class="w-full mt-[10px]">
+                      <option :value="''" class="h-[50px]">
+                             Choose panel
+                      </option>
+                     <option
+                           v-for="option in props.panelList"
+                          :key="option"
+                           :value="option"
+                          >
+                       {{ option }}
+                     </option> 
+                    </select>
+                  </div>
+
+                <div v-if="form.errors.panel" class="text-[red]">{{ form.errors.panel }}</div>
+
+
+                 <div class="mt-[10px]">
+                    <div v-for="(item, index) in props.listModels" :key="index" >
+                         <input type="checkbox" :value="item" v-model="form.selected" />
+                          {{ item }}
+                    </div>
+                 </div>
+                    
+                <div v-if="form.errors.selected" class="text-[red]">{{ form.errors.selected }}</div>
+
+
+
+                    <div class="pt-[15px] text-center">
+                    <button type="submit"
+                    class="bg-[blue] text-[24px] w-[150px] text-white p-[7px] rounded-[3px]">
+                        GENERATE</button>
+                </div>
+
+                </form>
+  
+            </div>
+        </div>
+  
+
+
+        </div>
+    </div>
+  </template>
+
+<script setup>
+import Sidebarre2 from '@/Vendor/TassiliLibs/Sidebarre2.vue';
+import { useForm } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3'
+
+const props = defineProps({
+   panelList: {
+    type: Object,
+    required: true
+  },
+    listModels: {
+    type: Object,
+    required: true
+  },
+});
+
+
+
+const form = useForm({
+  selected: [] ,
+  panel : '' ,
+})
+
+const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+
+function submit() {
+  form.post('/tassili/router/creator' , {
+     preserveScroll: true,
+     preserveState: true,
+     onSuccess: () => {
+      notyf.success('Record added');
+      router.get('/tassili/router')
+    }
+  } ) // your backend route
+}
+</script>

@@ -1,0 +1,298 @@
+<template>
+    <div>
+
+          <div>
+            <WizardStep/>
+          </div>
+
+          <form @submit.prevent="submit('save')">
+          <div
+             v-for="([key, field], index) in Object.entries(tassiliInput.form).filter(([_, f]) => f.type !== 'Hidden')"
+           :key="key">
+
+             <InputText v-if="field.type === 'Text' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" :cle="key" />
+
+          <Textarea v-if="field.type === 'Textarea' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+        <InputNumber v-if="field.type === 'Number' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <Password v-if="field.type === 'Password' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <InputSelect v-if="field.type === 'Select' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <InputDate v-if="field.type === 'Date'  && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <InputRadio v-if="field.type === 'Radio'  && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <Checkbox v-if="field.type === 'Checkbox' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <CheckboxList v-if="field.type === 'CheckboxList' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <RichEditor v-if="field.type === 'Quill' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <InputFileEdit v-if="field.type === 'FileEdit' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+      
+       <Repeteur v-if="field.type === 'Repeater' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <MultipleFileEdit v-if="field.type === 'MultipleFileEdit'  && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+
+        </div>
+
+
+        <div class="p-[10px] max-w-[700px] m-auto mt-[10px] pt-[0px] flex gap-[5px]">
+              <button  v-if="(tassiliInput.wizardCurrent == tassiliInput.wizardInfo.wizardCount) ||
+                tassiliInput.wizardInfo.wizardStop.includes(tassiliInput.wizardCurrent)"
+            
+            class="bg-[blue] w-[100px] text-white p-[9px] rounded-[2px]" type="submit">
+              Save
+            </button>
+
+            <button  v-if="(tassiliInput.wizardCurrent != 1)" @click="reculer()"
+            class="bg-[black] w-[100px] text-white p-[9px] rounded-[2px]" type="button">
+              Previous
+            </button>
+
+            <button v-if="(tassiliInput.wizardCurrent != tassiliInput.wizardInfo.wizardCount)"
+            class="bg-[black] w-[100px] text-white p-[9px] rounded-[2px]" type="button"
+            @click="submit('next')">
+              Next
+            </button>
+            
+          
+          </div>
+
+
+
+        </form>
+    </div>
+</template>
+
+<script setup>
+import {TassiliInput}    from '@/Vendor/TassiliLibs/stores/tassiliInput'
+import InputText from '../ListeInputs/InputText.vue';
+import Textarea from '../ListeInputs/Textarea.vue';
+import InputNumber from '../ListeInputs/InputNumber.vue';
+import Password from '../ListeInputs/Password.vue';
+import InputSelect from '../ListeInputs/InputSelect.vue';
+import InputDate from '../ListeInputs/InputDate.vue';
+import InputRadio from '../ListeInputs/InputRadio.vue';
+import Checkbox from '../ListeInputs/Checkbox.vue';
+import CheckboxList from '../ListeInputs/CheckboxList.vue';
+import RichEditor from '../ListeInputs/RichEditor.vue';
+import InputFileEdit from '../ListeInputs/InputFileEdit.vue';
+import MultipleFileEdit from '../ListeInputs/MultipleFileEdit.vue';
+import Repeteur from '../ListeInputs/Repeteur.vue';
+
+import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
+import WizardStep from './WizardStep.vue';
+
+import { usePage } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3';
+
+
+const page = usePage()
+const tassiliInput = TassiliInput();
+const tassililisting = TassiliListing();
+
+
+function aftersave() {
+  const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+  notyf.success('Record created');
+  tassililisting.customActionModal = false; 
+}
+
+function reculer() {
+  tassiliInput.wizardCurrent =  tassiliInput.wizardCurrent - 1
+}
+
+
+function nextValidate() {
+  tassiliInput.wizardCurrent =  tassiliInput.wizardCurrent + 1
+}
+
+
+  function cleanQuillContent(html) {
+  if (typeof html !== 'string') return html;
+  return html.replace(/<p>\s*<\/p>/g, '').replace(/<p><br><\/p>/g, '').trim();
+}
+
+
+
+function checkNullable() {
+  let temoin = 0;
+
+  Object.keys(tassiliInput.form).forEach((champ) => {
+
+   if (tassiliInput.form[champ]['type'] === 'MultipleFileEdit') {
+        if (tassiliInput.form[champ]['options']['existingFiles'].length  === 0 && 
+          tassiliInput.form[champ]['options']['tempUrlTabs'].length === 0 &&
+      tassiliInput.form[champ]['options']['nullable'] === 'yes' && 
+     tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(champ)) {
+         temoin++;
+           }
+    }
+ 
+  });
+
+  return temoin;
+}
+
+
+
+
+function insert(action) {
+
+const temoin = checkNullable();
+
+if (temoin > 0) {
+  const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+  notyf.error(`${temoin} fields(s) required are missing(s).`);
+  return;
+}
+
+const formData = new FormData();
+
+ if (action == 'next') {
+    formData.append('tassiliSaveActive', 'no');
+  }
+  if (action != 'next') {
+    formData.append('tassiliSaveActive', 'yes');
+  }
+  
+  formData.append('tassiliWizardStep',tassiliInput.wizardCurrent);
+  
+  formData.append(
+    'urlValidationurlValidationurlValidationTassili17485RRY4R4RD9448RK48K4RFRFIRU',
+    tassililisting.urlCustomValidation
+  );
+
+  formData.append('id', tassililisting.recordAction['id']);
+
+  Object.keys(tassiliInput.form).forEach((key) => {
+
+const tab1 = ['MultipleFileEdit']
+    if (tab1.includes(tassiliInput.form[key]['type'])) {
+    if(!tassiliInput.form[key]['value'] || tassiliInput.form[key]['value'].length === 0) {
+      formData.append(key, '');
+    }
+    else if (Array.isArray(tassiliInput.form[key]['value'])) {
+      tassiliInput.form[key]['value'].forEach((file, index) => {
+        formData.append(`${key}[]`, file);
+      });
+    }
+ 
+
+     const  temp = tassiliInput.form[key]['options']['existingFiles'] || '[]';
+     const index = key + '_newtab'
+      formData.append(index, JSON.stringify(temp));
+
+    } 
+
+
+ const tab2 = ['FileEdit'];
+    if(tab2.includes(tassiliInput.form[key]['type'])) {
+      formData.append(key , tassiliInput.form[key]['value']);
+    }
+
+
+const tab3 = ['Text', 'Date', 'Hidden', 'Select', 'Number', 'Radio', 'Checkbox', 'CheckboxList', 'Password', 'Textarea'];
+  if (tab3.includes(tassiliInput.form[key]['type'])) {
+    formData.append(  key , tassiliInput.form[key]['value']);
+    console.log(tassiliInput.form[key]['value'])
+  }
+
+
+  const tab4 = ['Quill'];
+    if(tab4.includes(tassiliInput.form[key]['type'])) {
+      formData.append(key, cleanQuillContent(tassiliInput.form[key]['value'] || ''));
+    }
+
+
+
+if (tassiliInput.form[key]['type'] === 'Repeater' ) {
+
+   tassiliInput.form[key]['value'].forEach((item, i) => {
+    Object.entries(item).forEach(([subKey, subValue]) => {
+
+       if(tassiliInput.form[key]['fields'][subKey]['type'] === 'Quill') {
+          subValue  = cleanQuillContent(subValue || '')
+      }
+
+      formData.append(`${key}[${i}][${subKey}]`, subValue);
+
+    });
+  });
+
+
+}
+
+
+
+
+
+
+});
+   
+
+
+
+router.post(tassililisting.urlCustomValidation, formData, {
+    forceFormData: true,
+    onError: (errors) => {
+      tassiliInput.setError(errors);
+      console.error('Validation Errors:', tassiliInput.errors);
+    },
+    onSuccess: () => {
+      if (action === 'save') {
+        aftersave();
+      } 
+     else if (action === 'next') {
+       nextValidate();
+       tassiliInput.resetError();
+      }
+    }
+  });
+
+
+}
+
+
+
+function submit(action) {
+   insert(action);
+  }
+
+
+
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

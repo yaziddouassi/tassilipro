@@ -1,0 +1,44 @@
+<template>
+    <div class="w-full mb-[5px]">
+      <div>
+        <span class="font-bold"> {{  tassiliInput.form[props.cle]['fields'][props.cle3]['options']['label']}}</span>
+      </div>
+  
+      <div class="flex items-center gap-2">
+        <input
+          type="checkbox"
+          v-model="tassiliInput.form[props.cle]['value'][props.cle2][props.cle3]"
+          class="w-5 h-5"
+        />
+        
+      </div>
+  
+   
+       <div v-if="tassiliInput.errors[`${props.cle}.${props.cle2}.${props.cle3}`]" class="text-[red]">
+           {{ tassiliInput.errors[`${props.cle}.${props.cle2}.${props.cle3}`] }}
+       </div>
+    
+
+    </div>
+  </template>
+  
+  <script setup>
+  import {TassiliInput} from '@/Vendor/TassiliLibs/stores/tassiliInput'
+
+const props = defineProps({
+  cle : {
+    type :  String
+  },
+  cle2 : {
+    type :  Number
+  },
+  cle3 : {
+    type :  String
+  },
+
+});
+
+
+const tassiliInput = TassiliInput();
+  
+  </script>

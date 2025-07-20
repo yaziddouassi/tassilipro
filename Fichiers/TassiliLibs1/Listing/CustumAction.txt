@@ -1,0 +1,38 @@
+<template>
+    <div :class="props.class">
+     <CustomModal/>
+      <div v-for="(value, key) in  tassiliInput.tassiliFormList" :key="key">
+        <CustomActionBtn :record="props.record" :cle="key" />
+      </div>
+
+      <slot></slot>
+    </div>
+</template>
+
+<script setup>
+import CustomActionBtn from './CustomActionBtn.vue';
+import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
+import {TassiliInput}    from '@/Vendor/TassiliLibs/stores/tassiliInput'
+import CustomModal from '@/Vendor/TassiliLibs/Listing/CustomModal.vue';
+
+const tassililisting = TassiliListing();
+const tassiliInput = TassiliInput()
+
+
+const props = defineProps({
+   record : {
+    type: Object,
+    required: true
+  },
+    class: {
+      type: String,
+      required: true
+    }
+  })
+
+ 
+</script>
+
+<style lang="scss" scoped>
+
+</style>

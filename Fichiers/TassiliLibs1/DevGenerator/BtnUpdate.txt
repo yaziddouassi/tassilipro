@@ -1,0 +1,55 @@
+<template>
+    <div>
+                  <span v-if="Number(props.record.active)  == 1" @click="updateActive(0)"
+                  class="material-icons text-[40px] text-[green] block pt-[5px]">
+                    toggle_on
+                    </span>
+                  
+                  <span  v-if="Number(props.record.active) == 0" @click="updateActive(1)"
+                  class="material-icons text-[40px] text-[red] block pt-[5px]"
+                  >
+                    toggle_off
+                    </span>
+    </div>
+</template>
+
+<script setup>
+import { useForm } from '@inertiajs/vue3'
+import { usePage } from '@inertiajs/vue3';
+
+const props = defineProps({
+  record : {
+    type: Object,
+    required: true
+  },
+})
+
+
+const Page = usePage()
+
+const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+function updateActive(a) {
+
+  
+  const form = useForm({
+         id:  props.record.id,
+         active : a ,
+     })
+    
+    form.post('/tassili/router/updateActive', {
+     preserveScroll: true,
+     preserveState: true,
+     onSuccess: () => {
+      notyf.success('Record Updated');
+    }
+
+     })
+    
+
+}
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

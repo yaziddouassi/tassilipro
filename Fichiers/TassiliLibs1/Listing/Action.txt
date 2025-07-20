@@ -1,0 +1,60 @@
+<template>
+    <div class="flex items-center space-x-1" 
+    @click="handleClick"
+    :class="[tassililisting.groupActions[props.cle].class]">
+      <span class="material-icons text-[15px] relative top-[1px]">
+        {{ tassililisting.groupActions[props.cle].icon }} 
+      </span> 
+      <span>
+        {{ tassililisting.groupActions[props.cle].label }}
+      </span>
+    </div>
+  </template>
+
+<script setup>
+import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
+
+import { useForm } from '@inertiajs/vue3'
+
+const props = defineProps({
+    cle: {
+      type: String,
+      required: true
+    },
+  })
+
+
+
+
+const tassililisting = TassiliListing();
+
+const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+  const handleClick = () => {
+  if (confirm(tassililisting.groupActions[props.cle].confirmation)) {
+
+    const form = useForm({
+         actionIds:  tassililisting.actionIds,
+     })
+    
+    form.post(tassililisting.groupActions[props.cle].url, {
+     preserveScroll: true,
+     preserveState: true,
+     onSuccess: () => {
+      tassililisting.show = false
+      tassililisting.show2 = false
+      tassililisting.actionIds = []
+      notyf.success(tassililisting.groupActions[props.cle].message);
+    }
+
+     })
+
+  } else {
+    
+  }
+}
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

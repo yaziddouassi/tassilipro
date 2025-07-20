@@ -1,0 +1,151 @@
+<template>
+    <div>
+      <div>
+        {{ capitalizeFirstLetter(props.cle) }}
+      </div>
+  
+      <div class="relative w-full text-black max-w-sm">
+        <input
+          type="date"
+          v-model="myInput"
+          :min="tassililisting.customFilters.Options[props.cle].min !== 'infinite' ? 
+                tassililisting.customFilters.Options[props.cle].min : null"
+          :max="tassililisting.customFilters.Options[props.cle].max !== 'infinite' ? 
+                tassililisting.customFilters.Options[props.cle].max : null"
+          @change="replaceQuery"
+          placeholder="Rechercher..."
+          class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+  
+        <button
+          v-if="myInput"
+          @click="rezetInput()"
+          type="button"
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+        >
+          <!-- Croix SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 
+                 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 
+                 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 
+                 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue'
+  import { router, usePage } from '@inertiajs/vue3'
+  import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
+  import { TassiliRoutes } from '@/Vendor/TassiliLibs/stores/tassiliRoutes'
+
+  
+  const props = defineProps({
+    cle: {
+      type: String,
+      required: true
+    },
+  })
+  
+  const myInput = ref('')
+  const page = usePage()
+  const url = new URL(window.location.href)
+  const tassiliroutes  = TassiliRoutes();
+  const tassililisting = TassiliListing();
+  const panelStorage = 'tassili.' + page.props.tassiliPanel
+  const params = new URLSearchParams(url.search)
+  
+  if (params.has(props.cle)) {
+    myInput.value = params.get(props.cle)
+  }
+  
+  // Met à jour les query params et navigue (pas de setTimeout ici)
+  function replaceQuery() {
+
+    tassililisting.actionIds = []
+    tassililisting.show2 = false 
+
+
+    const tassili = JSON.parse(localStorage.getItem(panelStorage))
+    const isValue = Object.values(page.props.sessionFilter).includes(props.cle)
+
+
+    if (myInput.value !== '') {
+      if (isValue) {
+
+        tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle] = myInput.value
+      } else {
+        delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
+      }
+  
+      localStorage.setItem(panelStorage, JSON.stringify(tassili))
+      tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+  
+  
+      const url = new URL(window.location.href)
+      const params = new URLSearchParams(url.search)
+  
+      params.delete('page') // reset pagination
+      params.set(props.cle, myInput.value)
+  
+      router.visit(`${url.pathname}?${params.toString()}`, {
+        method: 'get',
+        preserveState: true,
+      })
+  
+    } else {
+      
+      delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
+      localStorage.setItem(panelStorage, JSON.stringify(tassili))
+      tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)  
+
+  
+      const url = new URL(window.location.href)
+      const params = new URLSearchParams(url.search)
+  
+      params.delete('page') // reset pagination
+      params.delete(props.cle)
+  
+      router.visit(`${url.pathname}?${params.toString()}`, {
+        method: 'get',
+        preserveState: true,
+      })
+    }
+  }
+  
+  function rezetInput() {
+    
+    const tassili = JSON.parse(localStorage.getItem(panelStorage))
+    const isValue = Object.values(page.props.sessionFilter).includes(props.cle)
+
+    myInput.value = ''
+   
+    delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
+    localStorage.setItem(panelStorage, JSON.stringify(tassili))
+    tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)  
+  
+  
+    const url = new URL(window.location.href)
+    const params = new URLSearchParams(url.search)
+  
+    params.delete('page') // reset pagination
+    params.delete(props.cle)
+  
+    router.visit(`${url.pathname}?${params.toString()}`, {
+      method: 'get',
+      preserveState: true,
+    })
+  }
+  
+  // Capitaliser la première lettre
+  const capitalizeFirstLetter = (str) => {
+    if (!str) return ''
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  }
+  </script>

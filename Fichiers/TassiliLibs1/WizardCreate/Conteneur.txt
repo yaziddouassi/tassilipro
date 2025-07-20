@@ -1,0 +1,90 @@
+<template>
+    <div class="p-[10px]">
+
+    <div
+      v-for="([key, field], index) in Object.entries(tassiliInput.form).filter(([_, f]) => f.type !== 'Hidden')"
+      :key="key"
+    >
+
+       <InputText v-if="field.type === 'Text' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <Textarea v-if="field.type === 'Textarea' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+        <InputNumber v-if="field.type === 'Number' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <Password v-if="field.type === 'Password' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <InputSelect v-if="field.type === 'Select' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <InputDate v-if="field.type === 'Date' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <InputRadio v-if="field.type === 'Radio' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <Checkbox v-if="field.type === 'Checkbox' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <CheckboxList v-if="field.type === 'CheckboxList' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <RichEditor v-if="field.type === 'Quill' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+        <InputFile v-if="field.type === 'File' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <MultipleFile v-if="field.type === 'MultipleFile' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+       <Repeteur v-if="field.type === 'Repeater' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+
+    </div>
+
+    </div>
+</template>
+
+<script setup>
+import {TassiliInput}    from '@/Vendor/TassiliLibs/stores/tassiliInput'
+import InputText from '../Inputs/InputText.vue';
+import Textarea from '../Inputs/Textarea.vue';
+import InputNumber from '../Inputs/InputNumber.vue';
+import Password from '../Inputs/Password.vue';
+import InputSelect from '../Inputs/InputSelect.vue';
+import InputDate from '../Inputs/InputDate.vue';
+import InputRadio from '../Inputs/InputRadio.vue';
+import Checkbox from '../Inputs/Checkbox.vue';
+import CheckboxList from '../Inputs/CheckboxList.vue';
+import RichEditor from '../Inputs/RichEditor.vue';
+import InputFile from '../Inputs/InputFile.vue';
+import MultipleFile from '../Inputs/MultipleFile.vue';
+import Repeteur from '../Inputs/Repeteur.vue';
+
+
+const tassiliInput = TassiliInput();
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

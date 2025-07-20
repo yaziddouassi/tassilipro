@@ -1,0 +1,83 @@
+<template>
+    <div :class="props.class">
+
+    <div
+      v-for="([key, field], index) in Object.entries(tassiliInput.form).filter(([_, f]) => f.type !== 'Hidden')"
+      :key="key"
+    >
+
+       <InputText v-if="field.type === 'Text'" 
+       :cle="key" />
+
+       <Textarea v-if="field.type === 'Textarea'" 
+       :cle="key" />
+
+        <InputNumber v-if="field.type === 'Number'" 
+       :cle="key" />
+
+       <Password v-if="field.type === 'Password'" 
+       :cle="key" />
+
+       <InputSelect v-if="field.type === 'Select'" 
+       :cle="key" />
+
+       <InputDate v-if="field.type === 'Date'" 
+       :cle="key" />
+
+       <InputRadio v-if="field.type === 'Radio'" 
+       :cle="key" />
+
+       <Checkbox v-if="field.type === 'Checkbox'" 
+       :cle="key" />
+
+       <CheckboxList v-if="field.type === 'CheckboxList'" 
+       :cle="key" />
+
+       <RichEditor v-if="field.type === 'Quill'" 
+       :cle="key" />
+
+       <InputFileEdit v-if="field.type === 'FileEdit'" 
+       :cle="key" />
+      
+       <Repeteur v-if="field.type === 'Repeater'" 
+       :cle="key" />
+
+       <MultipleFileEdit v-if="field.type === 'MultipleFileEdit'" 
+       :cle="key" />
+      
+    </div>
+
+    </div>
+</template>
+
+<script setup>
+import {TassiliInput}    from '@/Vendor/TassiliLibs/stores/tassiliInput'
+import InputText from '../Inputs/InputText.vue';
+import Textarea from '../Inputs/Textarea.vue';
+import InputNumber from '../Inputs/InputNumber.vue';
+import Password from '../Inputs/Password.vue';
+import InputSelect from '../Inputs/InputSelect.vue';
+import InputDate from '../Inputs/InputDate.vue';
+import InputRadio from '../Inputs/InputRadio.vue';
+import Checkbox from '../Inputs/Checkbox.vue';
+import CheckboxList from '../Inputs/CheckboxList.vue';
+import RichEditor from '../Inputs/RichEditor.vue';
+import InputFileEdit from '../Inputs/InputFileEdit.vue';
+import MultipleFileEdit from '../Inputs/MultipleFileEdit.vue';
+import Repeteur from '../Inputs/Repeteur.vue';
+
+const props = defineProps({
+    class: {
+      type: String,
+      required: true
+    }
+  })
+
+
+const tassiliInput = TassiliInput();
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

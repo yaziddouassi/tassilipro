@@ -1,0 +1,138 @@
+<template> 
+  <div>
+    <div>
+      {{ capitalizeFirstLetter(props.cle) }}
+    </div>
+
+    <div class="flex items-center gap-2">
+      <input
+        type="checkbox"
+        :id="props.cle"
+        v-model="myInput"
+        @change="replaceQuery"
+        class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+      />
+      
+      <span> &nbsp; &nbsp;  &nbsp; </span>
+
+      <button
+        @click="rezetInput"
+        type="button"
+        class="text-gray-400 hover:text-gray-600"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 
+               1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 
+               1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 
+               10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { router, usePage } from '@inertiajs/vue3'
+import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
+import { TassiliRoutes } from '@/Vendor/TassiliLibs/stores/tassiliRoutes'
+
+
+const props = defineProps({
+  cle: {
+    type: String,
+    required: true
+  },
+})
+
+const myInput = ref(false)
+const page = usePage()
+const url = new URL(window.location.href)
+const tassiliroutes  = TassiliRoutes();
+const tassililisting = TassiliListing();
+const panelStorage = 'tassili.' + page.props.tassiliPanel
+const params = new URLSearchParams(url.search)
+
+if (params.has(props.cle)) {
+  const value = params.get(props.cle)
+  myInput.value = value === 'true' || value === '1'
+}
+
+function replaceQuery() {
+  tassililisting.actionIds = []
+  tassililisting.show2 = false
+
+  
+  const tassili = JSON.parse(localStorage.getItem(panelStorage))
+  const isValue = Object.values(page.props.sessionFilter).includes(props.cle)
+
+
+  if (myInput.value) {
+    if (isValue) {
+       tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle] = myInput.value
+    } else {
+      delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
+    }
+
+    localStorage.setItem(panelStorage, JSON.stringify(tassili))
+    tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+
+    const url = new URL(window.location.href)
+    const params = new URLSearchParams(url.search)
+
+    params.delete('page')
+    params.set(props.cle, true)
+
+    router.visit(`${url.pathname}?${params.toString()}`, {
+      method: 'get',
+      preserveState: true,
+    })
+  } else {
+   
+     delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
+      localStorage.setItem(panelStorage, JSON.stringify(tassili))
+      tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)  
+
+    const url = new URL(window.location.href)
+    const params = new URLSearchParams(url.search)
+
+    params.delete('page')
+    params.set(props.cle, false) // Optionnel si tu veux laisser `false`
+
+    router.visit(`${url.pathname}?${params.toString()}`, {
+      method: 'get',
+      preserveState: true,
+    })
+  }
+}
+
+function rezetInput() {
+  const tassili = JSON.parse(localStorage.getItem(panelStorage))
+
+  myInput.value = false
+
+  delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
+  localStorage.setItem(panelStorage, JSON.stringify(tassili))
+  tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel) 
+
+  const url = new URL(window.location.href)
+  const params = new URLSearchParams(url.search)
+
+  params.delete('page')
+  params.delete(props.cle) // 👈 Supprimer complètement le paramètre de l’URL
+
+  router.visit(`${url.pathname}?${params.toString()}`, {
+    method: 'get',
+    preserveState: true,
+  })
+}
+
+const capitalizeFirstLetter = (str) => {
+  if (!str) return ''
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+</script>
