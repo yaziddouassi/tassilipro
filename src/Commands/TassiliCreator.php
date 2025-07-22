@@ -1,6 +1,6 @@
 <?php
 
-namespace  Tassili\Tassili\Commands;
+namespace  Tassili\Free\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\User; // Ensure you import the User model
@@ -36,9 +36,58 @@ class TassiliCreator extends Command
              File::makeDirectory($path, 0755, true);
          }
 
+         //////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////
+
+           $sourcePath = base_path('vendor/tassili/free/Fichiers/PhpFiles');
+
+            $destinationPath = base_path('app/Http/Controllers/Tassili/Admin');
+
+            if (!File::exists($sourcePath)) {
+                $this->error("Folder Already exist : $sourcePath");
+                return;
+            }
+         
+            File::copyDirectory($sourcePath, $destinationPath);
+            //////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////
+           
+           
+
+      
+            $sourcePath3 = base_path('vendor/tassili/free/Fichiers/TassiliPages1');
+       
+            $temp3 = 'resources/js/Pages/TassiliPages/Admin' ;
+
+    
+            $directory3 = base_path($temp3);
+    
+            File::copyDirectory($sourcePath3, $directory3);
+    
+            if (!File::exists($directory3)) {
+                return response()->json(['error' => 'Dossier non trouvé.'], 404);
+            }
+        
+            // Récupère tous les fichiers (même dans les sous-dossiers)
+            $files3 = File::allFiles($directory3);
+        
+            foreach ($files3 as $file3) {
+                if ($file3->getExtension() === 'txt') {
+                    // Nouveau nom avec extension .vue
+                    $newFileName3 = str_replace('.txt', '.vue', $file3->getFilename());
+        
+                    // Nouveau chemin complet
+                    $newFilePath3 = $file3->getPath() . '/' . $newFileName3;
+        
+                    // Renommer le fichier
+                    File::move($file3->getPathname(), $newFilePath3);
+                }
+            }
 
 
-         $sourcePath1 = base_path('vendor/tassili/tassili/Fichiers/RouteFiles/tassili.php');
+         $sourcePath1 = base_path('vendor/tassili/free/Fichiers/RouteFiles/tassili.php');
 
          $destinationPath1 = base_path('routes/tassili.php');
 
@@ -63,7 +112,7 @@ class TassiliCreator extends Command
 
          ///////////////////////////////////////////////////////////////////////////////////////////////////////
          //////////////////////////////////////////////////////////////////////////////////////////////////////
-            $sourcePath4 = base_path('vendor/tassili/tassili/Fichiers/TassiliLibs1');
+            $sourcePath4 = base_path('vendor/tassili/free/Fichiers/TassiliLibs1');
        
             $temp4 = 'resources/js/Vendor/TassiliLibs'  ;
     
@@ -96,7 +145,7 @@ class TassiliCreator extends Command
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-         $sourcePath5 = base_path('vendor/tassili/tassili/Fichiers/TassiliDev1');
+         $sourcePath5 = base_path('vendor/tassili/free/Fichiers/TassiliDev1');
        
             $temp5 = 'resources/js/Pages/TassiliDev'  ;
     
