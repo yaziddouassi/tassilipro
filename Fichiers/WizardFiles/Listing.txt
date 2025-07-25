@@ -1,0 +1,86 @@
+<template>
+  <div class="min-[800px]:flex w-full text-black">
+    <Sidebarre/>
+
+     <div class="min-h-[100vh] w-full  overflow-x-auto bg-[#DFDFDF]">
+      <NavBarre/>
+      <ListeTop/>
+
+      <div class="p-[5px]">
+      <FilterListTop/>
+      </div>
+      
+      <div class="p-[5px]" v-show="tassililisting.show">
+        <FilterList/>
+      </div>
+
+
+      <div class="overflow-x-auto p-[10px] pt-[15px]">
+        <table class="min-w-full bg-[#DDD] text-center  border ">
+          <thead>
+            <tr class="border-[darkblue]   border-b-[0px] border-t-[0px] text-[darkblue]">
+              <th class="py-[40px] px-[10px]  font-medium"></th>
+              <th class="py-3 px-[10px]  font-medium">Id</th>
+              <th class="py-3 px-[10px]  font-medium">Name</th>
+              <th class="py-3 px-[10px]  font-medium ">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody v-if="items.data.length">
+            <tr v-for="item in items.data" :key="item.id"
+              class="border-b even:bg-[#ddd] odd:bg-[#e4e4e4]">
+              <td class="min-w-[40px]"> 
+                <BulkCheckbox :ide="item.id" />
+              </td>
+              <td class="py-3 px-4">{{item.id}}</td>
+              <td class="py-3 px-4">{{item.name}}</td>
+              <td class="py-3 px-4 max-w-[300px]">
+                 <CustumAction :record="item" :class="'flex justify-center gap-2'">
+                   <BtnUpdate  :ide="item.id" />
+                   <BtnDelete  :ide="item.id" />
+
+                </CustumAction>
+
+               
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+        
+      <div>
+        <Paginator :pagination="items" />
+      </div>
+     </div>
+
+  </div>
+</template>
+
+<script setup>
+import Sidebarre from '@/Vendor/TassiliLibs/Sidebarre.vue';
+import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
+import {listingService} from '@/Vendor/TassiliLibs/Service/listingService'
+import ListeTop from '@/Vendor/TassiliLibs/Listing/ListeTop.vue';
+import FilterListTop from '@/Vendor/TassiliLibs/Listing/FilterListTop.vue';
+import FilterList from '@/Vendor/TassiliLibs/Listing/FilterList.vue';
+import Paginator from '@/Vendor/TassiliLibs/Paginator.vue';
+import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
+import BtnDelete from '@/Vendor/TassiliLibs/Listing/BtnDelete.vue';
+import BtnUpdate from '@/Vendor/TassiliLibs/Listing/BtnUpdate.vue';
+import BulkCheckbox from '@/Vendor/TassiliLibs/Listing/BulkCheckbox.vue';
+import CustumAction from '@/Vendor/TassiliLibs/Listing/CustumAction.vue';
+
+const props = defineProps({
+  items: {
+    type: Object,
+    required: true
+  },
+});
+
+const tassililisting = TassiliListing();
+const { setSettings } = listingService()
+
+setSettings()
+
+</script>

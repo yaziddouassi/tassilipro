@@ -1,0 +1,65 @@
+<template>
+  <div class="min-[800px]:flex w-full text-black">
+    <Sidebarre/>
+
+     <div class="min-h-[100vh] w-full  overflow-x-auto bg-[#DFDFDF]">
+        <NavBarre/> 
+        <FormTop/>
+
+        <WizardStep/>
+
+        <div>
+           <form @submit.prevent="submit('save')">
+              <Conteneur />
+     
+            <div class="p-[10px] max-w-[700px] m-auto pt-[0px] flex gap-[5px]">
+              <button  v-if="(tassiliInput.wizardCurrent == tassiliInput.wizardInfo.wizardCount) ||
+                tassiliInput.wizardInfo.wizardStop.includes(tassiliInput.wizardCurrent)"
+            
+            class="bg-[blue] w-[100px] text-white p-[9px] rounded-[2px]" type="submit">
+              Save
+            </button>
+
+            <button  v-if="(tassiliInput.wizardCurrent != 1)" @click="reculer()"
+            class="bg-[black] w-[100px] text-white p-[9px] rounded-[2px]" type="button">
+              Previous
+            </button>
+
+            <button v-if="(tassiliInput.wizardCurrent != tassiliInput.wizardInfo.wizardCount)"
+            class="bg-[black] w-[100px] text-white p-[9px] rounded-[2px]" type="button"
+            @click="submit('next')">
+              Next
+            </button>
+            
+          
+          </div>
+
+          </form> 
+      </div>
+
+
+      
+     </div>
+
+  </div>
+</template>
+
+
+<script setup>
+import Sidebarre from '@/Vendor/TassiliLibs/Sidebarre.vue';
+import FormTop from '@/Vendor/TassiliLibs/Updator/FormTop.vue';
+import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
+import {wizardUpdateService} from '@/Vendor/TassiliLibs/Service/wizardUpdateService'
+import Conteneur from '@/Vendor/TassiliLibs/WizardUpdate/Conteneur.vue';
+import WizardStep from '@/Vendor/TassiliLibs/WizardUpdate/WizardStep.vue';
+import {TassiliInput}    from '@/Vendor/TassiliLibs/stores/tassiliInput'
+import { usePage } from '@inertiajs/vue3'
+
+const page = usePage()
+const tassiliInput = TassiliInput();
+const {initForm , submit,reculer} = wizardUpdateService()
+
+initForm()
+
+
+</script>

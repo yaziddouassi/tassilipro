@@ -1,0 +1,40 @@
+<template>
+  <div class="min-[800px]:flex w-full text-black">
+    <Sidebarre/>
+
+     <div class="min-h-[100vh] w-full  overflow-x-auto bg-[#DFDFDF]">
+        <NavBarre/> 
+        <FormTop/>
+
+
+        <div>
+           <form @submit.prevent="update()">
+              <Conteneur :class="'grid max-[700px]:grid-cols-1 grid-cols-2 p-[10px] gap-[10px]'" />
+               <div class="p-[10px] pt-[0px]">
+                 <button class="bg-[blue] w-[160px] text-white p-[9px] rounded-[2px]" type="submit">
+                 Update
+                 </button>
+               &nbsp;
+              </div>
+          </form> 
+      </div>
+
+
+      
+     </div>
+
+  </div>
+</template>
+
+<script setup>
+import Sidebarre from '@/Vendor/TassiliLibs/Sidebarre.vue';
+import FormTop from '@/Vendor/TassiliLibs/Updator/FormTop.vue';
+import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
+import {updatorService} from '@/Vendor/TassiliLibs/Service/updatorService'
+import Conteneur from '@/Vendor/TassiliLibs/Updator/Conteneur.vue';
+
+const { initForm, update } = updatorService()
+
+initForm()
+
+</script>

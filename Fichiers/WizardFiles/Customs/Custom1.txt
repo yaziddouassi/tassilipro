@@ -1,0 +1,30 @@
+<template>
+  <div class="min-[800px]:flex w-full text-black">
+    <Sidebarre/>
+
+     <div class="min-h-[100vh] w-full  overflow-x-auto bg-[#DFDFDF]">
+        <NavBarre/>
+        
+        
+        <div>
+           
+          
+
+        </div>
+
+     </div>
+
+  </div>
+</template>
+
+<script  setup>
+import Sidebarre from '@/Vendor/TassiliLibs/Sidebarre.vue';
+import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
+import { TassiliRoutes } from '@/Vendor/TassiliLibs/stores/tassiliRoutes'
+import { usePage } from '@inertiajs/vue3'
+
+const page = usePage()
+const tassiliroutes  = TassiliRoutes();
+tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+
+</script>
