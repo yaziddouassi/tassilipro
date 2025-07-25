@@ -37,7 +37,7 @@ $licenseKey = env('GUMROAD_TASSILI_LICENSE_KEY');
 
 // Vérifie si la clé de licence est définie
 if (empty($licenseKey)) {
-    $this->error('❌ GUMROAD_LICENSE_KEY is not set in your environment file.');
+    $this->error('❌ GUMROAD_TASSILI_LICENSE_KEY is not set in your environment file.');
     return Command::FAILURE;
 }
 
