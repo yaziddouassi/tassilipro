@@ -88,6 +88,13 @@ class WizardCommand extends Command
         $piece3 = $crudPart->getPiece3($choix, $modelLink, $modelUrl,$panel,$panelCamel,$choix2);
         $piece4 = $crudPart->getPiece4($choix, $modelLink, $modelUrl,$panel,$panelCamel,$choix2);
 
+        $bigDossier = base_path("app/Http/Controllers/Tassili/{$panelCamel}");
+
+        if (!File::exists($bigDossier)) {
+            $this->error('❌ This panel dont exist.');
+            return;
+        }
+
         $dossier = base_path("app/Http/Controllers/Tassili/{$panelCamel}/Crud/{$choix}");
         $custom = "{$dossier}/Customs";
 

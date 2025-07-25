@@ -6,5 +6,5 @@ return  [
     'company' =>'My Company',
     'panelList' => ['admin'],
     'middlewareList' => ['auth'],
-    'modelList' => ['User','Post','Montre'],
+    'modelList' => ['User'],
 ];

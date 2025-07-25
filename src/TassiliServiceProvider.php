@@ -29,6 +29,7 @@ class TassiliServiceProvider extends ServiceProvider
             \Tassili\Tassili\Commands\PanelCreator::class,
             \Tassili\Tassili\Commands\CrudCommand::class,
             \Tassili\Tassili\Commands\WizardCommand::class,
+            \Tassili\Tassili\Commands\CreateUser::class,
         ]);
         
     }
