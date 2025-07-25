@@ -34,7 +34,7 @@
 
       <div class="pl-[3px]  text-[18px] flex">
          <div class="pt-[3px]" >
-            <span class="material-icons text-[18px] text-[white]" @click="logout()">
+            <span class="material-icons text-[18px] text-[white]">
                 account_circle
                </span>
              
@@ -56,6 +56,22 @@
          <span>Logout</span>
         </div>
      </div>
+
+
+
+      <div class="pl-[3px]  text-[18px] cursor-pointer flex" 
+      @click="resetSession()">
+            <div class="pt-[2px]">
+            <span class="material-icons text-[18px]">
+                settings
+                </span>
+            </div>
+            <div class="pl-[5px]">
+            <span>Clear Session</span>
+           </div>
+          </div>
+
+
 
 
     </div>
@@ -84,6 +100,24 @@ function logout() {
     })
   }
 }
+
+
+function resetSession() {
+
+  if (confirm('Do you want reset session ?')) {
+
+    const panelStorage = 'tassili.' + page.props.tassiliPanel
+    localStorage.removeItem(panelStorage)
+    tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+    const urlDirection = '/' + page.props.tassiliPanel
+    router.get(urlDirection,{} ,{
+      preserveScroll: false,
+    })
+  }
+
+}
+
+
 
 </script>
 

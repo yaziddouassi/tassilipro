@@ -373,7 +373,7 @@ class Custom1Controller extends Controller
 {
    public   \$tassiliPanel = '$panel' ;
 
-   #[Get('$panel/$c/page1',middleware : ['$middleware'])]
+  // #[Get('$panel/$c/page1',middleware : ['$middleware'])]
     public function index(Request \$request)
     {
  
