@@ -33,7 +33,7 @@ class TassiliCreator extends Command
 
        
 
-$licenseKey = env('GUMROAD_LICENSE_KEY');
+$licenseKey = env('GUMROAD_TASSILI_LICENSE_KEY');
 
 // Vérifie si la clé de licence est définie
 if (empty($licenseKey)) {
