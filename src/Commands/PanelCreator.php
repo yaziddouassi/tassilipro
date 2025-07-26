@@ -92,7 +92,7 @@ class PanelCreator extends Command
         }
 
 
-
+        $this->info("✅ PANEL {$choix} is created with success !");
 
 
     }

@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\User; // Ensure you import the User model
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 
 class TassiliCreator extends Command
 {
@@ -169,7 +170,7 @@ if ($uses > $maxUses) {
             }
 
 
-
+         $this->info("✅ Package Tassili Pro installed!");
 
 
     }
