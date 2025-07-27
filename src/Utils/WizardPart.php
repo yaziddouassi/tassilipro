@@ -154,7 +154,7 @@ class UpdatorController extends WizardUpdate
 
 
     #[Post('$panel/$c/updator/validation',middleware : ['$middleware'])]
-    public function create(Request \$request)
+    public function update(Request \$request)
     {
 
         if (\$request->tassiliWizardStep == 1) {
