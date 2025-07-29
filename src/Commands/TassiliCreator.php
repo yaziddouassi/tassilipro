@@ -82,7 +82,7 @@ if ($uses > $maxUses) {
          $destinationPath1 = base_path('routes/tassili.php');
 
          if (File::exists($destinationPath1) || File::exists($path)) {
-                 $this->error("Package alreay installed");
+                 $this->error("Package already installed");
                  return Command::FAILURE;
             }
 
