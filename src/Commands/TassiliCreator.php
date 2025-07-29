@@ -75,13 +75,7 @@ if ($uses > $maxUses) {
 
 
 
-       $path = resource_path('js/Vendor');
-
-        if (!File::exists($path)) {
-             File::makeDirectory($path, 0755, true);
-         }
-
-
+         $path = resource_path('js/Vendor');
 
          $sourcePath1 = base_path('vendor/tassili/tassili/Fichiers/RouteFiles/tassili.php');
 
@@ -91,6 +85,10 @@ if ($uses > $maxUses) {
                  $this->error("Package alreay installed");
                  return Command::FAILURE;
             }
+
+         if (!File::exists($path)) {
+             File::makeDirectory($path, 0755, true);
+         }
 
           if (File::exists($sourcePath1)) {
                 File::copy($sourcePath1, $destinationPath1); // Crée destination.txt s'il n'existe pas
