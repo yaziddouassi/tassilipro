@@ -35,7 +35,7 @@ const mergeQuery = (url) => {
   <div class="relative flex flex-wrap justify-center gap-[2px] m-auto mt-[15px] p-[5px] max-w-[1000px]">
     <template v-for="link in pagination.links" :key="link.label">
       <Link
-        v-if="link.active"
+        v-if="link.url"
         preserve-state
         preserve-scroll
         :href="mergeQuery(link.url)"
