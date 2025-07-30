@@ -214,7 +214,7 @@ class ListingController extends Listing
     public   \$tassiliDataUrlCreate = '/$panel/$c/create' ;
     public   \$tassiliDataUrlCheckRecord = '/$panel/$c/checkRecord' ;
     public   \$urlDelete = '/$panel/$c/delete';
-    public   \$paginationPerPageList = [1,2,3,4] ;
+    public   \$paginationPerPageList = [10,20,30,40,50] ;
     public   \$orderByFieldList = ['id'] ;
     public   \$orderDirectionList = ['asc','desc'] ;
     public   \$sessionFilter = ['search',/*'paginationPerPage','orderByField','orderDirection' */] ;
