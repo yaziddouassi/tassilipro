@@ -161,7 +161,7 @@ Update your `resources/views/app.blade.php`:
 ```env
 TASSILI_STORAGE_DISK=public
 TASSILI_STORAGE_URL=http://127.0.0.1:8000/storage/
-GUMROAD_TASSILI_LICENSE_KEY=Your Tassili Gumroad Key 
+GUMROAD_TASSILI_LICENSE_KEY=YourTassiliGumroadKey 
 ```
 
 ---
