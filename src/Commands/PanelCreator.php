@@ -44,17 +44,6 @@ class PanelCreator extends Command
 
         $this->info("You Choose this panel : $choix");
 
-        $middlewareList = config('tassili.middlewareList', []);
-
-        if (empty($middlewareList)) {
-            $this->error("No Middleware in config('tassili.middlewareList').");
-            return 1;
-        }
-
-        $choix2 = $this->choice('Choose a middleware ?',$middlewareList ,0);
-
-        $this->info("You Choose this middleware : $choix2"); 
-
 
         $panelCamel = ucfirst($choix);
 
@@ -70,8 +59,8 @@ class PanelCreator extends Command
        
         $panelPart = new PanelPart();
 
-        $piece1 = $panelPart->getPiece1($choix, $panelCamel, $choix2);
-        $piece2 = $panelPart->getPiece2($choix, $panelCamel , $choix2);
+        $piece1 = $panelPart->getPiece1($choix, $panelCamel);
+        $piece2 = $panelPart->getPiece2($choix, $panelCamel);
       
         File::makeDirectory($dossier, 0755, true);
 

@@ -62,18 +62,6 @@ class WizardCommand extends Command
 
         $this->info("You Choose this model : $choix");
 
-        $middlewareList = config('tassili.middlewareList', []);
-
-        if (empty($middlewareList)) {
-            $this->error("No Middleware in config('tassili.middlewareList').");
-            return 1;
-        }
-
-        $choix2 = $this->choice('Choose a middleware ?',$middlewareList ,0);
-
-        $this->info("You Choose this middleware : $choix2"); 
-        
-        
 
         $transform = new TransformString();
         $crudPart = new WizardPart();
@@ -83,10 +71,10 @@ class WizardCommand extends Command
 
         $panelCamel = ucfirst($panel);
 
-        $piece1 = $crudPart->getPiece1($choix, $modelLink, $modelUrl,$panel,$panelCamel,$choix2);
-        $piece2 = $crudPart->getPiece2($choix, $modelLink, $modelUrl,$panel,$panelCamel,$choix2);
-        $piece3 = $crudPart->getPiece3($choix, $modelLink, $modelUrl,$panel,$panelCamel,$choix2);
-        $piece4 = $crudPart->getPiece4($choix, $modelLink, $modelUrl,$panel,$panelCamel,$choix2);
+        $piece1 = $crudPart->getPiece1($choix, $modelLink, $modelUrl,$panel,$panelCamel);
+        $piece2 = $crudPart->getPiece2($choix, $modelLink, $modelUrl,$panel,$panelCamel);
+        $piece3 = $crudPart->getPiece3($choix, $modelLink, $modelUrl,$panel,$panelCamel);
+        $piece4 = $crudPart->getPiece4($choix, $modelLink, $modelUrl,$panel,$panelCamel);
 
         $bigDossier = base_path("app/Http/Controllers/Tassili/{$panelCamel}");
 

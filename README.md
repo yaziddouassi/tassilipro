@@ -176,6 +176,18 @@ php artisan vendor:publish --tag=tassili-config
 php artisan storage:link
 ```
 
+
+---
+
+### 6. Register Tassili Middleware
+
+In your `bootstrap/app.php`, add:
+
+```php
+$middleware->alias([
+    'tassili.auth' => \App\Http\Middleware\TassiliAuth::class,
+]);
+```
 ---
 
 

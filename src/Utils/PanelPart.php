@@ -9,7 +9,7 @@ class PanelPart
 public $piece1;
 public $piece2;    
 
-public function getPiece1($panel ,$panelCamel,$middleware) {
+public function getPiece1($panel ,$panelCamel) {
 
 $this->piece1 = "<?php
 namespace App\Http\Controllers\Tassili\\$panelCamel\Dashboard;
@@ -30,7 +30,7 @@ class DashboardController extends Controller
 
    public   \$tassiliPanel = '$panel' ;
 
-   #[Get('$panel',middleware : ['$middleware'])]
+   #[Get('$panel',middleware : ['tassili.auth'])]
     public function index(Request \$request)
     {
         
@@ -73,7 +73,7 @@ class DashboardController extends Controller
     return $this->piece1;
 }
 
-public function getPiece2($panel ,$panelCamel,$middleware) {
+public function getPiece2($panel ,$panelCamel) {
 
 
     $this->piece2 = "<?php
@@ -89,7 +89,6 @@ use Inertia\Response;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
-
 
 class LoginController extends Controller
 {
@@ -120,7 +119,10 @@ class LoginController extends Controller
    #[Get('$panel/login')]
     public function index(Request \$request)
     {
-        
+         if (Auth::check()) {
+              return redirect(\$this->urlToRedirect);
+         }
+
         return Inertia::render('TassiliPages/$panelCamel/Dashboard/Login', [
             'tassiliPanel' => \$this->tassiliPanel,
             'company' => config('tassili.company') ,

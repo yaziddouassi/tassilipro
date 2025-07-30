@@ -10,7 +10,7 @@ class CrudPart
    public $piece3;
    public $piece4;
 
-public function getPiece1($a,$b,$c,$panel,$panelCamel,$middleware) {
+public function getPiece1($a,$b,$c,$panel,$panelCamel) {
 
 
     $this->piece1 = "<?php
@@ -51,7 +51,7 @@ class CreatorController extends TassiliCreate
     }
 
 
-    #[Post('$panel/$c/create/validation',middleware : ['$middleware'])]
+    #[Post('$panel/$c/create/validation',middleware : ['tassili.auth'])]
     public function create(Request \$request)
     {
 
@@ -65,7 +65,7 @@ class CreatorController extends TassiliCreate
     }
     
 
-    #[Get('$panel/$c/create',middleware : ['$middleware'])]
+    #[Get('$panel/$c/create',middleware : ['tassili.auth'])]
     public function index(Request \$request)
     {
  
@@ -90,7 +90,7 @@ class CreatorController extends TassiliCreate
 
 
 
-   public function getPiece2($a,$b,$c,$panel,$panelCamel,$middleware) {
+   public function getPiece2($a,$b,$c,$panel,$panelCamel) {
           $this->piece2 = "<?php
 
 namespace App\Http\Controllers\Tassili\\$panelCamel\Crud\\$a;
@@ -129,7 +129,7 @@ class UpdatorController extends TassiliUpdate
     }
 
 
-    #[Post('$panel/$c/updator/validation',middleware : ['$middleware'])]
+    #[Post('$panel/$c/updator/validation',middleware : ['tassili.auth'])]
     public function update(Request \$request)
     {
 
@@ -148,7 +148,7 @@ class UpdatorController extends TassiliUpdate
     }
 
 
-    #[Get('$panel/$c/update/{id}',middleware : ['$middleware'])]
+    #[Get('$panel/$c/update/{id}',middleware : ['tassili.auth'])]
     public function index(Request \$request)
     {
 
@@ -184,7 +184,7 @@ class UpdatorController extends TassiliUpdate
 
 
    
-   public function getPiece3($a,$b,$c,$panel,$panelCamel,$middleware) {
+   public function getPiece3($a,$b,$c,$panel,$panelCamel) {
 
       $this->piece3 = "<?php
 
@@ -252,7 +252,7 @@ class ListingController extends Listing
             ]);
         }
 
-     #[Post('$panel/$c/action1',middleware : ['$middleware'])]
+     #[Post('$panel/$c/action1',middleware : ['tassili.auth'])]
     public function action1(Request \$request)
         {  
 
@@ -281,7 +281,7 @@ class ListingController extends Listing
 
     
 
-    #[Post('$panel/$c/custom1',middleware : ['$middleware'])]
+    #[Post('$panel/$c/custom1',middleware : ['tassili.auth'])]
     public function custom1(Request \$request)
         {  
 
@@ -306,14 +306,14 @@ class ListingController extends Listing
     
         
     
-    #[Post('$panel/$c/delete',middleware : ['$middleware'])]
+    #[Post('$panel/$c/delete',middleware : ['tassili.auth'])]
     public function delete(Request \$request)
         {  
             \$this->tassiliModelClass::destroy(\$request->id);
         } 
 
 
-    #[Get('$panel/$c',middleware : ['$middleware'])]
+    #[Get('$panel/$c',middleware : ['tassili.auth'])]
     public function index(Request \$request)
     {
 
@@ -350,7 +350,7 @@ class ListingController extends Listing
 
 
 
-    public function getPiece4($a,$b,$c,$panel,$panelCamel,$middleware) {
+    public function getPiece4($a,$b,$c,$panel,$panelCamel) {
 
          $this->piece4 = "<?php
 
@@ -371,7 +371,7 @@ class Custom1Controller extends Controller
 {
    public   \$tassiliPanel = '$panel' ;
 
-  // #[Get('$panel/$c/page1',middleware : ['$middleware'])]
+  // #[Get('$panel/$c/page1',middleware : ['tassili.auth'])]
     public function index(Request \$request)
     {
  
