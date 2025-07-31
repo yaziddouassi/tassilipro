@@ -1,7 +1,7 @@
 
 {
     "name": "tassili/tassili",
-    "description": "Laravel Inertia Vue Crud Generator",
+    "description": "Laravel Inertia Vue Crud Generator created by Rabah Douassi",
     "type": "library",
     "license": "MIT",
     "autoload": {
