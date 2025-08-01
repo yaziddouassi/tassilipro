@@ -71,6 +71,16 @@ class Select
 
    public function repeteurTo($generator , $field): void
     {
+   
+        foreach ($this->contents as $key => $value) {
+          $this->contents[$key] = (string) $this->contents[$key] ;
+        }
+
+         foreach ($this->labels as $key2 => $value2) {
+          $this->labels[$key2] = (string) $this->labels[$key2] ;
+        }
+
+          $this->defaultValue = (string) $this->defaultValue ;
 
         $generator->tassiliFields[$field]['fields'][$this->field]['field'] = $this->field;
         $generator->tassiliFields[$field]['fields'][$this->field]['type'] = $this->type;
@@ -121,6 +131,19 @@ class Select
 
 
      public function repeteurToCustomAction($generator , $field) {
+
+
+    foreach ($this->contents as $key => $value) {
+          $this->contents[$key] = (string) $this->contents[$key] ;
+        }
+
+         foreach ($this->labels as $key2 => $value2) {
+          $this->labels[$key2] = (string) $this->labels[$key2] ;
+        }
+
+          $this->defaultValue = (string) $this->defaultValue ;
+
+
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['field'] = $this->field;
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['type'] = $this->type;
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['value'] = $this->defaultValue;

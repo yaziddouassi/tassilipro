@@ -285,14 +285,7 @@ class ListingController extends Listing
     public function custom1(Request \$request)
         {  
 
-
-         if (\$request->tassiliWizardStep == 1) {
-            \$request->validate(['name' => ['required']]);
-        }
-
-        if (\$request->tassiliWizardStep == 2) {
-            \$request->validate(['city' => ['required']]);
-        }
+        \$request->validate(['name' => ['required']]);
 
         \$this->tassiliRecord = \$this->tassiliModelClass::find(\$request->id);
        
