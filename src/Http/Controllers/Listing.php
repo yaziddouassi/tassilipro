@@ -220,7 +220,7 @@ class Listing extends Controller
         $cleanedItem = [];
 
         foreach ($repeaterItem as $subKey => $subValue) {
-            $subType =  $this->tassiliFields[$key]['fields'][$subKey]['type'] ?? null;
+             $subType = $this->tassiliFormList[$url]['fields'][$key]['fields'][$subKey]['type'] ?? null;
 
             if ($subType === 'CheckboxList') {
                 // ✅ NE PAS utiliser json_encode ici

@@ -53,7 +53,7 @@ Object.entries(b).forEach(([key, value]) => {
   if(key in tassiliInput.form) {
 
 
-const tab1 = ['Text','Date','Number','Hidden','Select','Radio','Quill','Textarea'];
+const tab1 = ['Text','Date','Number','Hidden','Select','Checkbox','Radio','Quill','Textarea'];
 
 if(tab1.includes(tassiliInput.form[key]['type'])) {
 
