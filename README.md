@@ -166,7 +166,7 @@ GUMROAD_TASSILI_LICENSE_KEY=YourTassiliGumroadKey
 
 ---
 
-### 5. Install Hoggar
+### 5. Install Tassili
 
 ```bash
 composer require tassili/tassili
