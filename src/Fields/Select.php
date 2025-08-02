@@ -53,6 +53,18 @@ class Select
 
     public function registerTo($generator): void
     {
+
+          foreach ($this->contents as $key => $value) {
+          $this->contents[$key] = (string) $this->contents[$key] ;
+        }
+
+         foreach ($this->labels as $key2 => $value2) {
+          $this->labels[$key2] = (string) $this->labels[$key2] ;
+        }
+
+          $this->defaultValue = (string) $this->defaultValue ;
+
+
         $generator->tassiliFields[$this->field]['field'] = $this->field;
         $generator->tassiliFields[$this->field]['type'] = $this->type;
         $generator->tassiliFields[$this->field]['value'] = $this->defaultValue;
@@ -117,6 +129,17 @@ class Select
 
      public function registerToCustomAction($generator): void
     {
+
+          foreach ($this->contents as $key => $value) {
+          $this->contents[$key] = (string) $this->contents[$key] ;
+        }
+
+         foreach ($this->labels as $key2 => $value2) {
+          $this->labels[$key2] = (string) $this->labels[$key2] ;
+        }
+
+          $this->defaultValue = (string) $this->defaultValue ; 
+
 
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['field'] = $this->field;
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['type'] = $this->type;
