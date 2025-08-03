@@ -35,15 +35,13 @@ const mergeQuery = (url) => {
   <div class="relative flex flex-wrap justify-center gap-[2px] m-auto mt-[15px] p-[5px] max-w-[1000px]">
     <template v-for="link in pagination.links" :key="link.label">
       <Link
+        v-if="link.url"
         preserve-state
         preserve-scroll
         :href="mergeQuery(link.url)"
         v-html="link.label"
         class="flex items-center justify-center px-3 py-2 text-sm rounded-lg text-gray-600 border border-grey"
-        :class="{
-          'bg-blue-700 text-white': link.active,
-          '!text-gray-300': !link.url
-        }"
+        :class="{ 'bg-blue-700 text-white': link.active }"
       />
     </template>
   </div>
