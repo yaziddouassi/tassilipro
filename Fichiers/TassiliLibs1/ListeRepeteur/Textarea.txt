@@ -6,7 +6,7 @@
   
       <div>
         <textarea
-          class="w-full bg-[#555] text-white border-[darkblue] border-[1px]"
+          class="w-full bg-[#E8E8E8] border-[darkblue] border-[1px]"
           :rows="tassiliInput.form[props.cle]['fields'][props.cle3]['options']['rows']"
           v-model="tassiliInput.form[props.cle]['value'][props.cle2][props.cle3]">
         </textarea>

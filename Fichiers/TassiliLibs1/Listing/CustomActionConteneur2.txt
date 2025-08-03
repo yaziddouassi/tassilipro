@@ -74,12 +74,12 @@
             </button>
 
             <button  v-if="(tassiliInput.wizardCurrent != 1)" @click="reculer()"
-            class="bg-[#222] w-[100px] text-white p-[9px] rounded-[2px]" type="button">
+            class="bg-[black] w-[100px] text-white p-[9px] rounded-[2px]" type="button">
               Previous
             </button>
 
             <button v-if="(tassiliInput.wizardCurrent != tassiliInput.wizardInfo.wizardCount)"
-            class="bg-[#222] w-[100px] text-white p-[9px] rounded-[2px]" type="button"
+            class="bg-[black] w-[100px] text-white p-[9px] rounded-[2px]" type="button"
             @click="submit('next')">
               Next
             </button>

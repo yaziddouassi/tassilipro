@@ -55,7 +55,7 @@ const props = defineProps({
 
 const myInput = ref(null)
 const page = usePage()
-const url = new URL(window.location.href)
+const url = new URL((typeof window !== 'undefined' ? window : undefined).location.href)
 const tassiliroutes  = TassiliRoutes();
 const tassililisting = TassiliListing();
 const panelStorage = 'tassili.' + page.props.tassiliPanel
@@ -79,7 +79,7 @@ function replaceQuery() {
 
   timeout = setTimeout(() => {
    
-    const tassili = JSON.parse(localStorage.getItem(panelStorage))
+    const tassili = JSON.parse((typeof window !== 'undefined' ? localStorage : undefined).getItem(panelStorage))
     const isValue = Object.values(page.props.sessionFilter).includes(props.cle)
     const hasValue = myInput.value !== null && myInput.value !== ''
 
@@ -93,11 +93,11 @@ function replaceQuery() {
       delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
     }
 
-    localStorage.setItem(panelStorage, JSON.stringify(tassili))
+    (typeof window !== 'undefined' ? localStorage : undefined).setItem(panelStorage, JSON.stringify(tassili))
     tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
 
 
-    const url = new URL(window.location.href)
+    const url = new URL((typeof window !== 'undefined' ? window : undefined).location.href)
     const params = new URLSearchParams(url.search)
 
     params.delete('page')
@@ -116,15 +116,15 @@ function replaceQuery() {
 }
 
 function rezetInput() {
-  const tassili = JSON.parse(localStorage.getItem(panelStorage))
+  const tassili = JSON.parse((typeof window !== 'undefined' ? localStorage : undefined).getItem(panelStorage))
 
   myInput.value = null
   
    delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
-    localStorage.setItem(panelStorage, JSON.stringify(tassili))
+    (typeof window !== 'undefined' ? localStorage : undefined).setItem(panelStorage, JSON.stringify(tassili))
     tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
 
-  const url = new URL(window.location.href)
+  const url = new URL((typeof window !== 'undefined' ? window : undefined).location.href)
   const params = new URLSearchParams(url.search)
 
   params.delete('page')

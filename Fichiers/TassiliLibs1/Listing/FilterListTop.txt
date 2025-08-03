@@ -93,10 +93,10 @@ function ouvrir2() {
 
 function rezetFilter() {
 
-  const tassili = JSON.parse(localStorage.getItem(panelStorage))
+  const tassili = JSON.parse((typeof window !== 'undefined' ? localStorage : undefined).getItem(panelStorage))
   tassili[page.props.tassiliSettings.tassiliModelClassName] = {}
   tassililisting.actionIds = []
-  localStorage.setItem(panelStorage, JSON.stringify(tassili))
+  (typeof window !== 'undefined' ? localStorage : undefined).setItem(panelStorage, JSON.stringify(tassili))
 
   tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
 

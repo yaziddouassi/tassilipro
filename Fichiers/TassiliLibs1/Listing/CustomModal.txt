@@ -1,6 +1,6 @@
 <template>
    <div v-show="tassililisting.customActionModal" style="z-index: 500;"
-      class="fixed inset-0 h-screen w-screen overflow-y-auto bg-[black] text-white p-[10px]
+      class="fixed inset-0 h-screen w-screen overflow-y-auto bg-[#222] text-white p-[10px]
       pt-[5px] pb-[40px]">
       <div class="flex items-center justify-end p-[4px]">
         <div>
