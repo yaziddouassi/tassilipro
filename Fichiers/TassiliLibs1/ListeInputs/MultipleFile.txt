@@ -36,7 +36,7 @@
           Your browser does not support the video element.
         </video>
 
-        <!-- Affichage des (typeof window !== 'undefined' ? document : undefined)s -->
+        <!-- Affichage des documents -->
         <a v-else :href="preview.url" target="_blank" class="text-blue-500 underline">
           {{ preview.file.name }}
         </a>

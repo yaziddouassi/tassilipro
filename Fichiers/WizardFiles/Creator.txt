@@ -56,7 +56,6 @@
 
 
 <script setup>
-import { onMounted } from 'vue'
 import Sidebarre from '@/Vendor/TassiliLibs/Sidebarre.vue';
 import FormTop from '@/Vendor/TassiliLibs/Creator/FormTop.vue';
 import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
@@ -70,10 +69,6 @@ const page = usePage()
 const tassiliInput = TassiliInput();
 const { initForm , submit,reculer} = wizardCreateService()
 
-onMounted(() => {
-
 initForm()
-
-})
 
 </script>

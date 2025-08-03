@@ -48,7 +48,7 @@
   const panelStorage = 'tassili.' + page.props.tassiliPanel
 
 
-  const url = new URL((typeof window !== 'undefined' ? window : undefined).location.href)
+  const url = new URL(window.location.href)
   const params = new URLSearchParams(url.search)
   
   if (params.has(props.cle)) {
@@ -60,7 +60,7 @@
     tassililisting.actionIds = []
     tassililisting.show2 = false
 
-    const tassili = JSON.parse((typeof window !== 'undefined' ? localStorage : undefined).getItem(panelStorage))
+    const tassili = JSON.parse(localStorage.getItem(panelStorage))
     const isValue = Object.values(page.props.sessionFilter).includes(props.cle)
   
     if (myInput.value !== '') {
@@ -70,11 +70,11 @@
         delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
       }
   
-      (typeof window !== 'undefined' ? localStorage : undefined).setItem(panelStorage, JSON.stringify(tassili))
+      localStorage.setItem(panelStorage, JSON.stringify(tassili))
 
       tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
   
-      const url = new URL((typeof window !== 'undefined' ? window : undefined).location.href)
+      const url = new URL(window.location.href)
       const params = new URLSearchParams(url.search)
   
       params.delete('page')
@@ -87,10 +87,10 @@
   
     } else {
       delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
-      (typeof window !== 'undefined' ? localStorage : undefined).setItem(panelStorage, JSON.stringify(tassili))
+      localStorage.setItem(panelStorage, JSON.stringify(tassili))
       tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
 
-      const url = new URL((typeof window !== 'undefined' ? window : undefined).location.href)
+      const url = new URL(window.location.href)
       const params = new URLSearchParams(url.search)
   
       params.delete('page')
@@ -106,17 +106,17 @@
   function rezetInput() {
    
   
-    const tassili = JSON.parse((typeof window !== 'undefined' ? localStorage : undefined).getItem(panelStorage))
+    const tassili = JSON.parse(localStorage.getItem(panelStorage))
     const isValue = Object.values(page.props.sessionFilter).includes(props.cle)
 
     myInput.value = ''
     
     delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
-      (typeof window !== 'undefined' ? localStorage : undefined).setItem(panelStorage, JSON.stringify(tassili))
+      localStorage.setItem(panelStorage, JSON.stringify(tassili))
       tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
 
   
-    const url = new URL((typeof window !== 'undefined' ? window : undefined).location.href)
+    const url = new URL(window.location.href)
     const params = new URLSearchParams(url.search)
   
     params.delete('page')

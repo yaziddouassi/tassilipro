@@ -6,7 +6,7 @@ defineProps({
   pagination: Object
 })
 
-const currentUrl = computed(() => new URL((typeof window !== 'undefined' ? window : undefined).location.href))
+const currentUrl = computed(() => new URL(window.location.href))
 const currentQueryParams = computed(() => {
   const params = new URLSearchParams(currentUrl.value.search)
   params.delete('page')
@@ -16,7 +16,7 @@ const currentQueryParams = computed(() => {
 const mergeQuery = (url) => {
   if (!url) return ''
 
-  const parsedUrl = new URL(url, (typeof window !== 'undefined' ? window : undefined).location.origin)
+  const parsedUrl = new URL(url, window.location.origin)
   const newParams = new URLSearchParams(parsedUrl.search)
 
   // Ne pas écraser les paramètres déjà présents
@@ -41,7 +41,9 @@ const mergeQuery = (url) => {
         :href="mergeQuery(link.url)"
         v-html="link.label"
         class="flex items-center justify-center px-3 py-2 text-sm rounded-lg text-gray-600 border border-grey"
-        :class="{ 'bg-blue-700 text-white': link.active }"
+        :class="{
+          'bg-blue-700 text-white': link.active,
+        }"
       />
     </template>
   </div>

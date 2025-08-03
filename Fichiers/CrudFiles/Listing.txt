@@ -68,7 +68,7 @@ import BtnDelete from '@/Vendor/TassiliLibs/Listing/BtnDelete.vue';
 import BtnUpdate from '@/Vendor/TassiliLibs/Listing/BtnUpdate.vue';
 import BulkCheckbox from '@/Vendor/TassiliLibs/Listing/BulkCheckbox.vue';
 import CustumAction from '@/Vendor/TassiliLibs/Listing/CustumAction.vue';
-import { onMounted } from 'vue'
+
 
 const props = defineProps({
   items: {
@@ -80,8 +80,6 @@ const props = defineProps({
 const tassililisting = TassiliListing();
 const { setSettings } = listingService()
 
-onMounted(() => {
 setSettings()
-})
 
 </script>

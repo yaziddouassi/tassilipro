@@ -13,6 +13,11 @@ use Spatie\RouteAttributes\Attributes\Post;
 
 class TassiliRouter extends Controller
 {
+
+   public function __construct()
+    {
+        config(['inertia.ssr.enabled' => false]); // SSR desactivated
+    } 
     
    public function update(Request $request)
     {

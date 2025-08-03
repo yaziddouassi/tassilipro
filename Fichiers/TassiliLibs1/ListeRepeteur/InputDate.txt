@@ -5,8 +5,8 @@
      </div>
      
      <div>
-        <input class="w-full  bg-[#555] text-white h-[50px]
-      border-[#666] border-[1px] text-white "
+        <input class="w-full  bg-[#555] h-[50px]
+      border-[darkblue] border-[1px] text-white "
          type="date" v-model="tassiliInput.form[props.cle]['value'][props.cle2][props.cle3]"
          :min="tassiliInput.form[props.cle]['fields'][props.cle3]['options'].min !== 'infinite' ?
                tassiliInput.form[props.cle]['fields'][props.cle3]['options'].min : null"

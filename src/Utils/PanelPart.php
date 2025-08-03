@@ -30,6 +30,11 @@ class DashboardController extends Controller
 
    public   \$tassiliPanel = '$panel' ;
 
+    public function __construct()
+    {
+        config(['inertia.ssr.enabled' => false]); // SSR desactivated
+    } 
+
    #[Get('$panel',middleware : ['tassili.auth'])]
     public function index(Request \$request)
     {
@@ -97,6 +102,11 @@ class LoginController extends Controller
    public   \$tassiliPanel = '$panel' ;
    public   \$urlToRedirect = '/$panel' ;
    public   \$urlValidation = '/$panel/login/validate' ;
+
+    public function __construct()
+    {
+        config(['inertia.ssr.enabled' => false]); // SSR desactivated
+    } 
 
    #[Post('$panel/login/validate')]
    public function validate(Request \$request)

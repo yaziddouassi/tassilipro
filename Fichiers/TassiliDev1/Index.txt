@@ -10,7 +10,9 @@
             @change="changerUrl($event)"
             class="w-[240px] text-center h-[50px] rounded-[25px] bg-[#EEE] border-none focus:ring-0 focus:outline-none"
           >
-            <option :value="''" class="h-[50px]">Choose panel</option>
+            <option :value="''" class="h-[50px]">
+              Choose panel
+            </option>
             <option
               v-for="option in props.panelList"
               :key="option"
@@ -23,9 +25,9 @@
 
         <div class="text-right">
           <Link href="/tassili/router/create">
-            <button class="bg-blue-700 w-[140px] rounded-[5px] h-[44px] text-white">
-              Create
-            </button>
+         <button class="bg-blue-700 w-[140px] rounded-[5px] h-[44px] text-white">
+            Create
+          </button>
           </Link>
         </div>
       </div>
@@ -33,7 +35,9 @@
       <div class="overflow-x-auto p-[10px] pt-[10px]">
         <table class="min-w-full bg-[#DDD] text-center border">
           <thead>
-            <tr class="border-[darkblue] border-b-[0px] border-t-[0px] text-[darkblue]">
+            <tr
+              class="border-[darkblue] border-b-[0px] border-t-[0px] text-[darkblue]"
+            >
               <th class="py-3 px-[10px] font-medium">Id</th>
               <th class="py-3 px-[10px] font-medium">Panel</th>
               <th class="py-3 px-[10px] font-medium">Model</th>
@@ -44,7 +48,7 @@
             </tr>
           </thead>
 
-          <tbody v-if="panels?.data?.length">
+          <tbody v-if="panels.data.length">
             <tr
               v-for="item in panels.data"
               :key="item.id"
@@ -84,8 +88,8 @@ import Sidebarre2 from '@/Vendor/TassiliLibs/Sidebarre2.vue'
 import BtnDelete from '@/Vendor/TassiliLibs/DevGenerator/BtnDelete.vue'
 import BtnUpdate from '@/Vendor/TassiliLibs/DevGenerator/BtnUpdate.vue'
 import Paginator from '@/Vendor/TassiliLibs/Paginator.vue'
-import { Link, router } from '@inertiajs/vue3'
-import { ref, onMounted } from 'vue'
+import { Link, router, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
 const props = defineProps({
   panelList: {
@@ -101,12 +105,11 @@ const props = defineProps({
   },
 })
 
-const selected = ref('')
 
-onMounted(() => {
-  const urlParams = new URLSearchParams(window.location.search)
-  selected.value = urlParams.get('panel') || ''
-})
+const page = usePage()
+
+const urlParams = new URLSearchParams(window.location.search)
+const selected = ref(urlParams.get('panel') || '')
 
 function changerUrl(event) {
   const value = event.target.value
@@ -116,7 +119,9 @@ function changerUrl(event) {
     data.panel = value
   }
 
-  router.get('/tassili/router', data, {
+  router.visit('/tassili/router', {
+    method: 'get',
+    data,
     preserveScroll: true,
     preserveState: true,
   })

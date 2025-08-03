@@ -47,6 +47,8 @@ class Listing extends Controller
 
     function __construct(Request $request) {
 
+        config(['inertia.ssr.enabled' => false]); // SSR desactivated
+
         $this->tassiliSettings['tassiliDataModelLabel'] =  $this->tassiliDataModelLabel ;
         $this->tassiliSettings['tassiliDataModelTitle'] =  $this->tassiliDataModelTitle ;
         $this->tassiliSettings['tassiliDataRouteListe'] =  $this->tassiliDataRouteListe ;

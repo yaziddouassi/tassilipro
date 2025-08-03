@@ -58,7 +58,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
 import Sidebarre from '@/Vendor/TassiliLibs/Sidebarre.vue';
 import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
 import {listingService} from '@/Vendor/TassiliLibs/Service/listingService'
@@ -82,13 +81,6 @@ const props = defineProps({
 const tassililisting = TassiliListing();
 const { setSettings } = listingService()
 
-
-
-onMounted(() => {
-
 setSettings()
-
-})
-
 
 </script>
