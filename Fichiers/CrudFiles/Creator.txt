@@ -40,10 +40,14 @@ import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
 import {creatorService} from '@/Vendor/TassiliLibs/Service/creatorService'
 import Conteneur from '@/Vendor/TassiliLibs/Creator/Conteneur.vue';
 import { usePage } from '@inertiajs/vue3'
+import { onMounted } from 'vue'
 
 const page = usePage()
 const { initForm , submit } = creatorService()
+
+onMounted(() => {
 initForm()
 
+})
 
 </script>

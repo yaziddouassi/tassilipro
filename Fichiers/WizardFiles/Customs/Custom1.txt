@@ -22,9 +22,15 @@ import Sidebarre from '@/Vendor/TassiliLibs/Sidebarre.vue';
 import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
 import { TassiliRoutes } from '@/Vendor/TassiliLibs/stores/tassiliRoutes'
 import { usePage } from '@inertiajs/vue3'
+import { onMounted } from 'vue'
 
 const page = usePage()
 const tassiliroutes  = TassiliRoutes();
+
+onMounted(() => {
+
 tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+
+})
 
 </script>

@@ -32,9 +32,13 @@ import FormTop from '@/Vendor/TassiliLibs/Updator/FormTop.vue';
 import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
 import {updatorService} from '@/Vendor/TassiliLibs/Service/updatorService'
 import Conteneur from '@/Vendor/TassiliLibs/Updator/Conteneur.vue';
+import { onMounted } from 'vue'
 
 const { initForm, update } = updatorService()
 
+onMounted(() => {
 initForm()
+
+})
 
 </script>

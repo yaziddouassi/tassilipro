@@ -31,6 +31,7 @@
   import TopBarre from '@/Vendor/TassiliLibs/TopBarre.vue';
   import { TassiliRoutes } from '@/Vendor/TassiliLibs/stores/tassiliRoutes';
   import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
+  import { onMounted } from 'vue'
 
   const props = defineProps({
   tassiliPanel: {
@@ -85,9 +86,11 @@
 
 const tassiliroutes  = TassiliRoutes();
 
+onMounted(() => {
+
 tassiliroutes.setRoutes(props.routes,props.tassiliPanel)
 
-
+})
 
   </script>
   
