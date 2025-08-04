@@ -364,6 +364,12 @@ class Custom1Controller extends Controller
 {
    public   \$tassiliPanel = '$panel' ;
 
+    public function __construct()
+    {
+        config(['inertia.ssr.enabled' => false]); // SSR desactivated
+    } 
+
+
   // #[Get('$panel/$c/page1',middleware : ['tassili.auth'])]
     public function index(Request \$request)
     {
