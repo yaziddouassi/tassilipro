@@ -1,6 +1,6 @@
 <template>
    <div class="bg-[black] text-white p-[5px] rounded-[2px] 
-               grid grid-cols-[300px_1fr] gap-4">
+               min-[1000px]:grid grid-cols-[300px_1fr] gap-4">
      
      <div class="bg-[#222] flex items-center justify-center">
        <div class="bg-[#222] text-[22px] font-bold p-4 rounded">

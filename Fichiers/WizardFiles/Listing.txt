@@ -16,7 +16,7 @@
 
 
       <div class="overflow-x-auto p-[10px] pt-[15px]">
-        <table class="min-w-full bg-[#DDD] text-center  border ">
+        <table class="min-w-full bg-[#DDD] text-center">
           <thead>
             <tr class="border-[darkblue]   border-b-[0px] border-t-[0px] text-[darkblue]">
               <th class="py-[40px] px-[10px]  font-medium"></th>
