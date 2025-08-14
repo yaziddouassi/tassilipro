@@ -1,14 +1,14 @@
-<template>
+ <template>
  <div class="w-full overflow-x-auto">
   <div class="min-w-[700px] grid grid-cols-2 gap-4">
     <!-- Colonne de gauche avec contenu aligné à gauche -->
     <div class="text-left">
       <div class="flex gap-2">
-        <div class="relative inline-block text-left">
+        <div class="relative w-[100px] inline-block text-left">
           <!-- Bouton du menu -->
           <div
             @click="ouvrir1()"
-            class="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg shadow"
+            class="cursor-pointer px-4 py-2 text-center bg-blue-600 text-white rounded-lg shadow"
           >
             Action
           </div>
@@ -16,7 +16,7 @@
           <!-- Menu déroulant -->
           <div
             v-show="tassililisting.show2 && tassililisting.actionIds.length"
-            class="absolute z-10 mt-2 w-48 bg-black text-white p-[5px] rounded-lg shadow-lg border border-gray-200">
+            class="relative z-10 mt-2 w-52 bg-black  text-white p-[5px] rounded-lg shadow-lg border border-gray-200">
             <div v-for="(item, index) in tassililisting.groupActions" :key="index">
               <Action :cle="index" />
             </div>
@@ -24,7 +24,7 @@
         </div>
 
         <div
-          class="cursor-pointer px-4 py-2 bg-black text-white rounded-lg shadow"
+          class="cursor-pointer h-[40px] px-4 py-2 bg-black text-white rounded-lg shadow"
           @click="rezetActionIds()"
         >
           Clear Tabs
@@ -61,6 +61,7 @@
   </div>
   </div>
 </template>
+
 
 <script setup>
 import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'

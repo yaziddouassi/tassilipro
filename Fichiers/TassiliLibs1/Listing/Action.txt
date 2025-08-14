@@ -1,11 +1,10 @@
 <template>
     <div class="flex items-center space-x-1" 
-    @click="handleClick"
     :class="[tassililisting.groupActions[props.cle].class]">
-      <span class="material-icons text-[15px] relative top-[1px]">
+      <span class="material-icons text-[15px] relative top-[1px] cursor-pointer" @click="handleClick">
         {{ tassililisting.groupActions[props.cle].icon }} 
       </span> 
-      <span>
+      <span class="cursor-pointer" @click="handleClick">
         {{ tassililisting.groupActions[props.cle].label }}
       </span>
     </div>
