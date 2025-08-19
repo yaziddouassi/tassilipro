@@ -58,7 +58,7 @@ class WizardUpdate extends Controller
     {
     foreach ($fields as $field) {
 
-         $field->registerTo($this);   
+          $field->updateTo($this);  
     }
 
     return $this ;

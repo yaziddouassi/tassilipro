@@ -54,7 +54,8 @@
         tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
        :cle="key" />
 
-       <MultipleFileEdit v-if="field.type === 'MultipleFileEdit'" 
+       <MultipleFileEdit v-if="field.type === 'MultipleFileEdit' &&
+       tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
        :cle="key" />
 
 

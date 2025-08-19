@@ -20,7 +20,7 @@
 
    <div class="text-right pt-[8px] pr-[4px]">
       
-      <button class="bg-[darkblue] text-white  min-w-[80px] rounded-[3px] p-[7px] text-[20px]">
+      <button class="bg-blue-700 text-white  min-w-[80px] rounded-[3px] p-[7px] text-[20px] capitalize">
          {{ page.props.tassiliPanel}} 
       </button>
    </div>
