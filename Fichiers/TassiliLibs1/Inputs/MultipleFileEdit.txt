@@ -66,7 +66,7 @@
           </div>
 
         <!-- Bouton de suppression -->
-        <button
+        <button v-if="tassiliInput.form[props.cle]['options']['noTouchable'] === 'no'"
           type="button"
           @click="removeExistingFile(file)"
           class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs hover:bg-red-600 transition-colors"

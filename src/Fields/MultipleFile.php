@@ -9,7 +9,8 @@ class MultipleFile
     protected $label = '';
     protected $noDatabase = 'no';
     protected $nullable = 'no';
-    
+    protected $noTouchable = 'no';
+
     public static function make(string $field): self
     {
         $instance = new self();
@@ -37,6 +38,11 @@ class MultipleFile
         return $this;
     }
 
+     public function keepExistingFiles(): self
+    {
+        $this->noTouchable = 'yes';
+        return $this;
+    }
 
     public function registerTo($generator): void
     {
@@ -49,6 +55,7 @@ class MultipleFile
         $generator->tassiliFields[$this->field]['options']['defaultValue'] = $this->defaultValue;
         $generator->tassiliFields[$this->field]['options']['noDatabase'] = $this->noDatabase;
         $generator->tassiliFields[$this->field]['options']['nullable'] = $this->nullable;
+        $generator->tassiliFields[$this->field]['options']['noTouchable'] = $this->noTouchable;
     }
 
     
@@ -70,6 +77,7 @@ class MultipleFile
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['tempUrlTabs'] = [];
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['existingFiles'] = [];
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['nullable'] = $this->nullable;
+        $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['noTouchable'] = $this->noTouchable;
     }   
 
 
