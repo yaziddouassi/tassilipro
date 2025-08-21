@@ -64,6 +64,7 @@
 
         </div>
 
+        <LoadAction/>
 
         <div class="p-[10px] max-w-[700px] m-auto mt-[10px] pt-[0px] flex gap-[5px]">
               <button  v-if="(tassiliInput.wizardCurrent == tassiliInput.wizardInfo.wizardCount) ||
@@ -74,12 +75,14 @@
             </button>
 
             <button  v-if="(tassiliInput.wizardCurrent != 1)" @click="reculer()"
-            class="bg-[#222] w-[100px] text-white p-[9px] rounded-[2px]" type="button">
+            class="bg-[#222] w-[100px] text-white p-[9px] rounded-[2px] border border-white" 
+            type="button">
               Previous
             </button>
 
             <button v-if="(tassiliInput.wizardCurrent != tassiliInput.wizardInfo.wizardCount)"
-            class="bg-[#222] w-[100px] text-white p-[9px] rounded-[2px]" type="button"
+            class="bg-[#222] w-[100px] text-white p-[9px] rounded-[2px] border border-white" 
+            type="button"
             @click="submit('next')">
               Next
             </button>
@@ -108,6 +111,7 @@ import RichEditor from '../ListeInputs/RichEditor.vue';
 import InputFileEdit from '../ListeInputs/InputFileEdit.vue';
 import MultipleFileEdit from '../ListeInputs/MultipleFileEdit.vue';
 import Repeteur from '../ListeInputs/Repeteur.vue';
+import LoadAction from '../LoadAction.vue';
 
 import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
 import WizardStep from './WizardStep.vue';
@@ -119,7 +123,7 @@ import { router } from '@inertiajs/vue3';
 const page = usePage()
 const tassiliInput = TassiliInput();
 const tassililisting = TassiliListing();
-
+ tassiliInput.isAnimated = 'off'
 
 function aftersave() {
   const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
@@ -128,6 +132,7 @@ function aftersave() {
 }
 
 function reculer() {
+   tassiliInput.isAnimated = 'off'
   tassiliInput.wizardCurrent =  tassiliInput.wizardCurrent - 1
 }
 
@@ -169,10 +174,11 @@ function checkNullable() {
 function insert(action) {
 
 const temoin = checkNullable();
-
+ tassiliInput.isAnimated = 'on'
 if (temoin > 0) {
   const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
   notyf.error(`${temoin} fields(s) required are missing(s).`);
+   tassiliInput.isAnimated = 'off'
   return;
 }
 
@@ -265,14 +271,17 @@ if (tassiliInput.form[key]['type'] === 'Repeater' ) {
 router.post(tassililisting.urlCustomValidation, formData, {
     forceFormData: true,
     onError: (errors) => {
+       tassiliInput.isAnimated = 'off'
       tassiliInput.setError(errors);
       console.error('Validation Errors:', tassiliInput.errors);
     },
     onSuccess: () => {
       if (action === 'save') {
+         tassiliInput.isAnimated = 'off'
         aftersave();
       } 
      else if (action === 'next') {
+        tassiliInput.isAnimated = 'off'
        nextValidate();
        tassiliInput.resetError();
       }

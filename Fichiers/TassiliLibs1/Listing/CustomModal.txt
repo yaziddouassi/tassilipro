@@ -49,6 +49,7 @@ const tassililisting = TassiliListing();
 const tassiliInput = TassiliInput()
 
 function closeForm() {
+  tassiliInput.isAnimated = 'off'
   tassililisting.customActionModal  = false
 }
 

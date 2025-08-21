@@ -15,6 +15,7 @@ export function creatorService() {
    tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
    tassiliInput.form = page.props.tassiliFields
    tassiliInput.formStart = JSON.parse(JSON.stringify(page.props.tassiliFields))
+   tassiliInput.isAnimated = 'off'
 
    let currentRoute = tassiliroutes.routes.find(item => item.model === page.props.tassiliSettings.tassiliModelClassName)?.route;
    if(currentRoute == undefined) {
@@ -120,13 +121,16 @@ if (tassiliInput.form[key]['type'] === 'Repeater' ) {
 router.post(page.props.tassiliSettings.tassiliValidationUrl, formData, {
     forceFormData: true,
     onError: (errors) => {
+       tassiliInput.isAnimated = 'off'
       tassiliInput.setError(errors);
       console.error('Validation Errors:', tassiliInput.errors);
     },
     onSuccess: () => {
       if (action === 'creer') {
+         tassiliInput.isAnimated = 'off'
         afterCreate1();
       } else if (action === 'other') {
+         tassiliInput.isAnimated = 'off'
         afterCreate2();
       }
     }
@@ -152,6 +156,7 @@ router.post(page.props.tassiliSettings.tassiliValidationUrl, formData, {
   
   
  function submit(action) {
+   tassiliInput.isAnimated = 'on'
    insert(action);
   }
 

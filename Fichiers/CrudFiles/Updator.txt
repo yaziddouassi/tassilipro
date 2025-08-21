@@ -10,6 +10,9 @@
         <div>
            <form @submit.prevent="update()">
               <Conteneur :class="'grid max-[700px]:grid-cols-1 grid-cols-2 p-[10px] gap-[10px]'" />
+
+              <LoadAction/>
+
                <div class="p-[10px] pt-[0px]">
                  <button class="bg-[blue] w-[160px] text-white p-[9px] rounded-[2px]" type="submit">
                  Update
@@ -32,6 +35,7 @@ import FormTop from '@/Vendor/TassiliLibs/Updator/FormTop.vue';
 import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
 import {updatorService} from '@/Vendor/TassiliLibs/Service/updatorService'
 import Conteneur from '@/Vendor/TassiliLibs/Updator/Conteneur.vue';
+import LoadAction from '@/Vendor/TassiliLibs/LoadAction.vue';
 
 const { initForm, update } = updatorService()
 

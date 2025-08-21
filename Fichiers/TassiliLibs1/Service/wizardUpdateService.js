@@ -15,6 +15,7 @@ export function wizardUpdateService() {
    tassiliInput.form = page.props.tassiliFields
    tassiliInput.wizardInfo = JSON.parse(JSON.stringify(page.props.tassiliWizardInfo))
    tassiliInput.wizardCurrent = 1
+   tassiliInput.isAnimated = 'off'
 
     let currentRoute = tassiliroutes.routes.find(item => item.model === page.props.tassiliSettings.tassiliModelClassName)?.route;
    if(currentRoute == undefined) {
@@ -39,6 +40,7 @@ function aftersave() {
 
 
 function reculer() {
+  tassiliInput.isAnimated = 'off'
   tassiliInput.wizardCurrent =  tassiliInput.wizardCurrent - 1
 }
 
@@ -79,13 +81,18 @@ function checkNullable() {
 
 function insert(action) {
 
+ tassiliInput.isAnimated = 'on'
+
 const temoin = checkNullable();
 
 if (temoin > 0) {
   const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
   notyf.error(`${temoin} fields(s) required are missing(s).`);
+   tassiliInput.isAnimated = 'off'
   return;
+
 }
+
 
 const formData = new FormData();
 
@@ -168,14 +175,17 @@ if (tassiliInput.form[key]['type'] === 'Repeater' ) {
 router.post(page.props.tassiliSettings.tassiliValidationUrl, formData, {
     forceFormData: true,
     onError: (errors) => {
+       tassiliInput.isAnimated = 'off'
       tassiliInput.setError(errors);
       console.error('Validation Errors:', tassiliInput.errors);
     },
     onSuccess: () => {
       if (action === 'save') {
+         tassiliInput.isAnimated = 'off'
         aftersave();
       } 
      else if (action === 'next') {
+        tassiliInput.isAnimated = 'off'
        nextValidate();
        tassiliInput.resetError();
       }

@@ -10,6 +10,7 @@
            <form @submit.prevent="submit('creer')">
              <Conteneur  :class="'grid max-[900px]:grid-cols-1 grid-cols-2 p-[10px] gap-[10px]'" />
 
+             <LoadAction/>
 
              <div class="p-[10px] pt-[0px]">
                  <button class="bg-[blue] w-[100px] text-white p-[9px] rounded-[2px]" type="submit">
@@ -40,6 +41,7 @@ import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
 import {creatorService} from '@/Vendor/TassiliLibs/Service/creatorService'
 import Conteneur from '@/Vendor/TassiliLibs/Creator/Conteneur.vue';
 import { usePage } from '@inertiajs/vue3'
+import LoadAction from '@/Vendor/TassiliLibs/LoadAction.vue';
 
 const page = usePage()
 const { initForm , submit } = creatorService()

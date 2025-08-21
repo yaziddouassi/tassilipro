@@ -9,6 +9,7 @@ export const TassiliInput = defineStore('counter', {
     wizardCurrent : 1,
     errors: {}, 
     tassiliFormList : {},
+    isAnimated : 'off' ,
   }),
 
   actions: {

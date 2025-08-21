@@ -1,0 +1,16 @@
+<template>
+     <div v-if="tassiliInput.isAnimated === 'on'"
+     class="w-full h-14 flex items-center justify-center">
+    <!-- Spinner -->
+    <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+</template>
+
+<script setup>
+import {TassiliInput}    from '@/Vendor/TassiliLibs/stores/tassiliInput'
+const tassiliInput = TassiliInput();
+</script>
+
+<style lang="scss" scoped>
+
+</style>

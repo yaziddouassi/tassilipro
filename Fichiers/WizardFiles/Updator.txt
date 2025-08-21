@@ -12,6 +12,8 @@
            <form @submit.prevent="submit('save')">
               <Conteneur  :class="'grid max-[900px]:grid-cols-1 grid-cols-2 p-[10px] gap-[10px]'" />
      
+            <LoadAction/>
+
             <div class="p-[10px] max-w-[700px] m-auto pt-[0px] flex gap-[5px]">
               <button  v-if="(tassiliInput.wizardCurrent == tassiliInput.wizardInfo.wizardCount) ||
                 tassiliInput.wizardInfo.wizardStop.includes(tassiliInput.wizardCurrent)"
@@ -54,6 +56,7 @@ import Conteneur from '@/Vendor/TassiliLibs/WizardUpdate/Conteneur.vue';
 import WizardStep from '@/Vendor/TassiliLibs/WizardUpdate/WizardStep.vue';
 import {TassiliInput}    from '@/Vendor/TassiliLibs/stores/tassiliInput'
 import { usePage } from '@inertiajs/vue3'
+import LoadAction from '@/Vendor/TassiliLibs/LoadAction.vue';
 
 const page = usePage()
 const tassiliInput = TassiliInput();

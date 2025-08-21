@@ -17,6 +17,7 @@ export function wizardCreateService() {
    tassiliInput.formStart = JSON.parse(JSON.stringify(page.props.tassiliFields))
    tassiliInput.wizardInfo = JSON.parse(JSON.stringify(page.props.tassiliWizardInfo))
    tassiliInput.wizardCurrent = 1
+   tassiliInput.isAnimated = 'off'
 
    let currentRoute = tassiliroutes.routes.find(item => item.model === page.props.tassiliSettings.tassiliModelClassName)?.route;
    if(currentRoute == undefined) {
@@ -34,6 +35,7 @@ export function wizardCreateService() {
 
 
 function reculer() {
+   tassiliInput.isAnimated = 'off'
   tassiliInput.wizardCurrent =  tassiliInput.wizardCurrent - 1
 }
 
@@ -145,16 +147,20 @@ const tab4 = ['Quill'];
 router.post(page.props.tassiliSettings.tassiliValidationUrl, formData, {
     forceFormData: true,
     onError: (errors) => {
+       tassiliInput.isAnimated = 'off'
       tassiliInput.setError(errors);
       console.error('Validation Errors:', tassiliInput.errors);
     },
     onSuccess: () => {
        if (action === 'creer') {
+         tassiliInput.isAnimated = 'off'
         afterCreate1();
       } else if (action === 'other') {
+         tassiliInput.isAnimated = 'off'
         afterCreate2();
       }
      else if (action === 'next') {
+        tassiliInput.isAnimated = 'off'
        nextValidate();
        tassiliInput.resetError();
       }
@@ -169,6 +175,7 @@ router.post(page.props.tassiliSettings.tassiliValidationUrl, formData, {
   
   
  function submit(action) {
+   tassiliInput.isAnimated = 'on'
    insert(action);
   }
 
