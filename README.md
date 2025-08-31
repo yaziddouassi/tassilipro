@@ -202,7 +202,7 @@ use Spatie\RouteAttributes\RouteFileRegistrar;
  public function boot(): void
     {
         (new RouteRegistrar(Route::getFacadeRoot()))
-    ->useRootNamespace('App\\Http\\Controllers') // ✅ ligne importante
+    ->useRootNamespace('App\\Http\\Controllers') 
     ->useBasePath(app_path('Http/Controllers'))
     ->useMiddleware(['web'])
     ->registerDirectory(app_path('Http/Controllers'));
