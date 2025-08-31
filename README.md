@@ -190,6 +190,28 @@ $middleware->alias([
 ```
 ---
 
+### 7. Update AppServiceProvider
+
+In your `app/Provider/AppServiceProvider.php`, add:
+
+```php
+use Illuminate\Support\Facades\Route;
+use Spatie\RouteAttributes\RouteRegistrar;
+use Spatie\RouteAttributes\RouteFileRegistrar;
+
+ public function boot(): void
+    {
+        (new RouteRegistrar(Route::getFacadeRoot()))
+    ->useRootNamespace('App\\Http\\Controllers') // ✅ ligne importante
+    ->useBasePath(app_path('Http/Controllers'))
+    ->useMiddleware(['web'])
+    ->registerDirectory(app_path('Http/Controllers'));
+
+    }
+
+```
+---
+
 
 ## 🧩 Features
 
@@ -208,4 +230,4 @@ This project is licensed under a commercial license via [Gumroad](https://yazid4
 
 ---
 
-**Crafted with ❤️ by [Your Name or Brand]**
+**Crafted with ❤️ by [Lh digital]**
