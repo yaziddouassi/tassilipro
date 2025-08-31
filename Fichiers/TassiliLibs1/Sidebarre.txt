@@ -6,7 +6,7 @@
         <Link :href="`/${page.props.tassiliPanel}`">DASHBOARD</Link>
       </div>
 
-     
+     <slot name="header"></slot>
 
       <Link
         v-for="(item, index) in tassiliroutes.routes"
@@ -71,7 +71,7 @@
            </div>
           </div>
 
-
+        <slot name="footer"></slot> 
 
 
     </div>
