@@ -16,18 +16,18 @@ use Illuminate\Support\Facades\Hash;
 class WizardCreate extends Controller
 {
     
-   final public $tassiliSettings = [] ;
-   final public $tassiliFields = [] ;
-   final public $tassiliRecord = null;
-   final public $tassiliWizardInfo = [] ;
-   final public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
-   final public $arrayTypes2 = ['Quill'];
-   final public $arrayTypes3 = ['File'];
-   final public $arrayTypes5 = ['MultipleFile'];
-   final public $arrayTypes6 = ['CheckboxList'];
-   final public $arrayTypes7 = ['Checkbox'];
-   final public $arrayTypes8 = ['Password'];
-   final public $arrayTypes9 = ['Repeater'];
+    public $tassiliSettings = [] ;
+    public $tassiliFields = [] ;
+    public $tassiliRecord = null;
+    public $tassiliWizardInfo = [] ;
+    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
+    public $arrayTypes2 = ['Quill'];
+    public $arrayTypes3 = ['File'];
+    public $arrayTypes5 = ['MultipleFile'];
+    public $arrayTypes6 = ['CheckboxList'];
+    public $arrayTypes7 = ['Checkbox'];
+    public $arrayTypes8 = ['Password'];
+    public $arrayTypes9 = ['Repeater'];
 
     function __construct() {
 
@@ -46,7 +46,7 @@ class WizardCreate extends Controller
     }
 
 
-    final public function form( array $fields)
+     public function form( array $fields)
     {
 
     foreach ($fields as $field) {
@@ -60,7 +60,7 @@ class WizardCreate extends Controller
 
 
 
-    final public function createRecord(Request $request) {
+     public function createRecord(Request $request) {
 
        foreach ($request->all() as $key => $value) {
 
@@ -168,7 +168,7 @@ class WizardCreate extends Controller
     }
    
 
-    final public function wizard($wizard)
+     public function wizard($wizard)
     {
        $this->tassiliWizardInfo =  $wizard ;
        return $this ;
