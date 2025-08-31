@@ -22,20 +22,20 @@ use Illuminate\Support\Facades\Hash;
 class WizardUpdate extends Controller
 {
     
-    public $tassiliSettings = [] ;
-    public $tassiliFields = [] ;
-    public $tassiliWizardInfo = [] ;
-    public $tassiliRecord = null;
-    public $tassiliRecordInput ;
+   final public $tassiliSettings = [] ;
+   final public $tassiliFields = [] ;
+   final public $tassiliWizardInfo = [] ;
+   final public $tassiliRecord = null;
+   final public $tassiliRecordInput ;
    
-    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
-    public $arrayTypes2 = ['Quill'];
-    public $arrayTypes4 = ['FileEdit'];
-    public $arrayTypes5 = ['MultipleFileEdit'];
-    public $arrayTypes6 = ['CheckboxList'];
-    public $arrayTypes7 = ['Checkbox'];
-    public $arrayTypes8 = ['Password'];
-    public $arrayTypes9 = ['Repeater'];
+   final public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
+   final public $arrayTypes2 = ['Quill'];
+   final public $arrayTypes4 = ['FileEdit'];
+   final public $arrayTypes5 = ['MultipleFileEdit'];
+   final public $arrayTypes6 = ['CheckboxList'];
+   final public $arrayTypes7 = ['Checkbox'];
+   final public $arrayTypes8 = ['Password'];
+   final public $arrayTypes9 = ['Repeater'];
 
 
     function __construct() {
@@ -54,7 +54,7 @@ class WizardUpdate extends Controller
     }
 
 
-     public function form(array $fields)
+    final public function form(array $fields)
     {
     foreach ($fields as $field) {
 
@@ -65,7 +65,7 @@ class WizardUpdate extends Controller
     }
 
 
-    public function tassilicheckRecord(Request $request)
+    final public function tassilicheckRecord(Request $request)
 {
     $Record = $this->tassiliModelClass::find($request->id);
     
@@ -82,7 +82,7 @@ class WizardUpdate extends Controller
 
 
 
-public function updateRecord(Request $request) {
+   final public function updateRecord(Request $request) {
 
        foreach ($request->all() as $key => $value) {
 
@@ -190,13 +190,13 @@ public function updateRecord(Request $request) {
 
 
 
- public function checkRecord(Request $request)
+ final   public function checkRecord(Request $request)
 {
     return $this->tassilicheckRecord($request) ;
 }
 
 
- public function initFieldAgain(Request $request) {
+ final   public function initFieldAgain(Request $request) {
 
       foreach ($this->tassiliFields as $key => $value) {
 
@@ -237,7 +237,7 @@ public function updateRecord(Request $request) {
      } 
     
 
-    public function wizard($wizard)
+  final  public function wizard($wizard)
     {
        $this->tassiliWizardInfo =  $wizard ;
        return $this ;

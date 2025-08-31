@@ -20,18 +20,18 @@ use Illuminate\Support\Facades\Hash;
 class TassiliUpdate extends Controller
 {
     
-    public $tassiliSettings = [] ;
-    public $tassiliFields = [] ;
-    public $tassiliRecord = null;
-    public $tassiliRecordInput ;
-    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
-    public $arrayTypes2 = ['Quill'];
-    public $arrayTypes4 = ['FileEdit'];
-    public $arrayTypes5 = ['MultipleFileEdit'];
-    public $arrayTypes6 = ['CheckboxList'];
-    public $arrayTypes7 = ['Checkbox'];
-    public $arrayTypes8 = ['Password'];
-    public $arrayTypes9 = ['Repeater'];
+   final public $tassiliSettings = [] ;
+   final public $tassiliFields = [] ;
+   final public $tassiliRecord = null;
+   final public $tassiliRecordInput ;
+   final public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
+   final public $arrayTypes2 = ['Quill'];
+   final public $arrayTypes4 = ['FileEdit'];
+   final public $arrayTypes5 = ['MultipleFileEdit'];
+   final public $arrayTypes6 = ['CheckboxList'];
+   final public $arrayTypes7 = ['Checkbox'];
+   final public $arrayTypes8 = ['Password'];
+   final public $arrayTypes9 = ['Repeater'];
 
     function __construct() {
 
@@ -49,7 +49,7 @@ class TassiliUpdate extends Controller
     }
 
 
-     public function form(array $fields): void
+    final public function form(array $fields): void
     {
     foreach ($fields as $field) {
          $field->updateTo($this);   
@@ -57,7 +57,7 @@ class TassiliUpdate extends Controller
     }
 
 
-    public function tassilicheckRecord(Request $request)
+    final public function tassilicheckRecord(Request $request)
 {
     $Record = $this->tassiliModelClass::find($request->id);
     
@@ -73,7 +73,7 @@ class TassiliUpdate extends Controller
 
 
 
-     public function checkRecord(Request $request)
+    final public function checkRecord(Request $request)
 {
     return $this->tassilicheckRecord($request) ;
 }
@@ -81,7 +81,7 @@ class TassiliUpdate extends Controller
 
 
 
-public function updateRecord(Request $request) {
+     final public function updateRecord(Request $request) {
 
        foreach ($request->all() as $key => $value) {
 
@@ -187,7 +187,7 @@ public function updateRecord(Request $request) {
 
 
 
-    public function initFieldAgain(Request $request) {
+    final public function initFieldAgain(Request $request) {
 
       foreach ($this->tassiliFields as $key => $value) {
 

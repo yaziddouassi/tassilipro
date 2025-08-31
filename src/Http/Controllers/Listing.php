@@ -21,29 +21,29 @@ use Illuminate\Support\Facades\Hash;
 class Listing extends Controller
 {
     
-    public $tassiliSettings = [] ;
-    public $tassiliFormList = [] ;
-    public $tassiliRecord = null;
-    public $allFilters = ['search' => 'search', 'paginationPerPage' => 'paginationPerPage',
+   final public $tassiliSettings = [] ;
+   final public $tassiliFormList = [] ;
+   final public $tassiliRecord = null;
+   final public $allFilters = ['search' => 'search', 'paginationPerPage' => 'paginationPerPage',
      'orderByField' => 'orderByField', 'orderDirection' => 'orderDirection'];
-    public $customFilters = [] ;
-    public $tabFilterFields = [];
-    public $tabFilterLabels = [];
-    public $tabFilterTypes = [];
-    public $tabFilterOptions = [];
-    public $search = '' ;
-    public $queryFilter;
-    public $tables;
-    public $groupActions = [];
-    public $customActionUrlTemoin ='';
-    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
-    public $arrayTypes2 = ['Quill'];
-    public $arrayTypes4 = ['FileEdit'];
-    public $arrayTypes5 = ['MultipleFileEdit'];
-    public $arrayTypes6 = ['CheckboxList'];
-    public $arrayTypes7 = ['Checkbox'];
-    public $arrayTypes8 = ['Password'];
-    public $arrayTypes9 = ['Repeater'];
+   final public $customFilters = [] ;
+   final public $tabFilterFields = [];
+   final public $tabFilterLabels = [];
+   final public $tabFilterTypes = [];
+   final public $tabFilterOptions = [];
+   final public $search = '' ;
+   final public $queryFilter;
+   final public $tables;
+   final public $groupActions = [];
+   final public $customActionUrlTemoin ='';
+   final public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
+   final public $arrayTypes2 = ['Quill'];
+   final public $arrayTypes4 = ['FileEdit'];
+   final public $arrayTypes5 = ['MultipleFileEdit'];
+   final public $arrayTypes6 = ['CheckboxList'];
+   final public $arrayTypes7 = ['Checkbox'];
+   final public $arrayTypes8 = ['Password'];
+   final public $arrayTypes9 = ['Repeater'];
 
     function __construct(Request $request) {
 
@@ -65,7 +65,7 @@ class Listing extends Controller
     }
 
 
-    public function filterList(array $fields): void
+   final public function filterList(array $fields): void
       {
 
         foreach ($fields as $field) {
@@ -77,7 +77,7 @@ class Listing extends Controller
      }
 
 
-      public function ActionList(array $fields): void
+    final  public function ActionList(array $fields): void
       {
 
         foreach ($fields as $field) {
@@ -90,7 +90,7 @@ class Listing extends Controller
 
 
 
-       public function CustomActionForm(array $settings)
+    final public function CustomActionForm(array $settings)
       {
 
        
@@ -105,7 +105,7 @@ class Listing extends Controller
      }
 
 
-      public function form(array $fields)
+    final public function form(array $fields)
     {
     foreach ($fields as $field) {
 
@@ -116,7 +116,7 @@ class Listing extends Controller
     }
 
 
-     public function wizard($wizard)
+    final public function wizard($wizard)
     {
        $this->tassiliFormList[$this->customActionUrlTemoin]['info']['wizard'] = $wizard ;
        $this->tassiliFormList[$this->customActionUrlTemoin]['info']['wizardActive'] = 'yes' ;
@@ -133,7 +133,7 @@ class Listing extends Controller
 
 
 
-    public function allInit($request) {
+    final public function allInit($request) {
 
         $paginationPerPage = $this->paginationPerPageList[0];
         $orderByField = $this->orderByFieldList[0];
@@ -175,7 +175,7 @@ class Listing extends Controller
 
 
 
-    public function updateRecord(Request $request) {
+   final public function updateRecord(Request $request) {
 
 
       $url = $request->urlValidationurlValidationurlValidationTassili17485RRY4R4RD9448RK48K4RFRFIRU;
