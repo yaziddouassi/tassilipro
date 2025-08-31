@@ -192,7 +192,7 @@ $middleware->alias([
 
 ### 7. Update AppServiceProvider
 
-In your `app/Provider/AppServiceProvider.php`, add:
+In your `app/Providers/AppServiceProvider.php`, add:
 
 ```php
 use Illuminate\Support\Facades\Route;
