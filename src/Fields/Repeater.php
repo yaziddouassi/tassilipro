@@ -21,7 +21,7 @@ class Repeater
     {
         $instance = new self();
         $instance->field = $field;
-        $instance->label = $field;
+        $instance->label = ucfirst($field);
         return $instance;
     }
 

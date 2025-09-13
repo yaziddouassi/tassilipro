@@ -217,6 +217,7 @@ class Listing extends Controller
 
                elseif (in_array($this->tassiliFormList[$url]['fields'][$key]['type'], $this->arrayTypes9)) {
     $cleanedRepeater = [];
+    $tabTemp = ['Text','Date','Number','Hidden','Select','Radio','Textarea','Quill'] ;
 
     foreach ($value as $repeaterItem) {
         $cleanedItem = [];
@@ -228,8 +229,11 @@ class Listing extends Controller
                 // ✅ NE PAS utiliser json_encode ici
                 $cleanedItem[$subKey] = is_array($subValue) ? $subValue : explode(',', $subValue);
             }
-            else {
+            else if (in_array($subType, $tabTemp)){
                 $cleanedItem[$subKey] = $subValue;
+                if($subValue === null) {
+                    $cleanedItem[$subKey] = '';
+                }
             }
 
 
