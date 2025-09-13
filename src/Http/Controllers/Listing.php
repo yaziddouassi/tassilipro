@@ -183,7 +183,7 @@ class Listing extends Controller
        foreach ($request->all() as $key => $value) {
 
          if (array_key_exists($key, $this->tassiliFormList[$url]['fields'])) {
-            if($this->tassiliFormList[$url]['fields'][$key]) {
+            if($this->tassiliFormList[$url]['fields'][$key] &&  $this->tassiliFormList[$url]['fields'][$key]['options']['noDatabase'] == 'no') {
 
                if (in_array($this->tassiliFormList[$url]['fields'][$key]['type'], $this->arrayTypes1) || 
                     in_array($this->tassiliFormList[$url]['fields'][$key]['type'], $this->arrayTypes2) ) {
