@@ -8,7 +8,7 @@
       <span class="material-icons text-[30px] pt-[2px]" style="display:block">
          account_circle
          </span>
-         <span style="display:block">
+         <span style="display:block" class="capitalize">
             &nbsp; {{ page.props.user.name }}
          </span>
      
