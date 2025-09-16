@@ -139,8 +139,30 @@ const isImage = (file) => file.type.startsWith('image/');
 const isAudio = (file) => file.type.startsWith('audio/');
 const isVideo = (file) => file.type.startsWith('video/');
 
+
+function canAddMoreFiles(numberOfNewFiles) {
+  const currentCount = tassiliInput.form[props.cle]['options']['tempUrlTabs'].length;
+  const fichierExitants = tassiliInput.form[props.cle]['options']['existingFiles'].length
+
+  const maxFiles = tassiliInput.form[props.cle]['options']['maxNumberFiles'];
+  
+  if (currentCount + numberOfNewFiles + fichierExitants > maxFiles) {
+    const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+    notyf.error(`Limit number of files is ${maxFiles}.`);
+    return false;
+  }
+  
+  return true;
+}
+
+
 // Fonction pour traiter les fichiers (commune pour click et drag&drop)
 const processFiles = (files) => {
+
+ if (!canAddMoreFiles(files.length)) {
+    return; // Arrêter le traitement si la limite sera dépassée
+  }
+
   files.forEach((file) => {
     if (!tassiliInput.form[props.cle]['value'].some(existingFile => existingFile.name === file.name)) {
       const preview = { file, url: URL.createObjectURL(file) };

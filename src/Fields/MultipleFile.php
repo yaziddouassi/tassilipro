@@ -10,6 +10,7 @@ class MultipleFile
     protected $noDatabase = 'no';
     protected $nullable = 'no';
     protected $noTouchable = 'no';
+    protected $maxNumberFiles = 1000000000000;
 
     public static function make(string $field): self
     {
@@ -44,6 +45,12 @@ class MultipleFile
         return $this;
     }
 
+    public function maxNumberFiles(int $maxNumberFiles): self
+    {
+        $this->maxNumberFiles = $maxNumberFiles;
+        return $this;
+    }
+
     public function registerTo($generator): void
     {
         $generator->tassiliFields[$this->field]['field'] = $this->field;
@@ -56,6 +63,7 @@ class MultipleFile
         $generator->tassiliFields[$this->field]['options']['noDatabase'] = $this->noDatabase;
         $generator->tassiliFields[$this->field]['options']['nullable'] = $this->nullable;
         $generator->tassiliFields[$this->field]['options']['noTouchable'] = $this->noTouchable;
+        $generator->tassiliFields[$this->field]['options']['maxNumberFiles'] = $this->maxNumberFiles;
     }
 
     
@@ -78,6 +86,7 @@ class MultipleFile
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['existingFiles'] = [];
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['nullable'] = $this->nullable;
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['noTouchable'] = $this->noTouchable;
+        $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['maxNumberFiles'] = $this->maxNumberFiles;
     }   
 
 
