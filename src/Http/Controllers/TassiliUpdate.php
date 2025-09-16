@@ -86,7 +86,7 @@ class TassiliUpdate extends Controller
        foreach ($request->all() as $key => $value) {
 
          if (array_key_exists($key, $this->tassiliFields)) {
-            if($this->tassiliFields[$key]&&  $this->tassiliFields[$key]['options']['noDatabase'] == 'no' ) {
+            if($this->tassiliFields[$key] &&  $this->tassiliFields[$key]['options']['noDatabase'] == 'no' ) {
 
                if (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes1) || 
                     in_array($this->tassiliFields[$key]['type'], $this->arrayTypes2)  ) 
