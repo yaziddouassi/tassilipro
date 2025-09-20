@@ -9,7 +9,6 @@ class Password
     protected $label = '';
     protected $noDatabase = 'no';
     
-    
     public static function make(string $field): self
     {
         $instance = new self();
@@ -41,32 +40,11 @@ class Password
         $generator->tassiliFields[$this->field]['options']['noDatabase'] = $this->noDatabase;
     }
 
-    
      public function updateTo($generator): void
     {
         $this->registerTo($generator);
-   }
+     }
 
-
-   public function repeteurTo($generator,$champs): void
-    {
-        $b = [];
-        $b['type'] = $this->type ;
-        $b['field'] = $this->field ;
-        $b['label'] = $this->label ;
-        $b['value'] = $this->default ;
-
-        $generator->tabRepeaterFields[$champs][$b['field']] = $b ;
-      
-  
-    }
-
-
-    public function repeteurToUpdate($generator,$champs): void
-    {
-      $this->repeteurTo($generator,$champs);
-  
-    } 
 
      public function registerToCustomAction($generator): void
     {

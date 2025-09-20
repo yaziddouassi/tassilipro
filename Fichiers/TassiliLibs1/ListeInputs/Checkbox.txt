@@ -8,6 +8,7 @@
       <div class="flex items-center gap-2">
         <input
           type="checkbox"
+          :disabled="tassiliInput.form[props.cle]['options']['readOnly'] === 'yes'"
           v-model="tassiliInput.form[props.cle]['value']"
           class="w-5 h-5"
         />

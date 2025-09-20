@@ -12,6 +12,7 @@
       >
         <input
           type="checkbox"
+          :disabled="tassiliInput.form[props.cle]['options']['readOnly'] === 'yes'"
           class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
           :value="option"
           v-model="tassiliInput.form[props.cle]['value']"

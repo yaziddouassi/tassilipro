@@ -14,6 +14,7 @@ class Repeater
     protected string $dragger = 'yes';
     protected string $ajoutLine = 'yes';
     protected string $suppLine = 'yes';
+    protected $readOnly = 'no';
     protected $generation = null;
     protected array $nestedFields = [];
 
@@ -71,7 +72,12 @@ class Repeater
     {
         $this->noDatabase = 'yes';
         return $this;
+    }
 
+      public function readOnly(): self
+    {
+        $this->readOnly = 'yes';
+        return $this;
     }
 
     // ✅ méthode `form()` qui stocke simplement les champs internes
@@ -93,6 +99,8 @@ class Repeater
         $generator->tassiliFields[$this->field]['options']['label'] = $this->label;
         $generator->tassiliFields[$this->field]['options']['defaultValue'] = [];
         $generator->tassiliFields[$this->field]['options']['noDatabase'] = $this->noDatabase;
+        $generator->tassiliFields[$this->field]['options']['readOnly'] = $this->readOnly;
+
 
         $generator->tassiliFields[$this->field]['numberOflines'] = $this->numberOflines ;
         $generator->tassiliFields[$this->field]['grid'] = $this->grille ;
@@ -101,6 +109,10 @@ class Repeater
         $generator->tassiliFields[$this->field]['draggable'] = $this->dragger ;
         $generator->tassiliFields[$this->field]['addLine'] = $this->ajoutLine ;
         $generator->tassiliFields[$this->field]['removeLine'] = $this->suppLine ;
+
+        if($generator->tassiliFields[$this->field]['options']['readOnly'] === 'yes') {
+           $generator->tassiliFields[$this->field]['draggable'] = 'no' ;
+        }
 
 
 
@@ -123,6 +135,7 @@ class Repeater
         $generator->tassiliFields[$this->field]['options']['label'] = $this->label;
         $generator->tassiliFields[$this->field]['options']['defaultValue'] = [];
         $generator->tassiliFields[$this->field]['options']['noDatabase'] = $this->noDatabase;
+        $generator->tassiliFields[$this->field]['options']['readOnly'] = $this->readOnly;
 
         $generator->tassiliFields[$this->field]['numberOflines'] = $this->numberOflines ;
         $generator->tassiliFields[$this->field]['grid'] = $this->grille ;
@@ -132,6 +145,9 @@ class Repeater
         $generator->tassiliFields[$this->field]['addLine'] = $this->ajoutLine ;
         $generator->tassiliFields[$this->field]['removeLine'] = $this->suppLine ;
 
+        if($generator->tassiliFields[$this->field]['options']['readOnly'] === 'yes') {
+           $generator->tassiliFields[$this->field]['draggable'] = 'no' ;
+        }
 
         // ✅ Enregistrement des champs internes du repeater au bon moment
         foreach ($this->nestedFields as $field) {
@@ -160,6 +176,8 @@ class Repeater
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['label'] = $this->label;
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['defaultValue'] = [];
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['noDatabase'] = $this->noDatabase;
+        $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['readOnly'] = $this->readOnly;
+        
 
 
         foreach ($this->nestedFields as $field) {

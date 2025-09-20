@@ -152,12 +152,14 @@ class WizardUpdate extends Controller
 
 
           if (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes4)) {
-                    // Handle single file uploads
+                    $dossier = $this->tassiliFields[$key]['options']['storage_folder'];
+                    $dossierStorage = 'uploads/' . $dossier ;
+                    
                     if ($request->hasFile($key)) {
                         $file = $request->file($key);
                         $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
-                        $file->storeAs('uploads', $uniqueName, config('tassili.storage_disk'));
-                        $path = 'uploads/' . $uniqueName ;
+                        $file->storeAs($dossierStorage, $uniqueName, config('tassili.storage_disk'));
+                        $path = $dossierStorage . '/' . $uniqueName ;
                         $this->tassiliRecord[$key] = $path;
                     }
                 }  
@@ -165,12 +167,13 @@ class WizardUpdate extends Controller
 
             elseif (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes5)) { 
                  $tab1 = json_decode($request->input($key . '_newtab')) ;
-
+                 $dossier = $this->tassiliFields[$key]['options']['storage_folder'];
+                 $dossierStorage = 'uploads/' . $dossier ;
                  if($value) {
                     foreach ($value as $file) {
                       
                         $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
-                        $path = $file->storeAs('uploads', $uniqueName, config('tassili.storage_disk'));
+                        $path = $file->storeAs($dossierStorage, $uniqueName, config('tassili.storage_disk'));
                         array_push($tab1, $path);
                     }
                  }

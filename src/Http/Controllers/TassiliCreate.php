@@ -128,13 +128,14 @@ class TassiliCreate extends Controller
 
 
              elseif (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes5)) {
-                    // Handle multiple file uploads
+                $dossier = $this->tassiliFields[$key]['options']['storage_folder'];
+                $dossierStorage = 'uploads/' . $dossier ;
                     $temp = [];
                     if ($request->hasFile($key)) {
                         foreach ($request->file($key) as $file) {
                             $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
-                            $file->storeAs('uploads', $uniqueName, config('tassili.storage_disk'));
-                            $path = 'uploads/' . $uniqueName ;
+                            $file->storeAs($dossierStorage, $uniqueName, config('tassili.storage_disk'));
+                            $path = $dossierStorage . '/' . $uniqueName ;
                             $temp[] = $path;
                         }
                     }
@@ -144,12 +145,13 @@ class TassiliCreate extends Controller
 
 
              if (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes3)) {
-                    // Handle single file uploads
+                    $dossier = $this->tassiliFields[$key]['options']['storage_folder'];
+                    $dossierStorage = 'uploads/' . $dossier ;
                     if ($request->hasFile($key)) {
                         $file = $request->file($key);
                         $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
-                        $file->storeAs('uploads', $uniqueName, config('tassili.storage_disk'));
-                        $path = 'uploads/' . $uniqueName ;
+                        $file->storeAs($dossierStorage, $uniqueName, config('tassili.storage_disk'));
+                        $path = $dossierStorage . '/' . $uniqueName ;
                         $this->tassiliRecord[$key] = $path;
                     }
                 }  

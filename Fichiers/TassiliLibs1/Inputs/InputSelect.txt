@@ -8,6 +8,7 @@
       <select
         class="w-full bg-[#E8E8E8] h-[50px] border-[darkblue] border-[1px]
         text-center"
+        :disabled="tassiliInput.form[props.cle]['options']['readOnly'] ==='yes'"
         v-model="tassiliInput.form[props.cle]['value']"
       >
         <option value="">-- Select --</option>

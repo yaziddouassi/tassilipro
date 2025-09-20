@@ -10,12 +10,15 @@ class MultipleFile
     protected $noDatabase = 'no';
     protected $nullable = 'no';
     protected $noTouchable = 'no';
+    protected $readOnly = 'no';
     protected $maxNumberFiles = 1000000000000;
+    protected string $folder;
 
     public static function make(string $field): self
     {
         $instance = new self();
         $instance->field = $field;
+        $instance->folder = config('tassili.storage_folder');
         $instance->label = ucfirst($field);
         return $instance;
     }
@@ -26,6 +29,17 @@ class MultipleFile
         return $this;
     }
 
+     public function folder(string $folder): self
+    {
+        $this->folder = $folder;
+        return $this;
+    }
+
+      public function readOnly(): self
+    {
+        $this->readOnly = 'yes';
+        return $this;
+    }
    
     public function notInDatabase(): self
     {
@@ -63,7 +77,10 @@ class MultipleFile
         $generator->tassiliFields[$this->field]['options']['noDatabase'] = $this->noDatabase;
         $generator->tassiliFields[$this->field]['options']['nullable'] = $this->nullable;
         $generator->tassiliFields[$this->field]['options']['noTouchable'] = $this->noTouchable;
+        $generator->tassiliFields[$this->field]['options']['readOnly'] = $this->readOnly;
         $generator->tassiliFields[$this->field]['options']['maxNumberFiles'] = $this->maxNumberFiles;
+        $generator->tassiliFields[$this->field]['options']['storage_folder'] = $this->folder;
+        
     }
 
     
@@ -86,7 +103,9 @@ class MultipleFile
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['existingFiles'] = [];
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['nullable'] = $this->nullable;
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['noTouchable'] = $this->noTouchable;
+        $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['readOnly'] = $this->readOnly;
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['maxNumberFiles'] = $this->maxNumberFiles;
+        $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['storage_folder'] = $this->folder;
     }   
 
 

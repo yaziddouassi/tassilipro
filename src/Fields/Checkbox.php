@@ -8,7 +8,7 @@ class Checkbox
     protected bool $defaultValue = false;
     protected $label = '';
     protected $noDatabase = 'no';
-    
+    protected $readOnly = 'no';
     
     public static function make(string $field): self
     {
@@ -30,10 +30,15 @@ class Checkbox
         return $this;
     }
 
-    
     public function notInDatabase(): self
     {
         $this->noDatabase = 'yes';
+        return $this;
+    }
+
+      public function readOnly(): self
+    {
+        $this->readOnly = 'yes';
         return $this;
     }
 
@@ -45,6 +50,7 @@ class Checkbox
         $generator->tassiliFields[$this->field]['options']['label'] = $this->label;
         $generator->tassiliFields[$this->field]['options']['defaultValue'] = $this->defaultValue;
         $generator->tassiliFields[$this->field]['options']['noDatabase'] = $this->noDatabase;
+        $generator->tassiliFields[$this->field]['options']['readOnly'] = $this->readOnly;
     }
 
     
@@ -63,6 +69,11 @@ class Checkbox
         $generator->tassiliFields[$field]['fields'][$this->field]['options']['label'] = $this->label;
         $generator->tassiliFields[$field]['fields'][$this->field]['options']['defaultValue'] = $this->defaultValue;
         $generator->tassiliFields[$field]['fields'][$this->field]['options']['noDatabase'] = $this->noDatabase;
+        $generator->tassiliFields[$field]['fields'][$this->field]['options']['readOnly'] = $this->readOnly;
+
+        if($generator->tassiliFields[$field]['options']['readOnly'] === 'yes') {
+        $generator->tassiliFields[$field]['fields'][$this->field]['options']['readOnly'] = 'yes' ;  
+        }
 
         $generator->tassiliFields[$field]['schemaFields'][$this->field] = $this->defaultValue;
 
@@ -93,7 +104,7 @@ class Checkbox
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['label'] = $this->label;
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['defaultValue'] = $this->defaultValue;
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['noDatabase'] = $this->noDatabase;
-
+        $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['readOnly'] = $this->readOnly;
     }   
 
 
@@ -104,6 +115,10 @@ class Checkbox
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['label'] = $this->label ;
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['defaultValue'] = $this->defaultValue ;
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['noDatabase'] = $this->noDatabase ;
+    $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['readOnly'] = $this->readOnly ;
+    if($generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['options']['readOnly'] === 'yes') {
+      $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['readOnly'] = 'yes' ;
+    }
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['schemaFields'][$this->field] = $this->defaultValue;
 
 

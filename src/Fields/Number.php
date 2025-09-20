@@ -11,7 +11,8 @@ class Number
     protected $min = 'inifinite';
     protected $max = 'inifinite';
     protected $step = 1;
-    
+    protected $readOnly = 'no';
+
     public static function make(string $field): self
     {
         $instance = new self();
@@ -51,10 +52,15 @@ class Number
         return $this;
     }
 
-    
     public function notInDatabase(): self
     {
         $this->noDatabase = 'yes';
+        return $this;
+    }
+
+      public function readOnly(): self
+    {
+        $this->readOnly = 'yes';
         return $this;
     }
 
@@ -69,6 +75,7 @@ class Number
         $generator->tassiliFields[$this->field]['options']['max'] = $this->max;
         $generator->tassiliFields[$this->field]['options']['min'] = $this->min;
         $generator->tassiliFields[$this->field]['options']['step'] = $this->step;
+        $generator->tassiliFields[$this->field]['options']['readOnly'] = $this->readOnly;
     }
 
 
@@ -84,6 +91,11 @@ class Number
         $generator->tassiliFields[$field]['fields'][$this->field]['options']['max'] = $this->max;
         $generator->tassiliFields[$field]['fields'][$this->field]['options']['min'] = $this->min;
         $generator->tassiliFields[$field]['fields'][$this->field]['options']['step'] = $this->step;
+        $generator->tassiliFields[$field]['fields'][$this->field]['options']['readOnly'] = $this->readOnly;
+
+        if($generator->tassiliFields[$field]['options']['readOnly'] === 'yes') {
+        $generator->tassiliFields[$field]['fields'][$this->field]['options']['readOnly'] = 'yes' ;  
+        }
 
         $generator->tassiliFields[$field]['schemaFields'][$this->field] = $this->defaultValue;
 
@@ -124,7 +136,7 @@ class Number
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['min'] = $this->min;
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['max'] = $this->max;
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['step'] = $this->step;
-
+        $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['readOnly'] = $this->readOnly;
     }   
 
 
@@ -139,6 +151,10 @@ class Number
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['min'] = $this->min ;
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['max'] = $this->max ;
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['step'] = $this->step ;
+    $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['readOnly'] = $this->readOnly ;
+    if($generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['options']['readOnly'] === 'yes') {
+      $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['readOnly'] = 'yes' ;
+    }
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['schemaFields'][$this->field] = $this->defaultValue;
 
 

@@ -4,7 +4,8 @@
        <span class="font-bold"> {{  tassiliInput.form[props.cle]['options']['label']}}</span>
     </div>
 
-    <div class="w-full flex items-center justify-center">
+    <div class="w-full flex items-center justify-center"
+    v-if="tassiliInput.form[props.cle]['options']['readOnly'] =='no'">
       <label class="w-full">
         <input type="file" ref="fileInputRef" @change="handleFileSelection" multiple hidden />
         <div 
@@ -66,7 +67,8 @@
           </div>
 
         <!-- Bouton de suppression -->
-        <button v-if="tassiliInput.form[props.cle]['options']['noTouchable'] === 'no'"
+        <button v-if="tassiliInput.form[props.cle]['options']['noTouchable'] === 'no' &&
+        tassiliInput.form[props.cle]['options']['readOnly'] =='no'"
           type="button"
           @click="removeExistingFile(file)"
           class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs hover:bg-red-600 transition-colors"

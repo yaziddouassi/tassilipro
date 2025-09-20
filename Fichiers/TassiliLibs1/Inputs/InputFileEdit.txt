@@ -4,7 +4,8 @@
       <span class="font-bold"> {{  tassiliInput.form[props.cle]['options']['label']}}</span>
     </div>
 
-    <div class="w-[100%] flex items-center justify-center">
+    <div class="w-[100%] flex items-center justify-center"
+     v-if="tassiliInput.form[props.cle]['options']['readOnly'] =='no'">
       <label class="w-[100%]">
         <input type="file" ref="fileInputRef" @change="handleFileSelection" hidden />
         <div 

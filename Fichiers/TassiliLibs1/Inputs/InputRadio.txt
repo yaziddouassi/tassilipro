@@ -12,6 +12,7 @@
           class="flex items-center gap-2"
         >
           <input
+            :disabled="tassiliInput.form[props.cle]['options']['readOnly'] === 'yes'"
             type="radio"
             :id="`${props.cle}-${index}`"
             :name="props.cle"

@@ -10,7 +10,7 @@
       v-for="(value, index) in tassiliInput.form[props.cle]['value']"
       :key="index"
       class="p-[5px] border-[1px] border-[#555] mb-[10px] rounded-[5px]"
-      draggable="true"
+      :draggable="tassiliInput.form[props.cle]['draggable'] === 'yes'"
       @dragstart="handleDragStart(index)"
       @dragover.prevent
       @dragenter="handleDragEnter(index)"
@@ -18,17 +18,20 @@
       @drop="handleDrop(index)"
       :class="{ 'bg-blue-100': dragOverIndex === index }"
     >
-      <div class="grid grid-cols-2 mb-2">
+      <div class="grid grid-cols-2 mb-2"
+       v-if="tassiliInput.form[props.cle]['options']['readOnly'] ==='no'">
         <div class="flex gap-2 items-center">
-         <span class="material-icons">
+         <span v-if="tassiliInput.form[props.cle]['draggable'] === 'yes'"
+          class="material-icons">
                         arrow_upward
                 </span>
-                 <span class="material-icons">
+                 <span v-if="tassiliInput.form[props.cle]['draggable'] === 'yes'"
+                  class="material-icons">
                       arrow_downward
                     </span>
         </div>
         <div class="text-right">
-          <span
+          <span v-if="tassiliInput.form[props.cle]['removeLine'] === 'yes'"
             class="material-icons text-[red] cursor-pointer"
             @click="removeKey(index)"
           >
@@ -115,7 +118,7 @@
       {{ tassiliInput.errors[cle] }}
     </div>
 
-    <div
+    <div v-if="tassiliInput.form[props.cle]['options']['readOnly'] ==='no'"
       class="p-[8px] text-center font-bold border-[2px] border-[#555] rounded-[5px] cursor-pointer"
       @click="addLine()"
     >
@@ -160,20 +163,32 @@ const dragStartIndex = ref(null)
 const dragOverIndex = ref(null)
 
 function handleDragStart(index) {
+  if(tassiliInput.form[props.cle]['draggable'] === 'no') {
+    return;
+  }
   dragStartIndex.value = index
 }
 
 function handleDragEnter(index) {
+  if(tassiliInput.form[props.cle]['draggable'] === 'no') {
+    return;
+  }
   dragOverIndex.value = index
 }
 
 function handleDragLeave(index) {
+  if(tassiliInput.form[props.cle]['draggable'] === 'no') {
+    return;
+  }
   if (dragOverIndex.value === index) {
     dragOverIndex.value = null
   }
 }
 
 function handleDrop(index) {
+  if(tassiliInput.form[props.cle]['draggable'] === 'no') {
+    return;
+  }
   const start = dragStartIndex.value
   const end = index
   const list = tassiliInput.form[props.cle]['value']

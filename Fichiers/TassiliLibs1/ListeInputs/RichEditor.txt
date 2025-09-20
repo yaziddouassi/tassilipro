@@ -100,6 +100,10 @@ onMounted(() => {
   quill = new Quill(editorContainer.value, quillOptions);
   quill.root.innerHTML = content.value || "";
 
+  if(tassiliInput.form[props.cle]['options']['readOnly'] === 'yes') {
+    quill.disable();
+  }
+
   setTimeout(adjustEditorHeight, 100);
 
   quill.on("text-change", () => {

@@ -9,7 +9,8 @@ class Textarea
     protected $label = '';
     protected $noDatabase = 'no';
     protected $rows = 5;
-    
+    protected $readOnly = 'no';
+
     public static function make(string $field): self
     {
         $instance = new self();
@@ -43,6 +44,12 @@ class Textarea
         return $this;
     }
 
+      public function readOnly(): self
+    {
+        $this->readOnly = 'yes';
+        return $this;
+    }
+
     public function registerTo($generator): void
     {
         $generator->tassiliFields[$this->field]['field'] = $this->field;
@@ -52,6 +59,7 @@ class Textarea
         $generator->tassiliFields[$this->field]['options']['defaultValue'] = $this->defaultValue;
         $generator->tassiliFields[$this->field]['options']['rows'] = $this->rows;
         $generator->tassiliFields[$this->field]['options']['noDatabase'] = $this->noDatabase;
+        $generator->tassiliFields[$this->field]['options']['readOnly'] = $this->readOnly;
     }
 
     
@@ -71,6 +79,11 @@ class Textarea
         $generator->tassiliFields[$field]['fields'][$this->field]['options']['defaultValue'] = $this->defaultValue;
         $generator->tassiliFields[$field]['fields'][$this->field]['options']['noDatabase'] = $this->noDatabase;
         $generator->tassiliFields[$field]['fields'][$this->field]['options']['rows'] = $this->rows;
+        $generator->tassiliFields[$field]['fields'][$this->field]['options']['readOnly'] = $this->readOnly;
+
+        if($generator->tassiliFields[$field]['options']['readOnly'] === 'yes') {
+        $generator->tassiliFields[$field]['fields'][$this->field]['options']['readOnly'] = 'yes' ;  
+        }
 
         $generator->tassiliFields[$field]['schemaFields'][$this->field] = $this->defaultValue;
 
@@ -104,6 +117,7 @@ class Textarea
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['rows'] = $this->rows;
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['defaultValue'] = $this->defaultValue;
         $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['noDatabase'] = $this->noDatabase;
+        $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['readOnly'] = $this->readOnly;
     }  
     
     
@@ -115,6 +129,11 @@ class Textarea
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['defaultValue'] = $this->defaultValue ;
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['noDatabase'] = $this->noDatabase ;
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['rows'] = $this->rows ;
+    $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['readOnly'] = $this->readOnly ;
+    if($generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['options']['readOnly'] === 'yes') {
+      $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['fields'][$this->field]['options']['readOnly'] = 'yes' ;
+    }
+    
     $generator->tassiliFormList[$generator->customActionUrlTemoin]['fields'][$field]['schemaFields'][$this->field] = $this->defaultValue;
 
 
