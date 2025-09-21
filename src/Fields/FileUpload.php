@@ -15,6 +15,7 @@ class FileUpload
     {
         $instance = new self();
         $instance->field = $field;
+        $instance->folder = config('tassili.storage_folder');
         $instance->label = ucfirst($field);
         return $instance;
     }

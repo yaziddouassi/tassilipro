@@ -1,4 +1,4 @@
-template>
+<template>
     <div class="w-full mb-[5px]">
       <div>
         <span class="font-bold"> {{  tassiliInput.form[props.cle]['fields'][props.cle3]['options']['label']}}</span>
