@@ -11,6 +11,7 @@
           class="flex items-center gap-2"
         >
           <input
+            :disabled="tassiliInput.form[props.cle]['fields'][props.cle3]['options']['readOnly'] === 'yes'"
             type="radio"
             :id="`${props.cle}-${props.cle2}-${props.cle3}-${index}`"
             :name="`${props.cle}-${props.cle2}-${props.cle3}-${index}`"
@@ -64,4 +65,4 @@ watch(
   { immediate: true }
 )
 
-  </script>
+</script>
