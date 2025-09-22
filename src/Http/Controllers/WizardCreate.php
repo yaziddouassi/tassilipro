@@ -101,7 +101,7 @@ class WizardCreate extends Controller
 
                 elseif (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes9)) {
     $cleanedRepeater = [];
-    $tabTemp = ['Text','Date','Number','Hidden','Select','Radio','Textarea','Quill'] ;
+    $tabTemp = ['Text','Date','Number','Hidden','Select','Radio','Textarea','Quill','Checkbox'] ;
 
     foreach ($value as $repeaterItem) {
         $cleanedItem = [];

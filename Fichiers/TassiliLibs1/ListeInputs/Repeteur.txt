@@ -1,6 +1,6 @@
 <template>
   <div class="w-full mb-[5px]">
-    <div>
+    <div class="mb-[2px]">
       <span class="font-bold">
         {{ tassiliInput.form[props.cle]['options']['label'] }}
       </span>
