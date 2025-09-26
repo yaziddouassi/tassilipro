@@ -50,8 +50,6 @@ const props = defineProps({
 
 const tassiliInput = TassiliInput();
 
-console.log() ;
-
 const options = tassiliInput.form[props.cle]['fields'][props.cle3]['options']['contents']
 const labels =  tassiliInput.form[props.cle]['fields'][props.cle3]['options']['labels'] 
 

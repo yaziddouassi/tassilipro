@@ -2,6 +2,8 @@ import { usePage } from '@inertiajs/vue3'
 import { TassiliRoutes } from '@/Vendor/TassiliLibs/stores/tassiliRoutes'
 import {TassiliInput}    from '@/Vendor/TassiliLibs/stores/tassiliInput'
 import { router } from '@inertiajs/vue3';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 export function updatorService() {
 
@@ -20,8 +22,6 @@ export function updatorService() {
        currentRoute = page.props.tassiliSettings.tassiliDataRouteListe
     }
 
-
-    console.log(currentRoute)
   }
 
 

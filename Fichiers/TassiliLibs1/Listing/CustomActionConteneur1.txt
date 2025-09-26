@@ -84,7 +84,8 @@ import RichEditor from '../ListeInputs/RichEditor.vue';
 import InputFileEdit from '../ListeInputs/InputFileEdit.vue';
 import MultipleFileEdit from '../ListeInputs/MultipleFileEdit.vue';
 import Repeteur from '../ListeInputs/Repeteur.vue';
-
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing';
 import { router, usePage } from '@inertiajs/vue3';

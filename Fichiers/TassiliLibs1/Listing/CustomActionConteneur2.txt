@@ -112,13 +112,12 @@ import InputFileEdit from '../ListeInputs/InputFileEdit.vue';
 import MultipleFileEdit from '../ListeInputs/MultipleFileEdit.vue';
 import Repeteur from '../ListeInputs/Repeteur.vue';
 import LoadAction from '../LoadAction.vue';
-
 import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
 import WizardStep from './WizardStep.vue';
-
 import { usePage } from '@inertiajs/vue3'
 import { router } from '@inertiajs/vue3';
-
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 const page = usePage()
 const tassiliInput = TassiliInput();

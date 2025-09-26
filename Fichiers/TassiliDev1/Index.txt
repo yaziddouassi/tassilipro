@@ -90,6 +90,8 @@ import BtnUpdate from '@/Vendor/TassiliLibs/DevGenerator/BtnUpdate.vue'
 import Paginator from '@/Vendor/TassiliLibs/Paginator.vue'
 import { Link, router, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 const props = defineProps({
   panelList: {

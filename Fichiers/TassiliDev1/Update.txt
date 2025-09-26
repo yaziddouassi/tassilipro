@@ -68,6 +68,8 @@
 import Sidebarre2 from '@/Vendor/TassiliLibs/Sidebarre2.vue';
 import { useForm } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 const props = defineProps({
   record: {

@@ -118,6 +118,8 @@
 import { ref, watch, onUnmounted, onMounted } from 'vue';
 import {TassiliInput} from '@/Vendor/TassiliLibs/stores/tassiliInput'
 import { usePage } from '@inertiajs/vue3'
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 const props = defineProps({ cle: { type: String, required: true } });
 

@@ -12,6 +12,8 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
 import { usePage } from '@inertiajs/vue3';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 const props = defineProps({
   ide : {

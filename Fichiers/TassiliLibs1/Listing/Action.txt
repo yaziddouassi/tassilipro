@@ -12,7 +12,8 @@
 
 <script setup>
 import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
-
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({
