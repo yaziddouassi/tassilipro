@@ -42,6 +42,9 @@
        <MultipleFile v-if="field.type === 'MultipleFile'" 
        :cle="key" />
 
+       <Signature v-if="field.type === 'Signature'" 
+       :cle="key" />
+
        <Repeteur v-if="field.type === 'Repeater'" 
        :cle="key" />
 
@@ -65,6 +68,7 @@ import CheckboxList from '../Inputs/CheckboxList.vue';
 import RichEditor from '../Inputs/RichEditor.vue';
 import InputFile from '../Inputs/InputFile.vue';
 import MultipleFile from '../Inputs/MultipleFile.vue';
+import Signature from '../Inputs/Signature.vue';
 import Repeteur from '../Inputs/Repeteur.vue';
 
 const props = defineProps({

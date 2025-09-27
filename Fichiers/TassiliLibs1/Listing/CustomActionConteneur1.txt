@@ -43,6 +43,9 @@
        <Repeteur v-if="field.type === 'Repeater'" 
        :cle="key" />
 
+       <Signature v-if="field.type === 'Signature'" 
+       :cle="key" />
+
        <MultipleFileEdit v-if="field.type === 'MultipleFileEdit'" 
        :cle="key" />
 
@@ -83,6 +86,7 @@ import CheckboxList from '../ListeInputs/CheckboxList.vue';
 import RichEditor from '../ListeInputs/RichEditor.vue';
 import InputFileEdit from '../ListeInputs/InputFileEdit.vue';
 import MultipleFileEdit from '../ListeInputs/MultipleFileEdit.vue';
+import Signature from '../ListeInputs/Signature.vue';
 import Repeteur from '../ListeInputs/Repeteur.vue';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
@@ -172,7 +176,7 @@ if (temoin > 0) {
 
     const tab3 = [
       'Text','Date','Hidden','Select','Number','Radio','Checkbox','CheckboxList','Password','Textarea',
-    ];
+    'Signature'];
     if (tab3.includes(tassiliInput.form[key]['type'])) {
       formData.append(key, tassiliInput.form[key]['value']);
     }

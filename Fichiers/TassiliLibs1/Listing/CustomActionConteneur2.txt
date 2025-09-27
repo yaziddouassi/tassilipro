@@ -57,6 +57,11 @@
         tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
        :cle="key" />
 
+       <Signature v-if="field.type === 'Signature' && 
+        tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
+       :cle="key" />
+
+
        <MultipleFileEdit v-if="field.type === 'MultipleFileEdit'  && 
         tassiliInput.wizardInfo['wizardForm'][tassiliInput.wizardCurrent].includes(key)" 
        :cle="key" />
@@ -110,6 +115,7 @@ import CheckboxList from '../ListeInputs/CheckboxList.vue';
 import RichEditor from '../ListeInputs/RichEditor.vue';
 import InputFileEdit from '../ListeInputs/InputFileEdit.vue';
 import MultipleFileEdit from '../ListeInputs/MultipleFileEdit.vue';
+import Signature from '../ListeInputs/Signature.vue';
 import Repeteur from '../ListeInputs/Repeteur.vue';
 import LoadAction from '../LoadAction.vue';
 import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
@@ -226,7 +232,7 @@ const tab1 = ['MultipleFileEdit']
     }
 
 
-const tab3 = ['Text', 'Date', 'Hidden', 'Select', 'Number', 'Radio', 'Checkbox', 'CheckboxList', 'Password', 'Textarea'];
+const tab3 = ['Text', 'Date', 'Hidden', 'Select', 'Number', 'Radio', 'Checkbox', 'CheckboxList', 'Password', 'Textarea','Signature'];
   if (tab3.includes(tassiliInput.form[key]['type'])) {
     formData.append(  key , tassiliInput.form[key]['value']);
     console.log(tassiliInput.form[key]['value'])

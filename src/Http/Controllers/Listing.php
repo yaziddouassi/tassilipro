@@ -36,7 +36,7 @@ class Listing extends Controller
     public $tables;
     public $groupActions = [];
     public $customActionUrlTemoin ='';
-    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
+    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea','Signature'];
     public $arrayTypes2 = ['Quill'];
     public $arrayTypes4 = ['FileEdit'];
     public $arrayTypes5 = ['MultipleFileEdit'];

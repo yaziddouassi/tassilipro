@@ -28,7 +28,7 @@ class WizardUpdate extends Controller
     public $tassiliRecord = null;
     public $tassiliRecordInput ;
    
-    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
+    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea','Signature'];
     public $arrayTypes2 = ['Quill'];
     public $arrayTypes4 = ['FileEdit'];
     public $arrayTypes5 = ['MultipleFileEdit'];

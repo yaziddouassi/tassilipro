@@ -46,6 +46,9 @@
        <Repeteur v-if="field.type === 'Repeater'" 
        :cle="key" />
 
+       <Signature v-if="field.type === 'Signature'" 
+       :cle="key" />
+
        <MultipleFileEdit v-if="field.type === 'MultipleFileEdit'" 
        :cle="key" />
 
@@ -69,6 +72,7 @@ import CheckboxList from '../Inputs/CheckboxList.vue';
 import RichEditor from '../Inputs/RichEditor.vue';
 import InputFileEdit from '../Inputs/InputFileEdit.vue';
 import MultipleFileEdit from '../Inputs/MultipleFileEdit.vue';
+import Signature from '../Inputs/Signature.vue';
 import Repeteur from '../Inputs/Repeteur.vue';
 
 

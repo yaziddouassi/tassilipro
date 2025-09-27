@@ -95,7 +95,7 @@ const tab2 = ['FileEdit'];
     }
 
 
-const tab3 = ['Text', 'Date', 'Hidden', 'Select', 'Number', 'Radio', 'Checkbox', 'CheckboxList', 'Password', 'Textarea'];
+const tab3 = ['Text', 'Date', 'Hidden', 'Select', 'Number', 'Radio', 'Checkbox', 'CheckboxList', 'Password', 'Textarea','Signature'];
   if (tab3.includes(tassiliInput.form[key]['type'])) {
     formData.append(key , tassiliInput.form[key]['value']);
   }

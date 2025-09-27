@@ -20,7 +20,7 @@ class WizardCreate extends Controller
     public $tassiliFields = [] ;
     public $tassiliRecord = null;
     public $tassiliWizardInfo = [] ;
-    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
+    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea','Signature'];
     public $arrayTypes2 = ['Quill'];
     public $arrayTypes3 = ['File'];
     public $arrayTypes5 = ['MultipleFile'];

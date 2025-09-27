@@ -1,0 +1,332 @@
+<template>
+  <div class="w-full mb-[5px]">
+    <div>
+      <span class="font-bold">{{ tassiliInput.form[props.cle]['options']['label'] }}</span>
+    </div>
+
+    <div class="relative">
+      <!-- Canvas pour la signature -->
+      <canvas
+        ref="signatureCanvas"
+        :width="canvasWidth"
+        :height="canvasHeight"
+        class="w-full bg-[#E8E8E8] border-[darkblue] border-[1px] cursor-crosshair"
+        :class="{ 'cursor-not-allowed': isReadOnly }"
+        @mousedown="startDrawing"
+        @mousemove="draw"
+        @mouseup="stopDrawing"
+        @mouseleave="handleMouseLeave"
+        @mouseenter="handleMouseEnter"
+        @touchstart="handleTouch"
+        @touchmove="handleTouch"
+        @touchend="stopDrawing"
+      ></canvas>
+
+      <!-- Bouton d'action -->
+      <div class="flex gap-2 mt-2" v-if="!isReadOnly">
+        <button type="button"
+          @click="clearSignature"
+          class="px-3 py-3 border-[2px] border-red-600 text-red-600 rounded
+           hover:text-red-900 hover:border-red-900 text-sm"
+        >
+          CLEAR
+        </button>
+        <button type="button"
+          @click="downloadSignature('png')"
+          class="px-3 py-3 border-[2px] border-gray-100 text-gray-100 rounded
+           hover:text-blue-600 hover:border-blue-600 text-sm"
+        >
+         <span class="font-bold">&#8681;</span>  <span>PNG</span> 
+        </button>
+        <button type="button"
+          @click="downloadSignature('jpg')"
+          class="px-3 py-3 border-[2px] border-gray-100 text-gray-100 rounded
+           hover:text-blue-600 hover:border-blue-600 text-sm"
+        >
+          <span class="font-bold">&#8681;</span>  <span>JPG</span>
+        </button>
+        <button type="button"
+          @click="downloadSignature('svg')"
+          class="px-3 py-3 border-[2px] border-gray-100 text-gray-100 rounded
+           hover:text-blue-600 hover:border-blue-600 text-sm"
+        >
+          <span class="font-bold">&#8681;</span>  <span>SVG</span>
+        </button>
+      </div>
+
+      <!-- Affichage de la signature existante en mode readonly -->
+      <div v-if="isReadOnly && hasSignature" class="absolute inset-0 pointer-events-none">
+        <img 
+          :src="tassiliInput.form[props.cle]['value']" 
+          alt="Signature" 
+          class="w-full h-full object-contain"
+        />
+      </div>
+    </div>
+
+    <!-- Affichage des erreurs -->
+    <div v-if="tassiliInput.errors[cle]" class="text-[red]">
+      {{ tassiliInput.errors[cle] }}
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, computed, nextTick } from 'vue'
+import { TassiliInput } from '@/Vendor/TassiliLibs/stores/tassiliInput'
+
+const props = defineProps({
+  cle: {
+    type: String,
+    required: true
+  }
+})
+
+const tassiliInput = TassiliInput()
+
+// Références pour le canvas
+const signatureCanvas = ref(null)
+const isDrawing = ref(false)
+const canvasWidth = ref(400)
+const canvasHeight = ref(200)
+
+// Variables pour le dessin
+let ctx = null
+let lastX = 0
+let lastY = 0
+let wasDrawingBeforeLeave = false
+
+// Propriétés calculées
+const isReadOnly = computed(() => 
+  tassiliInput.form[props.cle]['options']['readOnly'] === 'yes'
+)
+
+const hasSignature = computed(() => 
+  tassiliInput.form[props.cle]['value'] && tassiliInput.form[props.cle]['value'] !== ''
+)
+
+const isCreateMode = computed(() => 
+  tassiliInput.form[props.cle]['value'] === ''
+)
+
+// Initialisation du canvas
+onMounted(async () => {
+  await nextTick()
+  if (signatureCanvas.value) {
+    ctx = signatureCanvas.value.getContext('2d')
+    setupCanvas()
+    
+    // Si on est en mode update et qu'il y a une signature, la charger
+    if (!isCreateMode.value && hasSignature.value) {
+      loadExistingSignature()
+    }
+  }
+})
+
+// Configuration du canvas
+const setupCanvas = () => {
+  if (!ctx) return
+  
+  ctx.strokeStyle = '#000000'
+  ctx.lineWidth = 2
+  ctx.lineCap = 'round'
+  ctx.lineJoin = 'round'
+  
+  // Fond blanc pour la signature
+  ctx.fillStyle = '#FFFFFF'
+  ctx.fillRect(0, 0, canvasWidth.value, canvasHeight.value)
+}
+
+// Charger une signature existante
+const loadExistingSignature = () => {
+  if (!ctx || !hasSignature.value) return
+  
+  const img = new Image()
+  img.onload = () => {
+    ctx.clearRect(0, 0, canvasWidth.value, canvasHeight.value)
+    ctx.fillStyle = '#FFFFFF'
+    ctx.fillRect(0, 0, canvasWidth.value, canvasHeight.value)
+    ctx.drawImage(img, 0, 0, canvasWidth.value, canvasHeight.value)
+  }
+  img.src = tassiliInput.form[props.cle]['value']
+}
+
+// Obtenir les coordonnées relatives au canvas
+const getMousePos = (e) => {
+  const rect = signatureCanvas.value.getBoundingClientRect()
+  const scaleX = canvasWidth.value / rect.width
+  const scaleY = canvasHeight.value / rect.height
+  
+  return {
+    x: (e.clientX - rect.left) * scaleX,
+    y: (e.clientY - rect.top) * scaleY
+  }
+}
+
+// Gestion du début de dessin
+const startDrawing = (e) => {
+  if (isReadOnly.value) return
+  
+  isDrawing.value = true
+  const pos = getMousePos(e)
+  lastX = pos.x
+  lastY = pos.y
+}
+
+// Gestion du dessin
+const draw = (e) => {
+  if (!isDrawing.value || isReadOnly.value) return
+  
+  const pos = getMousePos(e)
+  
+  ctx.beginPath()
+  ctx.moveTo(lastX, lastY)
+  ctx.lineTo(pos.x, pos.y)
+  ctx.stroke()
+  
+  lastX = pos.x
+  lastY = pos.y
+}
+
+// Arrêter le dessin et sauvegarder automatiquement
+const stopDrawing = () => {
+  if (isDrawing.value) {
+    isDrawing.value = false
+    wasDrawingBeforeLeave = false
+    // Sauvegarder automatiquement la signature
+    autoSaveSignature()
+  }
+}
+
+// Gestion quand la souris quitte le canvas
+const handleMouseLeave = (e) => {
+  if (isDrawing.value) {
+    // Si le bouton est encore enfoncé, continuer le dessin jusqu'au bord
+    if (e.buttons === 1) {
+      const pos = getMousePos(e)
+      ctx.beginPath()
+      ctx.moveTo(lastX, lastY)
+      ctx.lineTo(pos.x, pos.y)
+      ctx.stroke()
+      
+      lastX = pos.x
+      lastY = pos.y
+      wasDrawingBeforeLeave = true
+      autoSaveSignature()
+    } else {
+      // Si le bouton n'est pas enfoncé, arrêter le dessin
+      stopDrawing()
+    }
+  }
+}
+
+// Gestion quand la souris revient sur le canvas
+const handleMouseEnter = (e) => {
+  if (wasDrawingBeforeLeave && e.buttons === 1) {
+    // Continuer le dessin depuis la position d'entrée
+    const pos = getMousePos(e)
+    
+    // Dessiner une ligne depuis la dernière position jusqu'à la nouvelle
+    ctx.beginPath()
+    ctx.moveTo(lastX, lastY)
+    ctx.lineTo(pos.x, pos.y)
+    ctx.stroke()
+    
+    lastX = pos.x
+    lastY = pos.y
+    isDrawing.value = true
+    wasDrawingBeforeLeave = false
+  } else if (wasDrawingBeforeLeave) {
+    // Le bouton n'est plus enfoncé, arrêter le dessin
+    wasDrawingBeforeLeave = false
+    isDrawing.value = false
+  }
+}
+
+const handleTouch = (e) => {
+  e.preventDefault()
+  if (isReadOnly.value) return
+  
+  const touch = e.touches[0]
+  if (!touch) return
+  
+  const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 'mousemove', {
+    clientX: touch.clientX,
+    clientY: touch.clientY
+  })
+  
+  if (e.type === 'touchstart') {
+    startDrawing(mouseEvent)
+  } else if (e.type === 'touchmove') {
+    draw(mouseEvent)
+  }
+}
+
+// Effacer la signature
+const clearSignature = () => {
+  if (isReadOnly.value) return
+  
+  ctx.clearRect(0, 0, canvasWidth.value, canvasHeight.value)
+  ctx.fillStyle = '#FFFFFF'
+  ctx.fillRect(0, 0, canvasWidth.value, canvasHeight.value)
+  
+  // Mettre à jour la valeur dans le store
+  tassiliInput.form[props.cle]['value'] = ''
+}
+
+// Sauvegarder automatiquement la signature
+const autoSaveSignature = () => {
+  if (isReadOnly.value) return
+  
+  // Convertir le canvas en image base64
+  const dataURL = signatureCanvas.value.toDataURL('image/png')
+  
+  // Mettre à jour la valeur dans le store
+  tassiliInput.form[props.cle]['value'] = dataURL
+}
+
+// Sauvegarder la signature (méthode manuelle - gardée pour compatibilité)
+const saveSignature = () => {
+  autoSaveSignature()
+}
+
+// Vérifier si le canvas est vide
+const isCanvasEmpty = () => {
+  if (!ctx) return true
+  
+  const imageData = ctx.getImageData(0, 0, canvasWidth.value, canvasHeight.value)
+  const data = imageData.data
+  
+  // Vérifier si tous les pixels sont blancs/transparents
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i] !== 255 || data[i + 1] !== 255 || data[i + 2] !== 255 || data[i + 3] !== 255) {
+      return false
+    }
+  }
+  return true
+}
+
+// Télécharger la signature dans différents formats
+const downloadSignature = (format) => {
+  if (isCanvasEmpty()) return
+
+  const link = document.createElement('a')
+  link.download = `signature.${format}`
+
+  if (format === 'png' || format === 'jpg') {
+    link.href = signatureCanvas.value.toDataURL(`image/${format === 'jpg' ? 'jpeg' : 'png'}`)
+  } else if (format === 'svg') {
+    const svgContent = `
+      <svg width="${canvasWidth.value}" height="${canvasHeight.value}" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100%" height="100%" fill="#FFFFFF"/>
+        <image href="${signatureCanvas.value.toDataURL('image/png')}" width="100%" height="100%"/>
+      </svg>
+    `
+    link.href = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgContent)
+  }
+
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+</script>
