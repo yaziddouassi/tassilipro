@@ -1,5 +1,5 @@
 <?php
-namespace Tassili\Free\Fields;
+namespace Tassili\Tassili\Fields;
 
 class Signature
 {
