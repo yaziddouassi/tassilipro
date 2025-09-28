@@ -24,13 +24,6 @@ class Signature
         return $this;
     }
 
-    public function value($value): self
-    {
-        $this->defaultValue = $value;
-        return $this;
-    }
-
-    
     public function notInDatabase(): self
     {
         $this->noDatabase = 'yes';
