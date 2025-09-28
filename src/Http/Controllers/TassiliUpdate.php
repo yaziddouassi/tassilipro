@@ -24,7 +24,7 @@ class TassiliUpdate extends Controller
     public $tassiliFields = [] ;
     public $tassiliRecord = null;
     public $tassiliRecordInput ;
-    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea','Signature'];
+    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
     public $arrayTypes2 = ['Quill'];
     public $arrayTypes4 = ['FileEdit'];
     public $arrayTypes5 = ['MultipleFileEdit'];
@@ -32,6 +32,7 @@ class TassiliUpdate extends Controller
     public $arrayTypes7 = ['Checkbox'];
     public $arrayTypes8 = ['Password'];
     public $arrayTypes9 = ['Repeater'];
+    public $arrayTypes10 = ['Signature'];
 
     function __construct() {
 
@@ -89,7 +90,8 @@ class TassiliUpdate extends Controller
             if($this->tassiliFields[$key] &&  $this->tassiliFields[$key]['options']['noDatabase'] == 'no' ) {
 
                if (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes1) || 
-                    in_array($this->tassiliFields[$key]['type'], $this->arrayTypes2)  ) 
+                    in_array($this->tassiliFields[$key]['type'], $this->arrayTypes2) ||
+                    in_array($this->tassiliFields[$key]['type'], $this->arrayTypes10)  ) 
                     {
                      $this->tassiliRecord[$key]  = $value ;
                 }
@@ -226,6 +228,15 @@ class TassiliUpdate extends Controller
                   
                 }
 
+
+                   elseif (in_array($value['type'], $this->arrayTypes10)) {
+                   
+                 $this->tassiliFields[$key]['value'] = $this->tassiliRecordInput[$key];
+                   
+                    if($this->tassiliRecordInput[$key] === null) {
+                        $this->tassiliFields[$key]['value'] = '' ;
+                    }
+                  }
 
 
             }

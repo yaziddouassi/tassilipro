@@ -33,21 +33,21 @@
         </button>
         <button type="button"
           @click="downloadSignature('png')"
-          class="px-3 py-3 border-[2px] border-gray-100 text-gray-100 rounded
+           class="px-3 py-3 border-[2px] border-gray-100 text-gray-100 rounded
            hover:text-blue-600 hover:border-blue-600 text-sm"
         >
          <span class="font-bold">&#8681;</span>  <span>PNG</span> 
         </button>
         <button type="button"
           @click="downloadSignature('jpg')"
-          class="px-3 py-3 border-[2px] border-gray-100 text-gray-100 rounded
+           class="px-3 py-3 border-[2px] border-gray-100 text-gray-100 rounded
            hover:text-blue-600 hover:border-blue-600 text-sm"
         >
           <span class="font-bold">&#8681;</span>  <span>JPG</span>
         </button>
         <button type="button"
           @click="downloadSignature('svg')"
-          class="px-3 py-3 border-[2px] border-gray-100 text-gray-100 rounded
+           class="px-3 py-3 border-[2px] border-gray-100 text-gray-100 rounded
            hover:text-blue-600 hover:border-blue-600 text-sm"
         >
           <span class="font-bold">&#8681;</span>  <span>SVG</span>
@@ -72,7 +72,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, nextTick } from 'vue'
+import { ref, onMounted, computed, nextTick, watch } from 'vue'
 import { TassiliInput } from '@/Vendor/TassiliLibs/stores/tassiliInput'
 
 const props = defineProps({
@@ -109,6 +109,27 @@ const isCreateMode = computed(() =>
   tassiliInput.form[props.cle]['value'] === ''
 )
 
+// Watcher pour observer les changements de valeur
+watch(
+  () => tassiliInput.form[props.cle]['value'],
+  (newValue, oldValue) => {
+    console.log('Signature value changed:', { oldValue, newValue })
+    
+    // Si la valeur devient vide, effacer le canvas
+    if (newValue === '' || newValue === null) {
+      tassiliInput.form[props.cle]['value'] = ''
+      console.log('Clearing canvas due to empty value')
+      clearCanvasVisually()
+    }
+    // Si une nouvelle valeur est assignée, charger l'image
+    else if (newValue && newValue !== oldValue) {
+      console.log('Loading signature from new value')
+      loadExistingSignature()
+    }
+  },
+  { immediate: false }
+)
+
 // Initialisation du canvas
 onMounted(async () => {
   await nextTick()
@@ -137,16 +158,27 @@ const setupCanvas = () => {
   ctx.fillRect(0, 0, canvasWidth.value, canvasHeight.value)
 }
 
+// Effacer visuellement le canvas
+const clearCanvasVisually = () => {
+  if (!ctx) return
+  
+  ctx.clearRect(0, 0, canvasWidth.value, canvasHeight.value)
+  ctx.fillStyle = '#FFFFFF'
+  ctx.fillRect(0, 0, canvasWidth.value, canvasHeight.value)
+}
+
 // Charger une signature existante
 const loadExistingSignature = () => {
   if (!ctx || !hasSignature.value) return
   
   const img = new Image()
   img.onload = () => {
-    ctx.clearRect(0, 0, canvasWidth.value, canvasHeight.value)
-    ctx.fillStyle = '#FFFFFF'
-    ctx.fillRect(0, 0, canvasWidth.value, canvasHeight.value)
+    clearCanvasVisually()
     ctx.drawImage(img, 0, 0, canvasWidth.value, canvasHeight.value)
+  }
+  img.onerror = () => {
+    console.error('Erreur lors du chargement de la signature')
+    clearCanvasVisually()
   }
   img.src = tassiliInput.form[props.cle]['value']
 }
@@ -262,15 +294,13 @@ const handleTouch = (e) => {
   }
 }
 
-// Effacer la signature
+// Effacer la signature (fonction publique)
 const clearSignature = () => {
   if (isReadOnly.value) return
   
-  ctx.clearRect(0, 0, canvasWidth.value, canvasHeight.value)
-  ctx.fillStyle = '#FFFFFF'
-  ctx.fillRect(0, 0, canvasWidth.value, canvasHeight.value)
+  console.log('Clearing signature - setting value to empty string')
   
-  // Mettre à jour la valeur dans le store
+  // Mettre à jour la valeur dans le store (le watcher s'occupera du canvas)
   tassiliInput.form[props.cle]['value'] = ''
 }
 
@@ -281,13 +311,10 @@ const autoSaveSignature = () => {
   // Convertir le canvas en image base64
   const dataURL = signatureCanvas.value.toDataURL('image/png')
   
+  console.log('Auto-saving signature')
+  
   // Mettre à jour la valeur dans le store
   tassiliInput.form[props.cle]['value'] = dataURL
-}
-
-// Sauvegarder la signature (méthode manuelle - gardée pour compatibilité)
-const saveSignature = () => {
-  autoSaveSignature()
 }
 
 // Vérifier si le canvas est vide
