@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { router } from '@inertiajs/vue3';
 
 export const TassiliRoutes = defineStore('routes', {
   state: () => ({
@@ -52,8 +53,43 @@ export const TassiliRoutes = defineStore('routes', {
       
     },
 
-    addFilter() {
-      // à implémenter plus tard
+     visit(panel,model,defaultPath) {
+  
+      const panelStorage = 'tassili.' + panel
+      const defaultChemin = '/' + panel + '/' + defaultPath
+      
+      if (!localStorage.getItem(panelStorage)) {
+          return router.get(defaultChemin)
+      } 
+
+       if (localStorage.getItem(panelStorage)) {
+       const tassili = JSON.parse(localStorage.getItem(panelStorage))
+
+        if(!tassili[model]) {
+           return router.get(defaultChemin)
+        }
+
+        let finalPath = defaultChemin
+        let temp = ''
+        if(tassili[model]) {
+            Object.keys(tassili[model]).forEach((cle) => {
+                if (tassili[model][cle] != '') {
+                   if (temp === '') {
+                     temp += '?' + cle + '=' + tassili[model][cle]
+                   } else {
+                   temp += '&' + cle + '=' + tassili[model][cle]
+                  }
+                  }
+                })
+          finalPath =  finalPath + temp
+
+         return router.get(finalPath)  
+        }
+
+      }
     },
+     
+
+
   },
 })
