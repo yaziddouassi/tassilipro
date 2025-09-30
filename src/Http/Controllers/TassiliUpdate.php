@@ -2,250 +2,171 @@
 
 namespace Tassili\Tassili\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
-use Inertia\Response;
-use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Post;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Collection;
 
-class TassiliUpdate extends Controller
+class TassiliUpdate
 {
-    
-    public $tassiliSettings = [] ;
-    public $tassiliFields = [] ;
+    public array $tassiliSettings = [];
+    public array $tassiliFields = [];
     public $tassiliRecord = null;
-    public $tassiliRecordInput ;
-    public $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
-    public $arrayTypes2 = ['Quill'];
-    public $arrayTypes4 = ['FileEdit'];
-    public $arrayTypes5 = ['MultipleFileEdit'];
-    public $arrayTypes6 = ['CheckboxList'];
-    public $arrayTypes7 = ['Checkbox'];
-    public $arrayTypes8 = ['Password'];
-    public $arrayTypes9 = ['Repeater'];
-    public $arrayTypes10 = ['Signature'];
+    public $tassiliRecordInput = null;
 
-    function __construct() {
+    public array $arrayTypes1 = ['Text','Date','Number','Hidden','Select','Radio','Textarea'];
+    public array $arrayTypes2 = ['Quill'];
+    public array $arrayTypes4 = ['FileEdit'];
+    public array $arrayTypes5 = ['MultipleFileEdit'];
+    public array $arrayTypes6 = ['CheckboxList'];
+    public array $arrayTypes7 = ['Checkbox'];
+    public array $arrayTypes8 = ['Password'];
+    public array $arrayTypes9 = ['Repeater'];
+    public array $arrayTypes10 = ['Signature'];
 
-        config(['inertia.ssr.enabled' => false]); // SSR desactivated
+    public function __construct(array $settings = [])
+    {
+        config(['inertia.ssr.enabled' => false]);
 
-        $this->tassiliSettings['tassiliDataModelLabel'] =  $this->tassiliDataModelLabel ;
-        $this->tassiliSettings['tassiliDataModelTitle'] =  $this->tassiliDataModelTitle ;
-        $this->tassiliSettings['tassiliDataRouteListe'] =  $this->tassiliDataRouteListe ;
-        $this->tassiliSettings['tassiliDataUrlCreate'] =  $this->tassiliDataUrlCreate ;
-        $this->tassiliSettings['tassiliModelClass'] =  $this->tassiliModelClass ;
-        $this->tassiliSettings['tassiliModelClassName'] =  $this->tassiliModelClassName ;
-        $this->tassiliSettings['tassiliValidationUrl']=  $this->tassiliValidationUrl ;
-
+        $this->tassiliSettings = array_merge($this->tassiliSettings, $settings);
         $this->initField();
     }
 
-
-     public function form(array $fields): void
+    public function initField(): void
     {
-    foreach ($fields as $field) {
-         $field->updateTo($this);   
-    }
+        // à override dans le controller
     }
 
-
-     public function tassilicheckRecord(Request $request)
-{
-    $Record = $this->tassiliModelClass::find($request->id);
-    
-    if ($Record === null) {
-        return redirect($this->tassiliDataRouteListe); // Return the redirection
+    public function form(array $fields): void
+    {
+        foreach ($fields as $field) {
+            $field->updateTo($this);
+        }
     }
 
-    $this->tassiliRecordInput = new Collection();
-    $this->tassiliRecordInput = $Record;
+    public function checkRecord(Request $request)
+    {
+        $record = $this->tassiliSettings['tassiliModelClass']::find($request->id);
 
-    return null; // Return null to indicate no redirection needed
-}
+        if (!$record) {
+            return redirect($this->tassiliSettings['tassiliDataRouteListe']);
+        }
 
+        $this->tassiliRecordInput = $record;
 
+        return null;
+    }
 
-     public function checkRecord(Request $request)
-{
-    return $this->tassilicheckRecord($request) ;
-}
+    public function updateRecord(Request $request): void
+    {
+        foreach ($request->all() as $key => $value) {
+            if (!array_key_exists($key, $this->tassiliFields)) continue;
 
+            $field = $this->tassiliFields[$key];
+            if ($field['options']['noDatabase'] === 'no') {
 
-
-
-      public function updateRecord(Request $request) {
-
-       foreach ($request->all() as $key => $value) {
-
-         if (array_key_exists($key, $this->tassiliFields)) {
-            if($this->tassiliFields[$key] &&  $this->tassiliFields[$key]['options']['noDatabase'] == 'no' ) {
-
-               if (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes1) || 
-                    in_array($this->tassiliFields[$key]['type'], $this->arrayTypes2) ||
-                    in_array($this->tassiliFields[$key]['type'], $this->arrayTypes10)  ) 
-                    {
-                     $this->tassiliRecord[$key]  = $value ;
+                if (in_array($field['type'], array_merge($this->arrayTypes1, $this->arrayTypes2, $this->arrayTypes10))) {
+                    $this->tassiliRecord[$key] = $value;
                 }
 
-                elseif (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes6)) {
-                $this->tassiliRecord[$key] = is_array($value) ? json_encode($value) : json_encode(explode(',', $value));
-               }
+                elseif (in_array($field['type'], $this->arrayTypes6)) {
+                    $this->tassiliRecord[$key] = is_array($value) ? json_encode($value) : json_encode(explode(',', $value));
+                }
 
+                elseif (in_array($field['type'], $this->arrayTypes7)) {
+                    $this->tassiliRecord[$key] = match($value) {
+                        'true' => true,
+                        'false' => false,
+                        default => $value,
+                    };
+                }
 
-                 elseif (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes7)) {
-                
-                    if($value == 'true') {
-                        $value2 = true;
-                     }
-                     if($value == 'false') {
-                        $value2 = false;
-                     } 
-                     $this->tassiliRecord[$key] = $value2;    
-               }
-
-
-                elseif (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes8)) {
-                  if($value) {
+                elseif (in_array($field['type'], $this->arrayTypes8) && $value) {
                     $this->tassiliRecord[$key] = Hash::make($value);
-                  }
-               }
-               
+                }
 
-                  elseif (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes9)) {
-    $cleanedRepeater = [];
-    $tabTemp = ['Text','Date','Number','Hidden','Select','Radio','Textarea','Quill','Checkbox'] ;
-    foreach ($value as $repeaterItem) {
-        $cleanedItem = [];
+                elseif (in_array($field['type'], $this->arrayTypes9)) {
+                    $this->tassiliRecord[$key] = $this->handleRepeater($field, $value);
+                }
 
-        foreach ($repeaterItem as $subKey => $subValue) {
-            $subType =  $this->tassiliFields[$key]['fields'][$subKey]['type'] ?? null;
+                elseif (in_array($field['type'], $this->arrayTypes4)) {
+                    $this->tassiliRecord[$key] = $this->handleSingleFile($field, $request, $key);
+                }
 
-            if ($subType === 'CheckboxList') {
-                // ✅ NE PAS utiliser json_encode ici
-                $cleanedItem[$subKey] = is_array($subValue) ? $subValue : explode(',', $subValue);
-            }
-            else if (in_array($subType, $tabTemp)) {
-                $cleanedItem[$subKey] = $subValue;
-                if($subValue === null) {
-                    $cleanedItem[$subKey] = '';
+                elseif (in_array($field['type'], $this->arrayTypes5)) {
+                    $this->tassiliRecord[$key] = $this->handleMultipleFile($field, $request, $key);
                 }
             }
-
-
         }
-
-        $cleanedRepeater[] = $cleanedItem;
     }
 
-    // ✅ On encode seulement à la fin
-    $this->tassiliRecord[$key] = json_encode($cleanedRepeater);
-}
+    protected function handleRepeater(array $field, array $value): string
+    {
+        $cleanedRepeater = [];
+        $tabTemp = ['Text','Date','Number','Hidden','Select','Radio','Textarea','Quill','Checkbox'];
 
-
-          if (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes4)) {
-                    $dossier = $this->tassiliFields[$key]['options']['storage_folder'];
-                    $dossierStorage = 'uploads/' . $dossier ;
-
-                    if ($request->hasFile($key)) {
-                        $file = $request->file($key);
-                        $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
-                        $file->storeAs($dossierStorage, $uniqueName, config('tassili.storage_disk'));
-                        $path =  $dossierStorage . '/' . $uniqueName;
-                        $this->tassiliRecord[$key] = $path;
-                    }
-                }  
-
-
-            elseif (in_array($this->tassiliFields[$key]['type'], $this->arrayTypes5)) { 
-                 $tab1 = json_decode($request->input($key . '_newtab')) ;
-                 $dossier = $this->tassiliFields[$key]['options']['storage_folder'];
-                 $dossierStorage = 'uploads/' . $dossier ;
-
-                 if($value) {
-                    foreach ($value as $file) {
-                      
-                        $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
-                        $path = $file->storeAs($dossierStorage, $uniqueName, config('tassili.storage_disk'));
-                        array_push($tab1, $path);
-                    }
-                 }
-                 
-                $this->tassiliRecord[$key] = json_encode($tab1) ;
-                   
+        foreach ($value as $repeaterItem) {
+            $cleanedItem = [];
+            foreach ($repeaterItem as $subKey => $subValue) {
+                $subType = $field['fields'][$subKey]['type'] ?? null;
+                if ($subType === 'CheckboxList') {
+                    $cleanedItem[$subKey] = is_array($subValue) ? $subValue : explode(',', $subValue);
+                } elseif (in_array($subType, $tabTemp)) {
+                    $cleanedItem[$subKey] = $subValue ?? '';
                 }
+            }
+            $cleanedRepeater[] = $cleanedItem;
+        }
 
+        return json_encode($cleanedRepeater);
+    }
 
+    protected function handleSingleFile(array $field, Request $request, string $key): ?string
+    {
+        $dossierStorage = 'uploads/' . $field['options']['storage_folder'];
+        if ($request->hasFile($key)) {
+            $file = $request->file($key);
+            $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
+            $file->storeAs($dossierStorage, $uniqueName, config('tassili.storage_disk'));
+            return $dossierStorage . '/' . $uniqueName;
+        }
+        return null;
+    }
 
+    protected function handleMultipleFile(array $field, Request $request, string $key): string
+    {
+        $existingFiles = json_decode($request->input($key . '_newtab', '[]'), true);
+        $dossierStorage = 'uploads/' . $field['options']['storage_folder'];
 
-
+        if ($value = $request->file($key)) {
+            foreach ($value as $file) {
+                $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
+                $path = $file->storeAs($dossierStorage, $uniqueName, config('tassili.storage_disk'));
+                $existingFiles[] = $path;
             }
         }
 
-       }
-
+        return json_encode($existingFiles);
     }
 
+    public function initFieldAgain(Request $request): void
+    {
+        foreach ($this->tassiliFields as $key => $value) {
+            if ($value['options']['noDatabase'] === 'no') {
+                $record = $this->tassiliRecordInput[$key] ?? null;
 
-
-     public function initFieldAgain(Request $request) {
-
-      foreach ($this->tassiliFields as $key => $value) {
-
-            if($value['options']['noDatabase'] === 'no') {
-
-                if (in_array($value['type'], $this->arrayTypes1) || 
-                    in_array($value['type'], $this->arrayTypes2) ||
-                    in_array($value['type'], $this->arrayTypes7)  
-                   ) {
-
-                   $this->tassiliFields[$key]['value'] = $this->tassiliRecordInput[$key];
+                if (in_array($value['type'], array_merge($this->arrayTypes1, $this->arrayTypes2, $this->arrayTypes7, $this->arrayTypes10))) {
+                    $this->tassiliFields[$key]['value'] = $record ?? '';
+                } elseif (in_array($value['type'], $this->arrayTypes6)) {
+                    $this->tassiliFields[$key]['value'] = json_decode($record, true) ?? [];
+                } elseif (in_array($value['type'], $this->arrayTypes4)) {
+                    $this->tassiliFields[$key]['options']['urlRecord'] = $record;
+                } elseif (in_array($value['type'], $this->arrayTypes5)) {
+                    $this->tassiliFields[$key]['options']['existingFiles'] = json_decode($record, true) ?? [];
+                } elseif (in_array($value['type'], $this->arrayTypes9)) {
+                    $this->tassiliFields[$key]['value'] = json_decode($record, true) ?? [];
                 }
-
-                elseif (in_array($value['type'], $this->arrayTypes6)) {
-                   $this->tassiliFields[$key]['value'] = json_decode($this->tassiliRecordInput[$key], true); 
-               
-                }
-
-                elseif (in_array($value['type'], $this->arrayTypes4)) {
-                   $this->tassiliFields[$key]['options']['urlRecord'] = $this->tassiliRecordInput[$key]; 
-                }
-
-                elseif (in_array($value['type'], $this->arrayTypes5)) {
-                   $this->tassiliFields[$key]['options']['existingFiles'] = json_decode($this->tassiliRecordInput[$key], true); 
-                }
-
-                elseif (in_array($value['type'], $this->arrayTypes9)) {
-                    $this->tassiliFields[$key]['value'] = json_decode($this->tassiliRecordInput[$key], true); 
-                  
-                }
-
-
-                   elseif (in_array($value['type'], $this->arrayTypes10)) {
-                   
-                 $this->tassiliFields[$key]['value'] = $this->tassiliRecordInput[$key];
-                   
-                    if($this->tassiliRecordInput[$key] === null) {
-                        $this->tassiliFields[$key]['value'] = '' ;
-                    }
-                  }
-
-
             }
-            
-      }
-    
-     } 
-
-
-    
-    
+        }
+    }
 }
