@@ -117,7 +117,7 @@ class UpdatorController extends Controller
     {
         \$this->tassili = new TassiliUpdate([
             'tassiliDataModelLabel' => '$b',
-            'tassiliDataModelTitle' => 'Create $b',
+            'tassiliDataModelTitle' => 'Update $b',
             'tassiliDataRouteListe' => '/$panel/$c',
             'tassiliDataUrlCreate' => '/$panel/$c/create',
             'tassiliModelClass' => \$this->tassiliModelClass,
