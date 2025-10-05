@@ -14,7 +14,7 @@
 
              <LoadAction/>
 
-            <div class="p-[10px] max-w-[700px] m-auto pt-[0px] flex gap-[5px]">
+            <div class="p-[10px] pt-[0px] flex gap-[5px]">
 
             <button  v-if="(tassiliInput.wizardCurrent == tassiliInput.wizardInfo.wizardCount) ||
                 tassiliInput.wizardInfo.wizardStop.includes(tassiliInput.wizardCurrent)"
