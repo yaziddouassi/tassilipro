@@ -255,7 +255,7 @@ class ListingController extends Controller
      private function initQuery(\$query, Request \$request): void
     {
         if (\$request->filled('name')) {
-             \$query->where('name', \$request->name);
+            // \$query->where('name', \$request->name);
         }
     }
 
