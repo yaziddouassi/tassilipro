@@ -13,8 +13,8 @@ export function updatorService() {
   function initForm() {
   
 
-   tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
-   tassiliInput.form = page.props.tassiliFields
+   tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
+   tassiliInput.form = page.props.tassiliSettings.tassiliFields
    tassiliInput.isAnimated = 'off'
 
     let currentRoute = tassiliroutes.routes.find(item => item.model === page.props.tassiliSettings.tassiliModelClassName)?.route;
@@ -65,7 +65,7 @@ if (temoin > 0) {
 
 const formData = new FormData();
   
-formData.append('id' , page.props.tassiliRecordInput['id']);
+formData.append('id' , page.props.tassiliSettings.tassiliRecordInput['id']);
 
   Object.keys(tassiliInput.form).forEach((key) => {
 

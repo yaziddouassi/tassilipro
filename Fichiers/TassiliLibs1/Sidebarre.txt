@@ -3,7 +3,7 @@
     <div class="max-[799px]:hidden min-w-[240px] max-w-[240px] bg-black text-white h-full min-h-[100vh] p-[10px] pt-[5px]">
 
       <div class="p-[4px] bg-[blue] text-center border-[1px] font-bold border-white text-[22px] rounded-[2px] mb-[10px]">
-        <Link :href="`/${page.props.tassiliPanel}`">DASHBOARD</Link>
+        <Link :href="`/${page.props.tassiliSettings.tassiliPanel}`">DASHBOARD</Link>
       </div>
 
      <slot name="header"></slot>
@@ -40,7 +40,7 @@
              
          </div>
          <div class="pl-[5px]">
-         <span>{{ page.props.user.name }}</span>
+         <span>{{ page.props.tassiliSettings.user.name }}</span>
         </div>
      </div>
 
@@ -106,10 +106,10 @@ function resetSession() {
 
   if (confirm('Do you want reset session ?')) {
 
-    const panelStorage = 'tassili.' + page.props.tassiliPanel
+    const panelStorage = 'tassili.' + page.props.tassiliSettings.tassiliPanel
     localStorage.removeItem(panelStorage)
-    tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
-    const urlDirection = '/' + page.props.tassiliPanel
+    tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
+    const urlDirection = '/' + page.props.tassiliSettings.tassiliPanel
     router.get(urlDirection,{} ,{
       preserveScroll: false,
     })

@@ -25,6 +25,6 @@ import { usePage } from '@inertiajs/vue3'
 
 const page = usePage()
 const tassiliroutes  = TassiliRoutes();
-tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
 
 </script>

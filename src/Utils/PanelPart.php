@@ -28,11 +28,20 @@ use Spatie\RouteAttributes\Attributes\Get;
 class DashboardController extends Controller
 {
 
-   public   \$tassiliPanel = '$panel' ;
+    public   \$tassiliPanel = '$panel' ;
+    public   \$tassiliSettings = [];
 
     public function __construct()
     {
         config(['inertia.ssr.enabled' => false]); // SSR desactivated
+        \$this->tassiliSettings = [
+           'user' => \Illuminate\Support\Facades\Auth::user(),
+           'routes' =>  \Tassili\Tassili\Models\TassiliCrud::where('active',true)
+                       ->where('panel',\$this->tassiliPanel)->get(),
+           'tassiliUrlStorage' => config('tassili.storage_url'),
+           'tassiliPanel' => \$this->tassiliPanel,
+           'company' => config('tassili.company'),
+        ];
     } 
 
    #[Get('$panel',middleware : ['tassili.auth'])]
@@ -40,11 +49,7 @@ class DashboardController extends Controller
     {
         
         return Inertia::render('TassiliPages/$panelCamel/Dashboard/Dashboard', [
-            'tassiliPanel' => \$this->tassiliPanel,
-            'user' => \Illuminate\Support\Facades\Auth::user(),
-            'routes' =>  \Tassili\Tassili\Models\TassiliCrud::where('active',true)
-                          ->where('panel',\$this->tassiliPanel)->get(),
-            'company' => config('tassili.company'),
+            'tassiliSettings' =>  \$this->tassiliSettings,
             'chart1' => ['datas' => [mt_rand(1, 12),mt_rand(1, 12),mt_rand(1, 12)],
                          'labels'  => ['Jan','Fev','Mars'] ],
             'chart2' => ['datas' => [mt_rand(1, 12),mt_rand(1, 12),mt_rand(1, 12)],

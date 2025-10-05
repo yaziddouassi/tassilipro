@@ -52,19 +52,19 @@
 
       <div v-if="audioExtensions.some(ext => tassiliInput.form[props.cle]['options']['urlRecord']?.toLowerCase().endsWith(ext))" 
           class="flex justify-center mt-2">
-         <audio controls class="w-[250px]" :src="page.props.tassiliUrlStorage+tassiliInput.form[props.cle]['options']['urlRecord']" type="audio/mpeg">
+         <audio controls class="w-[250px]" :src="page.props.tassiliSettings.tassiliUrlStorage+tassiliInput.form[props.cle]['options']['urlRecord']" type="audio/mpeg">
           Your browser does not support the audio element.
        </audio>
      </div>
 
      <div v-if="imageExtensions.some(ext => tassiliInput.form[props.cle]['options']['urlRecord']?.toLowerCase().endsWith(ext))"
            class="mt-3 flex justify-center">
-          <img :src="page.props.tassiliUrlStorage+tassiliInput.form[props.cle]['options']['urlRecord']" alt="Selected Image" class="w-32 h-32 object-cover rounded-lg shadow" />
+          <img :src="page.props.tassiliSettings.tassiliUrlStorage+tassiliInput.form[props.cle]['options']['urlRecord']" alt="Selected Image" class="w-32 h-32 object-cover rounded-lg shadow" />
      </div>
 
      <div v-if="videoExtensions.some(ext => tassiliInput.form[props.cle]['options']['urlRecord']?.toLowerCase().endsWith(ext))" 
          class="mt-3">
-          <video controls :src="page.props.tassiliUrlStorage+tassiliInput.form[props.cle]['options']['urlRecord']" type="video/mp4"
+          <video controls :src="page.props.tassiliSettings.tassiliUrlStorage+tassiliInput.form[props.cle]['options']['urlRecord']" type="video/mp4"
             class="w-full h-auto rounded-md">
             Your browser does not support the video tag.
           </video>

@@ -36,6 +36,7 @@ class CreatorController extends Controller
      public function __construct()
     {
         \$this->tassili = new WizardCreate([
+            'tassiliPanel' => \$this->tassiliPanel,
             'tassiliShowOther' => true,
             'tassiliDataModelLabel' => '$b',
             'tassiliDataModelTitle' => 'Create $b',
@@ -85,18 +86,9 @@ class CreatorController extends Controller
     public function index(Request \$request)
     {
         return Inertia::render('TassiliPages/$panelCamel/Crud/$a/Creator', [
-            'user' => Auth::user(),
-            'routes' => \Tassili\Tassili\Models\TassiliCrud::where('active', true)
-                        ->where('panel',\$this->tassiliPanel)->get(),
-            'tassiliSettings' => \$this->tassili->tassiliSettings,
-            'tassiliFields' => \$this->tassili->tassiliFields,
-            'tassiliWizardInfo' => \$this->tassili->tassiliWizardInfo,
-            'tassiliUrlStorage' => config('tassili.storage_url'),
-        ]);
+            'tassiliSettings' => \$this->tassili->getInertiaData()]);
     }
     
-
-   
 
 }
     ";
@@ -129,6 +121,7 @@ class UpdatorController extends Controller
      public function __construct()
     {
         \$this->tassili = new WizardUpdate([
+            'tassiliPanel' => \$this->tassiliPanel,
             'tassiliDataModelLabel' => '$b',
             'tassiliDataModelTitle' => 'Update $b',
             'tassiliDataRouteListe' => '/$panel/$c',
@@ -179,24 +172,12 @@ class UpdatorController extends Controller
     #[Get('$panel/$c/update/{id}', middleware: ['tassili.auth'])]
     public function index(Request \$request)
     {
-        \$redirect = \$this->tassili->checkRecord(\$request);
-
-        if (\$redirect) {
-            return \$redirect;
-        }
-
+        \$record = \$this->tassili->tassiliSettings['tassiliModelClass']::findOrFail(\$request->id);
+        \$this->tassili->tassiliRecordInput = \$record;
         \$this->tassili->initFieldAgain(\$request);
 
         return Inertia::render('TassiliPages/$panelCamel/Crud/$a/Updator', [
-            'user' => Auth::user(),
-            'routes' => \Tassili\Tassili\Models\TassiliCrud::where('active', true)
-                        ->where('panel',\$this->tassiliPanel)->get(),
-            'tassiliSettings' => \$this->tassili->tassiliSettings,
-            'tassiliFields' => \$this->tassili->tassiliFields,
-            'tassiliRecordInput' => \$this->tassili->tassiliRecordInput,
-            'tassiliWizardInfo' => \$this->tassili->tassiliWizardInfo,
-            'tassiliUrlStorage' => config('tassili.storage_url'),
-        ]);
+            'tassiliSettings' => \$this->tassili->getInertiaData()]);
     }
 
    
@@ -303,7 +284,7 @@ class ListingController extends Controller
      private function initQuery(\$query, Request \$request): void
     {
         if (\$request->filled('name')) {
-           //  \$query->where('name', \$request->name);
+             \$query->where('name', \$request->name);
         }
     }
 
@@ -348,12 +329,12 @@ class ListingController extends Controller
     public function index(Request \$request)
     {
         \$this->utility->initializeQuery(
-           \$this->modelClass,\$request,fn(\$query, \$req) => \$this->initQuery(\$query, \$req)
-        );
+        \$this->modelClass,\$request,fn(\$query, \$req) => \$this->initQuery(\$query, \$req));
         \$data = \$this->utility->getInertiaData();
         \$data['sessionFilter'] = [/*'search','orderByField','orderDirection','paginationPerPage'*/];
 
-        return Inertia::render('TassiliPages/$panelCamel/Crud/$a/Listing', \$data);
+        return Inertia::render('TassiliPages/$panelCamel/Crud/$a/Listing',[
+            'tassiliSettings' => \$data]);
     }
    
   
@@ -389,23 +370,26 @@ use Spatie\RouteAttributes\Attributes\Post;
 class Custom1Controller extends Controller
 {
     private string \$tassiliPanel = '$panel';
+    public \$tassiliSettings = [] ;
+
       public function __construct()
     {
         config(['inertia.ssr.enabled' => false]); // SSR desactivated
+         \$this->tassiliSettings = [
+           'user' => \Illuminate\Support\Facades\Auth::user(),
+           'routes' =>  \Tassili\Tassili\Models\TassiliCrud::where('active',true)
+                        ->where('panel',\$this->tassiliPanel)->get(),
+           'tassiliUrlStorage' => config('tassili.storage_url'),
+           'tassiliPanel' => \$this->tassiliPanel,
+        ];
     } 
 
- //  #[Get('$panel/$c/page1',middleware : ['tassili.auth'])]
+ //  #[Get('$panel/$c/custom/page1',middleware : ['tassili.auth'])]
     public function index(Request \$request)
     {
  
-        return Inertia::render('TassiliPages/$panelCamel/Crud/$a/Customs/Custom1',
-        [
-          'user' => \Illuminate\Support\Facades\Auth::user(),
-          'routes' =>  \Tassili\Tassili\Models\TassiliCrud::where('active',true)
-                       ->where('panel',\$this->tassiliPanel)->get(),
-          'tassiliUrlStorage' => config('tassili.storage_url') ,
-        ]
-    );
+        return Inertia::render('TassiliPages/$panelCamel/Crud/$a/Customs/Custom1',[
+        'tassiliSettings' =>  \$this->tassiliSettings]);
     }
 }
          
@@ -414,8 +398,5 @@ class Custom1Controller extends Controller
     return $this->piece4;
 
     }
-
-
-
 
 }

@@ -179,4 +179,28 @@ class WizardUpdate
             }
         }
     }
+
+     public function getInertiaData(): array
+    {
+        return [
+
+            'user' => \Illuminate\Support\Facades\Auth::user(),
+            'routes' => \Tassili\Tassili\Models\TassiliCrud::where('active', true)
+                ->where('panel',$this->tassiliSettings['tassiliPanel'])->get(),
+            'tassiliPanel' => $this->tassiliSettings['tassiliPanel'],
+            'tassiliUrlStorage' => config('tassili.storage_url'),
+
+            'tassiliFields' => $this->tassiliFields,
+            'tassiliWizardInfo' => $this->tassiliWizardInfo,
+            'tassiliDataModelLabel' => $this->tassiliSettings['tassiliDataModelLabel'],
+            'tassiliDataModelTitle' => $this->tassiliSettings['tassiliDataModelTitle'],
+            'tassiliDataRouteListe' => $this->tassiliSettings['tassiliDataRouteListe'],
+            'tassiliDataUrlCreate' => $this->tassiliSettings['tassiliDataUrlCreate'],
+            'tassiliModelClass' => $this->tassiliSettings['tassiliModelClass'],
+            'tassiliModelClassName' => $this->tassiliSettings['tassiliModelClassName'],
+            'tassiliValidationUrl' => $this->tassiliSettings['tassiliValidationUrl'],
+            'tassiliRecordInput' => $this->tassiliRecordInput,
+        ];
+    }
+
 }

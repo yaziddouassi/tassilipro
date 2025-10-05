@@ -58,7 +58,7 @@ const tassiliInput = TassiliInput()
 
 
 
-const panelStorage = 'tassili.' + page.props.tassiliPanel
+const panelStorage = 'tassili.' + page.props.tassiliSettings.tassiliPanel
 
 // Récupérer la valeur de "search" à partir des query params si elle existe
 const url = new URL(window.location.href)
@@ -80,7 +80,7 @@ function replaceQuery() {
   clearTimeout(timeout)
 
   const tassili = JSON.parse(localStorage.getItem(panelStorage))
-  const isValue = Object.values(page.props.sessionFilter).includes('search');
+  const isValue = Object.values(page.props.tassiliSettings.sessionFilter).includes('search');
 
 
 timeout = setTimeout(() => {
@@ -91,7 +91,7 @@ if(search.value != '') {
 
        tassili[page.props.tassiliSettings.tassiliModelClassName].search = search.value
        localStorage.setItem(panelStorage, JSON.stringify(tassili))
-       tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+       tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
   
      }
 
@@ -99,7 +99,7 @@ if(search.value != '') {
 
       delete  tassili[page.props.tassiliSettings.tassiliModelClassName].search 
          localStorage.setItem(panelStorage, JSON.stringify(tassili))
-         tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+         tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
 
        }
 
@@ -121,7 +121,7 @@ else if(search.value == '') {
 
          delete  tassili[page.props.tassiliSettings.tassiliModelClassName].search 
          localStorage.setItem(panelStorage, JSON.stringify(tassili))
-         tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+         tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
 
       
 
@@ -146,13 +146,13 @@ else if(search.value == '') {
 function rezetInput() {
 
   const tassili = JSON.parse(localStorage.getItem(panelStorage))
-  const isValue = Object.values(page.props.sessionFilter).includes('search');
+  const isValue = Object.values(page.props.tassiliSettings.sessionFilter).includes('search');
 
   search.value = ''
   
   delete  tassili[page.props.tassiliSettings.tassiliModelClassName].search 
          localStorage.setItem(panelStorage, JSON.stringify(tassili))
-         tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+         tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
         
 
        const url = new URL(window.location.href)

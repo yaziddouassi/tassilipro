@@ -52,7 +52,7 @@
   const page = usePage()
   const tassiliroutes  = TassiliRoutes();
   const tassililisting = TassiliListing();
-  const panelStorage = 'tassili.' + page.props.tassiliPanel
+  const panelStorage = 'tassili.' + page.props.tassiliSettings.tassiliPanel
   const url = new URL(window.location.href)
   const params = new URLSearchParams(url.search)
 
@@ -75,7 +75,7 @@ if (params.has(props.cle)) {
     tassililisting.show2 = false
 
     const tassili = JSON.parse(localStorage.getItem(panelStorage))
-    const isValue = Object.values(page.props.sessionFilter).includes(props.cle)
+    const isValue = Object.values(page.props.tassiliSettings.sessionFilter).includes(props.cle)
 
 
     if (myInput.value !== '') {
@@ -86,7 +86,7 @@ if (params.has(props.cle)) {
       }
 
       localStorage.setItem(panelStorage, JSON.stringify(tassili))
-      tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+      tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
   
       const url = new URL(window.location.href)
       const params = new URLSearchParams(url.search)
@@ -103,7 +103,7 @@ if (params.has(props.cle)) {
       
       delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
       localStorage.setItem(panelStorage, JSON.stringify(tassili))
-      tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+      tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
   
       const url = new URL(window.location.href)
       const params = new URLSearchParams(url.search)
@@ -121,12 +121,12 @@ if (params.has(props.cle)) {
   function rezetInput() {
    
     const tassili = JSON.parse(localStorage.getItem(panelStorage))
-    const isValue = Object.values(page.props.sessionFilter).includes(props.cle)
+    const isValue = Object.values(page.props.tassiliSettings.sessionFilter).includes(props.cle)
   
     myInput.value = ''
      delete tassili[page.props.tassiliSettings.tassiliModelClassName][props.cle]
      localStorage.setItem(panelStorage, JSON.stringify(tassili))
-     tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
+     tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
   
     const url = new URL(window.location.href)
     const params = new URLSearchParams(url.search)

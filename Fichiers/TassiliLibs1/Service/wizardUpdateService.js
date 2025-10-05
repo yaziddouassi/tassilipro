@@ -13,9 +13,9 @@ export function wizardUpdateService() {
   function initForm() {
   
 
-   tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
-   tassiliInput.form = page.props.tassiliFields
-   tassiliInput.wizardInfo = JSON.parse(JSON.stringify(page.props.tassiliWizardInfo))
+   tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
+   tassiliInput.form = page.props.tassiliSettings.tassiliFields
+   tassiliInput.wizardInfo = JSON.parse(JSON.stringify(page.props.tassiliSettings.tassiliWizardInfo))
    tassiliInput.wizardCurrent = 1
    tassiliInput.isAnimated = 'off'
 
@@ -107,7 +107,7 @@ const formData = new FormData();
   
   formData.append('tassiliWizardStep',tassiliInput.wizardCurrent);
   
-  formData.append('id' , page.props.tassiliRecordInput['id']);
+  formData.append('id' , page.props.tassiliSettings.tassiliRecordInput['id']);
 
   Object.keys(tassiliInput.form).forEach((key) => {
 

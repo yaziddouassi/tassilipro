@@ -33,16 +33,8 @@
   import NavBarre from '@/Vendor/TassiliLibs/NavBarre.vue';
 
   const props = defineProps({
-  tassiliPanel: {
+  tassiliSettings: {
     type: String,
-    required: true
-  },
-    user: {
-    type: Object,
-    required: true
-  },
-   routes: {
-    type: Object,
     required: true
   },
   chart1: {
@@ -85,12 +77,12 @@
 
 const tassiliroutes  = TassiliRoutes();
 
-tassiliroutes.setRoutes(props.routes,props.tassiliPanel)
+tassiliroutes.setRoutes(props.tassiliSettings.routes,props.tassiliSettings.tassiliPanel)
 
 
 
-  </script>
+</script>
   
-  <style lang="css" scoped>
+<style lang="css" scoped>
   
-  </style>
+</style>

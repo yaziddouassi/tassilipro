@@ -14,10 +14,10 @@ export function wizardCreateService() {
   function initForm() {
  
 
-   tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
-   tassiliInput.form = page.props.tassiliFields
-   tassiliInput.formStart = JSON.parse(JSON.stringify(page.props.tassiliFields))
-   tassiliInput.wizardInfo = JSON.parse(JSON.stringify(page.props.tassiliWizardInfo))
+   tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
+   tassiliInput.form = page.props.tassiliSettings.tassiliFields
+   tassiliInput.formStart = JSON.parse(JSON.stringify(page.props.tassiliSettings.tassiliFields))
+   tassiliInput.wizardInfo = JSON.parse(JSON.stringify(page.props.tassiliSettings.tassiliWizardInfo))
    tassiliInput.wizardCurrent = 1
    tassiliInput.isAnimated = 'off'
 

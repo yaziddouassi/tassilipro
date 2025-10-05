@@ -71,7 +71,7 @@
 
         <LoadAction/>
 
-        <div class="p-[10px] max-w-[700px] m-auto mt-[10px] pt-[0px] flex gap-[5px]">
+        <div class="max-w-[700px] m-auto mt-[10px] pt-[0px] flex gap-[5px]">
               <button  v-if="(tassiliInput.wizardCurrent == tassiliInput.wizardInfo.wizardCount) ||
                 tassiliInput.wizardInfo.wizardStop.includes(tassiliInput.wizardCurrent)"
             
@@ -103,20 +103,20 @@
 
 <script setup>
 import {TassiliInput}    from '@/Vendor/TassiliLibs/stores/tassiliInput'
-import InputText from '../ListeInputs/InputText.vue';
-import Textarea from '../ListeInputs/Textarea.vue';
-import InputNumber from '../ListeInputs/InputNumber.vue';
-import Password from '../ListeInputs/Password.vue';
-import InputSelect from '../ListeInputs/InputSelect.vue';
-import InputDate from '../ListeInputs/InputDate.vue';
-import InputRadio from '../ListeInputs/InputRadio.vue';
-import Checkbox from '../ListeInputs/Checkbox.vue';
-import CheckboxList from '../ListeInputs/CheckboxList.vue';
-import RichEditor from '../ListeInputs/RichEditor.vue';
-import InputFileEdit from '../ListeInputs/InputFileEdit.vue';
-import MultipleFileEdit from '../ListeInputs/MultipleFileEdit.vue';
-import Signature from '../ListeInputs/Signature.vue';
-import Repeteur from '../ListeInputs/Repeteur.vue';
+import InputText from '../Inputs/InputText.vue';
+import Textarea from '../Inputs/Textarea.vue';
+import InputNumber from '../Inputs/InputNumber.vue';
+import Password from '../Inputs/Password.vue';
+import InputSelect from '../Inputs/InputSelect.vue';
+import InputDate from '../Inputs/InputDate.vue';
+import InputRadio from '../Inputs/InputRadio.vue';
+import Checkbox from '../Inputs/Checkbox.vue';
+import CheckboxList from '../Inputs/CheckboxList.vue';
+import RichEditor from '../Inputs/RichEditor.vue';
+import InputFileEdit from '../Inputs/InputFileEdit.vue';
+import MultipleFileEdit from '../Inputs/MultipleFileEdit.vue';
+import Signature from '../Inputs/Signature.vue';
+import Repeteur from '../Inputs/Repeteur.vue';
 import LoadAction from '../LoadAction.vue';
 import { TassiliListing } from '@/Vendor/TassiliLibs/stores/tassiliListing'
 import WizardStep from './WizardStep.vue';

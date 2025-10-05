@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-          <img :src="page.props.tassiliUrlStorage+props.path" 
+          <img :src="page.props.tassiliSettings.tassiliUrlStorage+props.path" 
            :width="props.width"  />
     </div>
 </template>

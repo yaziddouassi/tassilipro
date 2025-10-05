@@ -14,9 +14,9 @@ export function creatorService() {
   function initForm() {
  
 
-   tassiliroutes.setRoutes(page.props.routes,page.props.tassiliPanel)
-   tassiliInput.form = page.props.tassiliFields
-   tassiliInput.formStart = JSON.parse(JSON.stringify(page.props.tassiliFields))
+   tassiliroutes.setRoutes(page.props.tassiliSettings.routes,page.props.tassiliSettings.tassiliPanel)
+   tassiliInput.form = page.props.tassiliSettings.tassiliFields
+   tassiliInput.formStart = JSON.parse(JSON.stringify(page.props.tassiliSettings.tassiliFields))
    tassiliInput.isAnimated = 'off'
 
    let currentRoute = tassiliroutes.routes.find(item => item.model === page.props.tassiliSettings.tassiliModelClassName)?.route;
@@ -52,7 +52,7 @@ function afterCreate2() {
    tassiliInput.resetError();
 
     tassiliInput.form         =   tassiliInput.formStart
-   console.log(tassiliInput.form,tassiliInput.formStart)
+   
   
 }
 
@@ -140,22 +140,10 @@ router.post(page.props.tassiliSettings.tassiliValidationUrl, formData, {
 
 
 
-
-
 }
 
 
 
-  
-
-
-
-
-
-
-
-
-  
   
  function submit(action) {
    tassiliInput.isAnimated = 'on'

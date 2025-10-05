@@ -74,20 +74,20 @@
 <script setup>
 import { ref } from 'vue';
 import { TassiliInput } from '@/Vendor/TassiliLibs/stores/tassiliInput';
-import InputText from '../ListeInputs/InputText.vue';
-import Textarea from '../ListeInputs/Textarea.vue';
-import InputNumber from '../ListeInputs/InputNumber.vue';
-import Password from '../ListeInputs/Password.vue';
-import InputSelect from '../ListeInputs/InputSelect.vue';
-import InputDate from '../ListeInputs/InputDate.vue';
-import InputRadio from '../ListeInputs/InputRadio.vue';
-import Checkbox from '../ListeInputs/Checkbox.vue';
-import CheckboxList from '../ListeInputs/CheckboxList.vue';
-import RichEditor from '../ListeInputs/RichEditor.vue';
-import InputFileEdit from '../ListeInputs/InputFileEdit.vue';
-import MultipleFileEdit from '../ListeInputs/MultipleFileEdit.vue';
-import Signature from '../ListeInputs/Signature.vue';
-import Repeteur from '../ListeInputs/Repeteur.vue';
+import InputText from '../Inputs/InputText.vue';
+import Textarea from '../Inputs/Textarea.vue';
+import InputNumber from '../Inputs/InputNumber.vue';
+import Password from '../Inputs/Password.vue';
+import InputSelect from '../Inputs/InputSelect.vue';
+import InputDate from '../Inputs/InputDate.vue';
+import InputRadio from '../Inputs/InputRadio.vue';
+import Checkbox from '../Inputs/Checkbox.vue';
+import CheckboxList from '../Inputs/CheckboxList.vue';
+import RichEditor from '../Inputs/RichEditor.vue';
+import InputFileEdit from '../Inputs/InputFileEdit.vue';
+import MultipleFileEdit from '../Inputs/MultipleFileEdit.vue';
+import Signature from '../Inputs/Signature.vue';
+import Repeteur from '../Inputs/Repeteur.vue';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 

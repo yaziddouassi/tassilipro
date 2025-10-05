@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-           <audio controls :src="page.props.tassiliUrlStorage+props.path" 
+           <audio controls :src="page.props.tassiliSettings.tassiliUrlStorage+props.path" 
               type="audio/mpeg">
            </audio>
     </div>
