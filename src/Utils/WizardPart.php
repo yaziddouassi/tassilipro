@@ -152,7 +152,7 @@ class UpdatorController extends Controller
     public function update(Request \$request)
     {
        if (\$request->tassiliWizardStep == 1) {
-            \$request->validate(['name' => ['']]);
+            \$request->validate(['name' => ['required']]);
         }
 
         if (\$request->tassiliWizardStep == 2) {

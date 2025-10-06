@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-[20px]">
     
     <form @submit.prevent="update()">
       <div
