@@ -63,7 +63,7 @@ function afterCreate2() {
   notyf.success('Record created Other');
    tassiliInput.resetError();
 
-  tassiliInput.form  =   tassiliInput.formStart
+  tassiliInput.form = JSON.parse(JSON.stringify(page.props.tassiliSettings.tassiliFields))
   tassiliInput.wizardCurrent = 1
 }
 

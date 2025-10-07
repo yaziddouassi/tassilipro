@@ -1,7 +1,7 @@
 <template>
   <div class="pt-[20px]">
     
-    <form @submit.prevent="update()">
+    <form @submit.prevent="update()" @keydown.enter.prevent>
       <div
         v-for="([key, field], index) in Object.entries(tassiliInput.form).filter(([_, f]) => f.type !== 'Hidden')"
         :key="key"
